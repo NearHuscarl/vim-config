@@ -2,12 +2,12 @@
 " File:        statusline.vim
 " Description: Statusline setup for vim
 " Author:      Near Huscarl <near.huscarl@gmail.com>
-" Last Change: Sat Dec 02 22:08:12 +07 2017
+" Last Change: Tue Dec 05 03:02:05 +07 2017
 " Licence:     BSD 3-Clause license
 " Note:        N/A
 " ============================================================================
 
-function! s:Highlight(group, ...) " {{{
+function! s:Highlight(group, ...) abort " {{{
 	let gui   = ['guifg', 'guibg']
 	let cterm = ['ctermfg', 'ctermbg']
 	let command = 'highlight ' . a:group
@@ -22,7 +22,7 @@ function! s:Highlight(group, ...) " {{{
 		execute command
 	endif
 endfunction " }}}
-function! statusline#InitModeColor() " {{{
+function! statusline#InitModeColor() abort " {{{
 	let mode = mode()
 	if mode ==# 'n'
 		call s:Highlight("StatusLine", s:normal.fg, s:normal.bg)
@@ -41,7 +41,7 @@ function! statusline#InitModeColor() " {{{
 	endif
 	return ""
 endfunction " }}}
-function! statusline#GetMode() " {{{
+function! statusline#GetMode() abort " {{{
 	let mode = mode()
 	if mode ==# 'n'
 		return "NORMAL"
@@ -59,7 +59,7 @@ function! statusline#GetMode() " {{{
 		return "PROMPT"
 	endif
 endfunction " }}}
-function! statusline#SetFileSize() " {{{
+function! statusline#SetFileSize() abort " {{{
 	let bytes = getfsize(expand("%:p"))
 	if bytes <= 0
 		return "0b"
@@ -72,13 +72,13 @@ function! statusline#SetFileSize() " {{{
 		return (bytes / 1024 / 1024) . "Mb"
 	endif
 endfunction " }}}
-function! s:Filename() " {{{
+function! s:Filename() abort " {{{
 	if expand('%:t') != ''
 		return expand('%:t')
 	endif
 	return 'unnamed'
 endfunction " }}}
-function! statusline#SetModified() " {{{
+function! statusline#SetModified() abort " {{{
 	if &modified
 		call s:Highlight("StatusLineFilename", s:modified.fg, s:modified.bg)
 		return '+'
@@ -86,55 +86,54 @@ function! statusline#SetModified() " {{{
 	call s:Highlight("StatusLineFilename", s:filename.fg, s:filename.bg)
 	return ''
 endfunction " }}}
-function! s:IsReadOnly() " {{{
+function! s:IsReadOnly() abort " {{{
 	if &readonly
 		return '  '
 	endif
 	return ''
 endfunction " }}}
-function! s:Filetype() " {{{
+function! s:Filetype() abort " {{{
 	if &filetype != ''
 		return &filetype
 	endif
 	return 'none'
 endfunction " }}}
-function! s:BufNum() " {{{
+function! s:BufNum() abort " {{{
 	if &filetype != 'help'
 		return '  ' . bufnr('%')
 	endif
 	return '  H'
 endfunction " }}}
-function! s:GitStatus() " {{{
-	if g:loaded_fugitive
+function! s:GitStatus() abort " {{{
+	if exists('g:loaded_fugitive') && g:loaded_fugitive
 		let gitStatus = fugitive#head()
 		if gitStatus != ''
 			return '│  ' . gitStatus . ' '
 		endif
-		return ''
 	endif
+	return ''
 endfunction " }}}
-function! statusline#GetLinterStatus() " {{{
-	let counts = ale#statusline#Count(bufnr(''))
+function! statusline#GetLinterStatus() abort " {{{
+	if exists('g:loaded_ale_dont_use_this_in_other_plugins_please')
+				\ && g:loaded_ale_dont_use_this_in_other_plugins_please
+		let counts = ale#statusline#Count(bufnr(''))
+		let all_errors = counts.error + counts.style_error
+		let all_non_errors = counts.total - all_errors
 
-	let all_errors = counts.error + counts.style_error
-	let all_non_errors = counts.total - all_errors
-
-	return counts.total == 0 ? 'OK' : printf('%dW %dE', all_non_errors, all_errors)
-endfunction
-" }}}
-function! statusline#UpdateStatuslineInfo() " {{{
-	let g:statuslineFileSize     = statusline#SetFileSize()
-	if exists('g:loaded_fugitive')
-		let g:statuslineGitStatus = s:GitStatus()
-	else
-		let g:statuslineGitStatus = ''
+		return counts.total == 0 ? 'OK' : printf('%dW %dE', all_non_errors, all_errors)
 	endif
-	let g:statuslineFilename     = s:Filename()
-	let g:statuslineFiletype     = s:Filetype()
-	let g:statuslineIsReadOnly   = s:IsReadOnly()
+	return ''
 endfunction
 " }}}
-function! statusline#SetStatusline() " {{{
+function! statusline#UpdateStatuslineInfo() abort " {{{
+	let g:statuslineFileSize   = statusline#SetFileSize()
+	let g:statuslineGitStatus  = s:GitStatus()
+	let g:statuslineFilename   = s:Filename()
+	let g:statuslineFiletype   = s:Filetype()
+	let g:statuslineIsReadOnly = s:IsReadOnly()
+endfunction
+" }}}
+function! statusline#SetStatusline() abort " {{{
 	" This function is called when entering new buffer
 	call statusline#SetHighlight()
 
@@ -161,7 +160,7 @@ function! statusline#SetStatusline() " {{{
 		set statusline+=\ %03l:%-2v\ |                     " Line number and column number
 	endif
 endfunction " }}}
-function! statusline#SetHighlight() " {{{
+function! statusline#SetHighlight() abort " {{{
 	" Custom statusline highlight (User1, StatusLineMain...)
 	if !exists('g:statusline_colors') || g:statusline_colors != g:colors_name
 		let g:statusline_colors = g:colors_name
