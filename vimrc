@@ -2,7 +2,7 @@
 " File:        .vimrc
 " Description: Vim settings
 " Author:      Near Huscarl <near.huscarl@gmail.com>
-" Last Change: Tue Dec 05 10:17:58 +07 2017
+" Last Change: Tue Dec 05 03:04:28 +07 2017
 " Licence:     BSD 3-Clause license
 " Note:        This is a personal vim config. therefore most likely not work 
 "              on your machine
@@ -126,10 +126,10 @@ set wildmode=list:full
 set completeopt=menu,longest
 set complete-=i                                    "An attempt to make YCM faster
 
+" :put =&guifont
 if has('GUI_running')
-	" :put =&guifont
 	if g:os ==# 'win'
-		set guifont=Fura_Code_Light:h8:cANSI:qDRAFT,Andale_Mono:h10,Menlo:h10,Consolas:h10,Courier_New:h10
+		set guifont=Consolas:h9:b:cANSI:qDRAFT
 	else
 		set guifont=DejaVu\ Sans\ Mono\ Bold\ 8
 	endif
