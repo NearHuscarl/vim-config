@@ -27,13 +27,13 @@ dir_list="undo swapfiles session plugged"
 
 # Make necessary directories if not exists
 for dir in $dir_list; do
-   if [[ ! -d "$vim_path"/"$dir" ]]; then
-      mkdir -p "$vim_path"/"$dir"
-   fi
+	if [[ ! -d "$vim_path"/"$dir" ]]; then
+		mkdir -p "$vim_path"/"$dir"
+	fi
 done
 
 # Download plug.vim if not exists
 if [[ ! -s "$vim_plug_path" ]]; then
 	echo 'Downloading plug.vim..'
-   curl -o "$vim_plug_path" "https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim"
+	curl -o "$vim_plug_path" "https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim"
 fi
