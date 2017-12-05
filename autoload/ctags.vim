@@ -2,7 +2,7 @@
 " File:        ctags.vim
 " Description: Update ctags file. Use with autocmd BufWritePost
 " Author:      Near Huscarl <near.huscarl@gmail.com>
-" Last Change: Thu Nov 30 20:49:23 +07 2017
+" Last Change: Tue Dec 05 14:26:14 +07 2017
 " Licence:     BSD 3-Clause license
 " Note:        None
 " ============================================================================
@@ -46,6 +46,7 @@ function! ctags#Update() " {{{
 
 	" tags in $HOME for vimrc
 	if tag_path ==# '~'
+		redraw
 		call s:EchoHL('No tags file found up to $HOME/', 'PreProc')
 		return
 	else
