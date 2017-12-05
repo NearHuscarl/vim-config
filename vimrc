@@ -12,17 +12,13 @@
 
 if !exists('os')
 	if has('win32') || has('win64')
-		let os = 'win'
+		let g:os = 'win'
 	else
-		let os = substitute(system('uname'), '\n', '', '')
+		let g:os = substitute(system('uname'), '\n', '', '')
 	endif
 endif
 
-let is_nvim = 0
-if has('nvim')
-	let is_nvim = 1
-endif
-
+let is_nvim = has('nvim') ? 1: 0
 if g:os ==# 'win'
 	let s:autoload = $HOME.'\vimfiles\autoload\'
 	let s:plugged  = $HOME.'\vimfiles\plugged\'
@@ -182,10 +178,6 @@ set lazyredraw                                     "An attempt to make scrolling
 
 set list                                           "Enable listchars option
 set listchars=tab:\│\ ,extends:»,precedes:«,trail:·,nbsp:·
-" set expandtab                                      "When press tab, convert into n spaces
-set tabstop=3                                      "Set how many columns a tab count for
-set shiftwidth=3                                   "Set how many column is indented with >> and <<
-set softtabstop=3                                  "How many column insert when press tab
 set smarttab                                       "Insert tab according to shiftwidth
 set backspace=2                                    "Backspace normal behaviour
 
@@ -529,7 +521,6 @@ Plug 'tpope/vim-rhubarb'
 Plug 'tpope/vim-fugitive'
 Plug 'skywind3000/asyncrun.vim'
 Plug 'w0rp/ale'
-Plug 'mhinz/vim-startify'
 
 Plug 'xolox/vim-misc', {'on': []}
 Plug 'xolox/vim-shell', {'on': []}
@@ -707,15 +698,15 @@ command! Lines    call fzf#vim#lines({'options': g:fzf_option}, 0)
 command! Buffers  call fzf#vim#buffers({'options': g:fzf_option}, 0)
 
 nnoremap gr :Grep<Space>
-nnoremap <Leader>ep :GitFiles<CR>|    "Fzf files in the whole git repo
-nnoremap <Leader>ef :Files<CR>|       "Fzf files from cwd
-nnoremap <Leader>eh :Files $HOME<CR>
-nnoremap <Leader>em :MRU<CR>
-nnoremap <Leader>h  :Helptags<CR>
-nnoremap <Leader>j  :Tags<CR>
-nnoremap <Leader>m  :Maps<CR>
-nnoremap <Leader>l  :Lines<CR>
-nnoremap <Leader>b  :Buffers<CR>
+nnoremap <silent> <Leader>ep :GitFiles<CR>|    "Fzf files in the whole git repo
+nnoremap <silent> <Leader>ef :Files<CR>|       "Fzf files from cwd
+nnoremap <silent> <Leader>eh :Files $HOME<CR>
+nnoremap <silent> <Leader>em :MRU<CR>
+nnoremap <silent> <Leader>h  :Helptags<CR>
+nnoremap <silent> <Leader>j  :Tags<CR>
+nnoremap <silent> <Leader>m  :Maps<CR>
+nnoremap <silent> <Leader>l  :Lines<CR>
+nnoremap <silent> <Leader>b  :Buffers<CR>
 "}}}
 "{{{ Incsearch
 let g:incsearch#auto_nohlsearch = 1
@@ -854,25 +845,6 @@ let g:sneak_map_list = ['s', 'S']
 nnoremap <silent>s :call sneak#LazyloadForwardNormal(sneak_map_list)<CR>
 nnoremap <silent>S :call sneak#LazyloadBackwardNormal(sneak_map_list)<CR>
 "}}}
-"{{{ Startify
-function! s:center_header(lines) abort
-	let longest_line   = max(map(copy(a:lines), 'strwidth(v:val)'))
-	let centered_lines = map(copy(a:lines),
-				\ 'repeat(" ", (&columns / 2) - (longest_line / 2)) . v:val')
-	return centered_lines
-endfunction
-let g:startify_custom_header = s:center_header(startify#fortune#cowsay())
-let g:startify_custom_indices = [
-			\ 'a','b','c','d','f','h','l','m','n','o',
-			\ 'p','r','s','t','u','v','w','x','y','z']
-let g:startify_list_order = [
-			\ ['Session:'],   'sessions',
-			\ ['MRU:'],       'files',
-			\ ['MRU (cwd):'], 'dir',
-			\ ['bookmarks:'], 'bookmarks',
-			\ ['commands:'],  'commands',
-			\ ]
-"}}}
 "{{{ Surround
 nmap ds  <Plug>Dsurround
 nmap cs  <Plug>Csurround
@@ -958,11 +930,19 @@ augroup SwitchBuffer
 	autocmd BufLeave * set norelativenumber
 augroup END
 
+augroup AutoPairHTML
+	autocmd!
+	autocmd BufEnter *.html let g:AutoPairs["<"] = '>'
+	autocmd BufLeave *.html unlet g:AutoPairs["<"]
+augroup END
+
+augroup SourceOnceAtStartUp
+   autocmd!
+	autocmd VimEnter * set tabstop=3 shiftwidth=3 softtabstop=3
+augroup END
+
 autocmd BufEnter * if (&diff || &ft == 'gundo') | set timeout timeoutlen=0 | endif
 autocmd BufLeave * if (&diff || &ft == 'gundo') | set timeout& timeoutlen& | endif
-
-autocmd BufEnter *.html let g:AutoPairs["<"] = '>'
-autocmd BufLeave *.html unlet g:AutoPairs["<"]
 
 autocmd QuickFixCmdPost * cwindow
 autocmd CursorHold * nohlsearch
@@ -994,13 +974,6 @@ if !exists(g:colors_name)
 	highlight link ALEInfoSign Type
 
 	highlight link Sneak Search
-
-	highlight link StartifyHeader  Question
-	highlight link StartifyBracket Normal
-	highlight link StartifyNumber  Statement
-	highlight link StartifyPath    Comment
-	highlight link StartifyFile    String
-	highlight link StartifySlash   Comment
 endif
 "}}}
 
