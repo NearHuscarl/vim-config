@@ -9,57 +9,66 @@ snippet license "LICENSE" b
 " ============================================================================
 endsnippet
 
-snippet fa "function in autoload/" b
-function! `!v substitute( substitute(expand('%:p:r'), '^.*autoload/', '', ''), '/', '#', 'g' )`#${1:FuncName} " {{{
-	${2:Body}
-endfunction
-" }}}
-endsnippet
-
-snippet f "function" b
-function! ${1:FuncName} " {{{
+snippet "fa( (\S+))?" "autoload function" br
+function! `!v substitute(substitute(expand('%:p:r'), '^.*autoload/', '', ''), '/', '#', 'g' )`#${1:`!p snip.rv = match.group(2) if match.group(2) is not None else 'FuncName'`} " {{{
 	$2
 endfunction
 " }}}
 endsnippet
 
-snippet if "if" b
-if $1
+snippet "f( (\S+))?" "function" br
+function! `!p snip.rv = match.group(2) if match.group(2) is not None else ''`$1 " {{{
 	$2
+endfunction
+" }}}
+endsnippet
+
+snippet "if( ([\S ]+))?" "if statement" br
+if `!p snip.rv = match.group(2) if match.group(2) is not None else ''`
+	$1
 endif
 endsnippet
 
-snippet ifelse "if else" b
-if ${1:Condition}
-	${2:Statement(s)}
+snippet "ife(lse)?( ([\S ]+))?" "if-else statement" br
+if `!p snip.rv = match.group(3) if match.group(3) is not None else ''`
+	$1
 else
-	${2:Statement(s)}
+	$2
 endif
 endsnippet
 
-snippet for "for loop" b 
-for i in ${1:Range} 
-	${2:Statement(s)}
+snippet "(ei|elif|elseif)( ([\S ]+))?" "elseif statement" br
+elseif `!p snip.rv = match.group(3) if match.group(3) is not None else ''`
+	$1
+endsnippet
+
+snippet "(Ei|Elif|Elseif)( ([\S ]+))?" "elseif statement with endif" br
+elseif `!p snip.rv = match.group(3) if match.group(3) is not None else ''`
+	$1
+endif
+endsnippet
+
+snippet "for( ([\S ]+))?" "for loop" br
+for `!p snip.rv = match.group(2) if match.group(2) is not None else 'i in range(0, 10)'`
+	$1
 endfor
 endsnippet
 
-snippet while "while loop" b 
-while ${1:Condition}
-	${2:Statement(s)}
+snippet "while( ([\S ]+))?" "while loop" br
+while `!p snip.rv = match.group(2) if match.group(2) is not None else '1'`
+	$1
 endwhile
 endsnippet
 
-snippet augroup "autocmd group" b
-augroup ${1:Group Name}
-   autocmd!
-   ${2:autocmd}
+snippet "aug(roup)?( (\S+))?" "augroup" br
+augroup `!p snip.rv = match.group(3) if match.group(3) is not None else ''`
+	autocmd!
+	$1
 augroup END
 endsnippet
 
 snippet fold "marker for folding" 
 " {{{ ${1:Fold Name}
-
-${2}
-
+$2
 " }}}
 endsnippet
