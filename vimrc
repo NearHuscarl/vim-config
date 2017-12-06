@@ -2,7 +2,7 @@
 " File:        .vimrc
 " Description: Vim settings
 " Author:      Near Huscarl <near.huscarl@gmail.com>
-" Last Change: Tue Dec 05 03:04:28 +07 2017
+" Last Change: Wed Dec 06 11:07:36 +07 2017
 " Licence:     BSD 3-Clause license
 " Note:        This is a personal vim config. therefore most likely not work 
 "              on your machine
@@ -10,6 +10,8 @@
 
 " {{{ Variables
 
+" echo split(&rtp, ',')[0]
+" echo globpath(fnamemodify($MYVIMRC, ':p:h'), 'autoload/license.vim')
 if !exists('os')
 	if has('win32') || has('win64')
 		let g:os = 'win'
@@ -19,6 +21,7 @@ if !exists('os')
 endif
 
 let is_nvim = has('nvim') ? 1: 0
+
 if g:os ==# 'win'
 	let s:autoload = $HOME.'\vimfiles\autoload\'
 	let s:plugged  = $HOME.'\vimfiles\plugged\'
@@ -178,8 +181,13 @@ set lazyredraw                                     "An attempt to make scrolling
 
 set list                                           "Enable listchars option
 set listchars=tab:\│\ ,extends:»,precedes:«,trail:·,nbsp:·
-set smarttab                                       "Insert tab according to shiftwidth
 set backspace=2                                    "Backspace normal behaviour
+
+set smarttab                                       "Insert tab using shiftwidth rather than softtabstop
+if !exists('is_sourced')
+	set tabstop=3                                  "Number of spaces for a tab character to show visually
+	set shiftwidth=3                               "Number of spaces inserted when indenting
+endif
 
 set diffopt+=vertical                              "Open diff window in vertical split
 set diffopt+=context:1000                          "No fold in diff mode
@@ -196,6 +204,7 @@ endif
 set tags=./tags;/                                  "Search for tags file in current dir up to root
 set history=10000                                  "Set number of commands and search to be remembered
 set grepprg=rg\ --vimgrep
+set keywordprg=:tab\ help                          "Open help file in new tab
 
 set wildignore+=*.7z,*.bin,*.doc,*.docx,*.exe,*.ico,*.gif,*.jpg,*.jpeg,*.mp3,*.otf,*.pak,*.pdf
 set wildignore+=*.png,*.ppt,*.pptx,*.rar,*.swp,*.sfdm,*.xls,*.xlsx,*.xnb,*.zip
@@ -209,6 +218,7 @@ endif
 if has('GUI_running') && has('windows')
 	set guitablabel=\[%N\]\ %t\ %M                  "Tabs only display file name rather than path+filename
 endif
+
 let @n = "0f>a\<CR>\<Esc>$F<i\<CR>\<Esc>j"         "Newline per tag if not
 "}}}
 " {{{ Mappings
@@ -538,7 +548,6 @@ Plug 'suan/vim-instant-markdown'
 Plug 'terryma/vim-smooth-scroll'
 
 " Filetype
-Plug 'othree/html5.vim'
 Plug 'pangloss/vim-javascript', {'for': 'javascript'}
 Plug 'maksimr/vim-jsbeautify'
 Plug 'hdima/python-syntax'
@@ -681,7 +690,8 @@ let g:grep_cmd = 'rg
 			\ --hidden --ignore-case --follow --color "always" '
 
 command! -nargs=+ Grep
-			\ call fzf#vim#grep(g:grep_cmd . shellescape(<q-args>), 0, {'options': g:fzf_option}, 0)
+			\ call fzf#vim#grep(g:grep_cmd . shellescape(<q-args>) . ' '. git#GetRootDir()
+			\ , 0, {'options': g:fzf_option}, 0)
 command! -nargs=? -complete=dir Files
 			\ call fzf#vim#files(<q-args>, {
 			\   'options': g:fzf_option,
@@ -701,6 +711,7 @@ nnoremap gr :Grep<Space>
 nnoremap <silent> <Leader>ep :GitFiles<CR>|    "Fzf files in the whole git repo
 nnoremap <silent> <Leader>ef :Files<CR>|       "Fzf files from cwd
 nnoremap <silent> <Leader>eh :Files $HOME<CR>
+nnoremap <silent> <Leader>ev :Files $HOME/.vim/<CR>
 nnoremap <silent> <Leader>em :MRU<CR>
 nnoremap <silent> <Leader>h  :Helptags<CR>
 nnoremap <silent> <Leader>j  :Tags<CR>
@@ -947,11 +958,6 @@ augroup AutoPairHTML
 	autocmd BufLeave *.html unlet g:AutoPairs["<"]
 augroup END
 
-augroup SourceOnceAtStartUp
-   autocmd!
-	autocmd VimEnter * set tabstop=3 shiftwidth=3 softtabstop=3
-augroup END
-
 autocmd BufEnter * if (&diff || &ft == 'gundo') | set timeout timeoutlen=0 | endif
 autocmd BufLeave * if (&diff || &ft == 'gundo') | set timeout& timeoutlen& | endif
 
@@ -988,5 +994,12 @@ if !exists(g:colors_name)
 endif
 "}}}
 
+if !exists('is_sourced')
+	let g:is_sourced = 1
+endif
+
+" let g:html_indent_script1 = 'inc'
+" let g:html_indent_style1  = 'inc'
+" let g:html_indent_inctags = 'html,body,head,tbody,p,li,dd,dt,h1,h2,h3,h4,h5,h6,blockquote,section'
 " flink eh --hide-pointer --geometry 1000x600 --zoom fill
 " feh --hide-pointer --thumbnails --thumb-height 60 --thumb-width 100 --index-info "" --geometry 1000x600 --image-bg black
