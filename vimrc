@@ -965,7 +965,7 @@ autocmd QuickFixCmdPost * cwindow
 autocmd CursorHold * nohlsearch
 
 autocmd FocusLost * if &modified && filereadable(expand("%:p")) | write | endif
-autocmd BufWritePre * call license#SetLastChangeBeforeBufWrite()
+autocmd BufWritePre * call license#SetLastChangeBeforeBufWrite('%a %b %d %H:%M:%S %Z %Y')
 
 autocmd BufWritePost *.py,*.js,*vimrc call ctags#Update()
 

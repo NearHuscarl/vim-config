@@ -4,34 +4,27 @@
 "              BufWrite, and a function for undo/redo mappings to skip
 "              jumping to auto updated timestamp
 " Author:      Near Huscarl <near.huscarl@gmail.com>
-" Last Change: Wed Dec 06 11:16:33 +07 2017
+" Last Change: Thu Dec 07 00:59:16 +07 2017
 " Licence:     BSD 3-Clause license
 " Note:        N/A
 " ============================================================================
 
-let s:last_change_regex = 'Last Change:'
+let s:date_prefix = 'Last Change: '
 
-function! license#SetLastChangeBeforeBufWrite() " {{{
-	" Find the match between line 5 to 15 and replace it with current date
-	let cmt = substitute(&commentstring, '%s', '', '')
-
-	for line in range(5, 15)
-		if match(getline(line), s:last_change_regex) != -1
-			let view_info = winsaveview()
-			let time = strftime('%a %b %d %H:%M:%S %Z %Y')
-
-			silent! call cursor(line, len(cmt) + len(s:last_change_regex) + 3)
-			execute 'normal! "_Da' . time
-			call winrestview(view_info)
-			return
-		endif
-	endfor
-endfunction " }}}
-
+" Find the match between line 5 to 15 and replace it with current date
+function! license#SetLastChangeBeforeBufWrite(timefstring) " {{{
+	let view_info = winsaveview()
+	let comment = substitute(&commentstring, '%s', '', '')
+	" :help :global
+	silent! execute '5,15g/' . comment . ' ' . s:date_prefix
+				\ . '/s/' . s:date_prefix . '.*$/' . s:date_prefix . strftime(a:timefstring)
+	nohlsearch
+	call winrestview(view_info)
+endfunction
+" }}}
 function! license#SkipLicenseDate(action) " {{{
 	" Skip seeing changes in license date when doing an undo/redo
-	let bang = ''
-	let viewInfo  = winsaveview()
+	let view_info  = winsaveview()
 
 	if a:action ==# 'undo'
 		let key = 'u'
@@ -40,15 +33,16 @@ function! license#SkipLicenseDate(action) " {{{
 	endif
 
 	execute 'normal! ' . key
-	let viewInfo.lnum = line('.')
-	let viewInfo.col = col('.')
+	let view_info.lnum = line('.')
+	let view_info.col = col('.')
 
-	if match(getline('.'), s:last_change_regex) != -1
+	if match(getline('.'), s:date_prefix) != -1
 		execute 'normal! ' . key
-		let viewInfo.lnum = line('.')
-		let viewInfo.col = col('.')
+		let view_info.lnum = line('.')
+		let view_info.col = col('.')
 	endif
-	call winrestview(viewInfo)
-endfunction " }}}
+	call winrestview(view_info)
+endfunction
+" }}}
 
 " vim: nofoldenable
