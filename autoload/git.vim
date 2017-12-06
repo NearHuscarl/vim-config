@@ -9,3 +9,5 @@ function! git#GetRootDir() " {{{
 	endif
 endfunction
 " }}}
+
+" vim: nofoldenable
