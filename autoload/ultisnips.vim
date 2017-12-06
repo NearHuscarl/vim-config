@@ -3,7 +3,7 @@
 " Description: Ultisnips hack to use tab to expand snippet, popup or insert
 "              literal tab depend on the context
 " Author:      Near Huscarl <near.huscarl@gmail.com>
-" Last Change: Sun Dec 03 11:35:31 +07 2017
+" Last Change: Wed Dec 06 06:17:44 +07 2017
 " Licence:     BSD 3-Clause license
 " Note:        None
 " ============================================================================
@@ -59,7 +59,7 @@ function! s:IsBlankLine(line) " {{{
 endfunction
 " }}}
 function! s:InsertSpace() " {{{
-   let tabWidth = &tabstop
+   let tabWidth = &shiftwidth
    let space = ''
    while tabWidth > 0
       let space .= "\<Space>"
