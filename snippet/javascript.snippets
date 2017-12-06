@@ -9,41 +9,41 @@ snippet license "LICENSE" b
 // ============================================================================
 endsnippet
 
-snippet if "if statement" b
-if ($1) {
-   $2
+snippet "if( ([\S ]+))?" "if statement" br
+if (`!p snip.rv = match.group(2) if match.group(2) is not None else 'true'`) {
+	$1
 }
 endsnippet
 
-snippet ifelse "if else statement" b
-if ($1) {
-   $2
+snippet "ife(lse)?( ([\S ]+))?" "if-else statement" br
+if (`!p snip.rv = match.group(3) if match.group(3) is not None else 'true'`) {
+	$1
 }
 else {
-   $3
+	$2
 }
 endsnippet
 
-snippet elif "else if statement" b
-else if ($1) {
-   $2
+snippet "(ei|elif|elseif)( ([\S ]+))?" "else if statement" br
+else if (`!p snip.rv = match.group(3) if match.group(3) is not None else ''`) {
+	$1
 }
 endsnippet
 
 snippet else "else statement" b
 else {
-   $1
+	$1
 }
 endsnippet
 
 snippet for "for loop" b
-for (${1:let i = 0}; ${2:i <} ${3:n}; ${4:i++}) {
-	$5
+for (${1:let i = 0; i < n; i++}) {
+	$2
 }
 endsnippet
 
 snippet while "while loop" b
-while (${1:}) {
+while (${1:true}) {
 	${2:}
 }
 endsnippet
@@ -51,21 +51,15 @@ endsnippet
 snippet switch "switch statement" b
 switch ($1)
 {
-   case ${2:1}:
-      $3
-      break;
-   case ${4:2}:
-      $5
-      break;
-   default:${7}
-      break;
+	case ${2:1}:
+		$3
+		break;
+	case ${4:2}:
+		$5
+		break;
+	default:${7}
+		break;
 }
-endsnippet
-
-snippet case "" b
-case $1
-   $2
-   break;
 endsnippet
 
 snippet try "try catch statement" b
@@ -77,12 +71,12 @@ catch (${2:error}) {
 }
 endsnippet
 
-snippet f "function definition" b
-function ${1:funcName}($2) {
-   $3
+snippet "f( ([\S ]+))?" "function" br
+function (`!p snip.rv = match.group(2) if match.group(2) is not None else ''`$1) {
+	$2
 }
 endsnippet
 
-snippet log "console log" b
-console.log($1);
+snippet "log( ([\S ]+))?" "console.log()" br
+console.log(`!p snip.rv = match.group(2) if match.group(2) is not None else ''`);
 endsnippet
