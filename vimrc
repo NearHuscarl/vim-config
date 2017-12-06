@@ -903,6 +903,17 @@ let g:UltiSnipsJumpForwardTrigger  = '<A-j>'
 let g:UltiSnipsJumpBackwardTrigger = '<A-k>'
 "}}}
 "{{{ Autocmd
+
+" :help template.
+augroup TemplateFile
+	autocmd!
+	for ft in ['css', 'html', 'js', 'py', 'scss', 'sh']
+		execute 'autocmd BufNewFile *.' . ft . ' 0read $HOME/.vim/templates/skeleton.' . ft
+		execute 'autocmd BufRead *.' . ft .
+					\ ' if line("$") == 1 && getline(1) ==# "" | 0read $HOME/.vim/templates/skeleton.' . ft . '| endif'
+	endfor
+augroup END
+
 augroup Statusline
 	autocmd!
 	autocmd VimEnter * call statusline#SetStatusline()
