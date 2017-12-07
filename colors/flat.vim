@@ -2,30 +2,26 @@
 " Author:       Romain Lafourcade (romainlafourcade@gmail.com)
 " Description:  Essentially a streamlining and conversion to xterm colors of
 "               'sorcerer' by Jeet Sukumaran (jeetsukumaran@gmailcom)
-" Last Change:  2017 Aug 06
+" Last Change: Thu Dec 07 09:24:28 +07 2017
 
-" MADE-UP NAME    HEX        RGB                   XTERM  ANSI
-" ========================================================================
-" almost black    #1f2d3a    rgb(28, 28, 28)       0      0
-" darker grey     #1f2d3a    rgb(38, 38, 38)       0      background color
-" dark grey       #2c3e50    rgb(48, 48, 48)       8      8
-" grey            #2c3e50    rgb(68, 68, 68)       8      8
-" medium grey     #2c3e50    rgb(88, 88, 88)       8      8
-" light grey      #84888b    rgb(10, 10, 10)       7      7
-" lighter grey    #ecf0f1    rgb(188, 188, 188)    15     foreground color
-" white           #ecf0f1    rgb(255, 255, 255)    15     15
-" magenta         #8e44ad    rgb(95, 95, 135)      5      5
-" light magenta   #9b59b6    rgb(135, 135, 175)    13     13
-" green           #27ae60    rgb(95, 135, 95)      2      2
-" light green     #2ecc71    rgb(135, 175, 135)    10     10
-" aqua            #16a085    rgb(95, 135, 135)     6      6
-" light aqua      #2aa198    rgb(95, 175, 175)     14     14
-" blue            #2980b9    rgb(95, 135, 175)     4      4
-" light blue      #3498db    rgb(143, 175, 215)    12     12
-" red             #c0392b    rgb(175, 95, 95)      1      1
-" orange          #e74c3c    rgb(255, 135, 0)      9      9
-" ocre            #f39c12    rgb(135, 135, 95)     3      3
-" yellow          #f1c40f    rgb(255, 255, 175)    11     11
+" Name          Hex      Rgb                 Xterm  ANSI
+" ==================================================================
+" black         #1f2d3a  rgb(28, 28, 28)     0      0
+" darkgray      #2c3e50  rgb(48, 48, 48)     8      8
+" lightgrey     #84888b  rgb(10, 10, 10)     7      7
+" white         #ecf0f1  rgb(255, 255, 255)  15     15
+" magenta       #8e44ad  rgb(95, 95, 135)    5      5
+" lightmagenta  #9b59b6  rgb(135, 135, 175)  13     13
+" green         #27ae60  rgb(95, 135, 95)    2      2
+" lightgreen    #2ecc71  rgb(135, 175, 135)  10     10
+" cyan          #16a085  rgb(95, 135, 135)   6      6
+" lightcyan     #2aa198  rgb(95, 175, 175)   14     14
+" blue          #2980b9  rgb(95, 135, 175)   4      4
+" lightblue     #3498db  rgb(143, 175, 215)  12     12
+" red           #c0392b  rgb(175, 95, 95)    1      1
+" lightred      #e74c3c  rgb(255, 135, 0)    9      9
+" yellow        #f39c12  rgb(135, 135, 95)   3      3
+" lightyellow   #f1c40f  rgb(255, 255, 175)  11     11
 
 hi clear
 
