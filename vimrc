@@ -2,7 +2,7 @@
 " File:        .vimrc
 " Description: Vim settings
 " Author:      Near Huscarl <near.huscarl@gmail.com>
-" Last Change: Wed Dec 06 11:07:36 +07 2017
+" Last Change: Thu Dec 07 15:05:36 +07 2017
 " Licence:     BSD 3-Clause license
 " Note:        This is a personal vim config. therefore most likely not work 
 "              on your machine
@@ -159,6 +159,7 @@ set clipboard^=unnamedplus                         "Use + register (use Mouse se
 set number                                         "Set line number on startup
 set relativenumber                                 "Choose relave number to make moving between line easier
 set numberwidth=2                                  "Number Column width
+set nrformats+=alpha                               "Enable increment/decrement alphabetic character
 
 set nobackup                                       "No fucking backup
 set noshowmode                                     "Dont show --INSERT-- or --VISUAL--
@@ -185,8 +186,8 @@ set backspace=2                                    "Backspace normal behaviour
 
 set smarttab                                       "Insert tab using shiftwidth rather than softtabstop
 if !exists('is_sourced')
-	set tabstop=3                                  "Number of spaces for a tab character to show visually
-	set shiftwidth=3                               "Number of spaces inserted when indenting
+	set tabstop=3                                   "Number of spaces for a tab character to show visually
+	set shiftwidth=3                                "Number of spaces inserted when indenting
 endif
 
 set diffopt+=vertical                              "Open diff window in vertical split
@@ -340,6 +341,12 @@ nnoremap <silent>]q :cnext<CR>|                    "Jump to the next quickfix it
 nnoremap <silent>[q :cprev<CR>|                    "Jump to the previous quickfix item
 nnoremap <silent>]Q :clast<CR>|                    "Jump to the previous quickfix item
 nnoremap <silent>[Q :cfirst<CR>|                   "Jump to the previous quickfix item
+" }}}
+" {{{ Number
+nnoremap <Up>   <C-a>|                             "Increment number under cursor
+nnoremap <Down> <C-x>|                             "Decrement number under cursor
+vnoremap <Up>   g<C-a>|                            "Make an increment sequence using visual block
+vnoremap <Down> g<C-x>|                            "Make a decrement sequence using visual block
 " }}}
 " {{{ Insert Mode
 inoremap <A-9> <C-w>|                              "Delete previous word
@@ -518,6 +525,7 @@ Plug 'haya14busa/incsearch.vim', {'on': [
 			\ '<Plug>(incsearch-nohl-g*)',
 			\ '<Plug>(incsearch-nohl-g#)'
 			\ ]}
+Plug 'tpope/vim-repeat'
 " Plug 'haya14busa/is.vim', {'on': [
 " 			\ '<Plug>(is-n)',
 " 			\ '<Plug>(is-N)',
@@ -658,21 +666,21 @@ let g:fastfold_fold_movement_commands = []
 let g:fastfold_skip_filetypes         = ['vim', 'py']
 "}}}
 "{{{ Fugitive
-nnoremap <Leader>gs  :Gstatus<CR>|                              "Git status in vim!
-nnoremap <Leader>ga  :Git add %:p<CR>|                          "Git add in vim!
-nnoremap <Leader>gbl :Gblame<CR>|                               "Git blame in vim!
-nnoremap <Leader>gw  :Gwrite<CR>|                               "Git write in vim!
-nnoremap <Leader>gr  :Gread<CR>|                                "Git read in vim!
-nnoremap <Leader>gd  :Gdiff<CR>|                                "Git diff in vim!
-nnoremap <Leader>gP  :Gpull<CR>|                                "Git pull in vim!
-nnoremap <Leader>gp  :Gpush<CR>|                                "Git push in vim!
-nnoremap <Leader>gm  :Gmove<CR>|                                "Git move in vim!
-nnoremap <Leader>gc  :Gcommit<CR>|                              "Git commmit in vim!
-nnoremap <Leader>gbr :Gbrowse<CR>|                              "Open current file on github
-nnoremap <Leader>gk  :Ggrep! <C-r><C-w><CR><CR>|                "Find word under (k)ursor in repo
-nnoremap <Leader>gl  :Glog!<CR><Bar>:bot copen<CR>|             "Load all version before
-nnoremap <Leader>ggc :Glog! --grep= -- %<C-Left><C-Left><Left>| "Search for commit message
-nnoremap <Leader>ggd :Glog! -S -- %<C-Left><C-Left><Left>|      "Search content in diffs history
+nnoremap <silent> <Leader>gs  :Gstatus<CR>|                              "Git status in vim!
+nnoremap <silent> <Leader>ga  :silent Git add %:p <Bar> redraw!<CR>|     "Git add in vim!
+nnoremap <silent> <Leader>gbl :Gblame<CR>|                               "Git blame in vim!
+nnoremap <silent> <Leader>gw  :Gwrite<CR>|                               "Git write in vim!
+nnoremap <silent> <Leader>gr  :Gread<CR>|                                "Git read in vim!
+nnoremap <silent> <Leader>gd  :Gdiff<CR>|                                "Git diff in vim!
+nnoremap <silent> <Leader>gP  :Gpull<CR>|                                "Git pull in vim!
+nnoremap <silent> <Leader>gp  :Gpush<CR>|                                "Git push in vim!
+nnoremap <silent> <Leader>gm  :Gmove<CR>|                                "Git move in vim!
+nnoremap <silent> <Leader>gc  :Gcommit<CR>|                              "Git commmit in vim!
+nnoremap <silent> <Leader>gbr :Gbrowse<CR>|                              "Open current file on github
+nnoremap <silent> <Leader>gk  :Ggrep! <C-r><C-w><CR><CR>|                "Find word under (k)ursor in repo
+nnoremap <silent> <Leader>gl  :Glog!<CR><Bar>:bot copen<CR>|             "Load all version before
+nnoremap <silent> <Leader>ggc :Glog! --grep= -- %<C-Left><C-Left><Left>| "Search for commit message
+nnoremap <silent> <Leader>ggd :Glog! -S -- %<C-Left><C-Left><Left>|      "Search content in diffs history
 "}}}
 "{{{ Fzf
 let g:fzf_option='
