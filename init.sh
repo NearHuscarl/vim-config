@@ -23,7 +23,7 @@ elif [[ "$os" == 'Linux' ]]; then
 	vim_path=$(join_path "$HOME" '.vim')
 fi
 vim_plug_path=$(join_path "$vim_path" 'autoload/plug.vim')
-dir_list="undo swapfiles session plugged"
+dir_list="plugged session swapfiles undo"
 
 # Make necessary directories if not exists
 for dir in $dir_list; do

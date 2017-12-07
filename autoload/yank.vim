@@ -1,5 +1,5 @@
 function! yank#Path() " {{{
-	let full_path = expand("%:p")
+	let full_path = expand('%:p')
 	let @* = full_path
 	let @+ = full_path
 
