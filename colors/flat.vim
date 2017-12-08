@@ -2,7 +2,6 @@
 " Author:       Romain Lafourcade (romainlafourcade@gmail.com)
 " Description:  Essentially a streamlining and conversion to xterm colors of
 "               'sorcerer' by Jeet Sukumaran (jeetsukumaran@gmailcom)
-" Last Change: Thu Dec 07 09:24:28 +07 2017
 
 " Name          Hex      Rgb                 Xterm  ANSI
 " ==================================================================
@@ -30,6 +29,7 @@ if exists('syntax_on')
 endif
 
 let colors_name = 'flat'
+set background=dark
 
 if ($TERM =~ '256' || &t_Co >= 256) || has('gui_running')
   " Set ctermbg=NONE to Normal group for transparent terminal
@@ -39,8 +39,6 @@ if ($TERM =~ '256' || &t_Co >= 256) || has('gui_running')
   hi Folded     ctermbg=NONE ctermfg=7  guibg=#1f2d3a guifg=#84888b cterm=NONE gui=NONE
   hi MatchParen ctermbg=0    ctermfg=11 guibg=#1f2d3a guifg=#f1c40f cterm=NONE gui=NONE
   hi signColumn ctermbg=NONE ctermfg=7  guibg=#1f2d3a guifg=#84888b cterm=NONE gui=NONE
-
-  set background=dark
 
   hi Comment    ctermbg=NONE ctermfg=7    guibg=NONE guifg=#84888b cterm=NONE      gui=NONE
   hi Conceal    ctermbg=NONE ctermfg=15   guibg=NONE guifg=#ecf0f1 cterm=NONE      gui=NONE
@@ -81,7 +79,7 @@ if ($TERM =~ '256' || &t_Co >= 256) || has('gui_running')
   hi helpLeadBlank ctermbg=NONE ctermfg=NONE guibg=NONE    guifg=NONE    cterm=NONE      gui=NONE
   hi helpNormal    ctermbg=NONE ctermfg=NONE guibg=NONE    guifg=NONE    cterm=NONE      gui=NONE
 
-  hi StatusLine    ctermbg=3    ctermfg=0    guibg=#f39c12 guifg=#1f2d3a cterm=NONE      gui=NONE
+  hi StatusLine    ctermbg=4    ctermfg=15   guibg=#2980b9 guifg=#ecf0f1 cterm=NONE      gui=NONE
   hi StatusLineNC  ctermbg=8    ctermfg=3    guibg=#2c3e50 guifg=#f39c12 cterm=NONE      gui=NONE
 
   hi Visual        ctermbg=4    ctermfg=15   guibg=#2980b9 guifg=#ecf0f1 cterm=NONE      gui=NONE
@@ -166,7 +164,7 @@ elseif &t_Co == 8 || $TERM !~# '^linux' || &t_Co == 16
   hi helpLeadBlank ctermbg=NONE       ctermfg=NONE        cterm=NONE
   hi helpNormal    ctermbg=NONE       ctermfg=NONE        cterm=NONE
 
-  hi StatusLine    ctermbg=darkyellow ctermfg=black       cterm=NONE
+  hi StatusLine    ctermbg=blue       ctermfg=white       cterm=NONE
   hi StatusLineNC  ctermbg=darkgray   ctermfg=darkyellow  cterm=NONE
 
   hi Visual        ctermbg=white      ctermfg=blue        cterm=reverse
