@@ -2,7 +2,7 @@
 " File:        .vimrc
 " Description: Vim settings
 " Author:      Near Huscarl <near.huscarl@gmail.com>
-" Last Change: Thu Dec 07 15:05:36 +07 2017
+" Last Change: Fri Dec 08 22:19:22 +07 2017
 " Licence:     BSD 3-Clause license
 " Note:        This is a personal vim config. therefore most likely not work 
 "              on your machine
@@ -473,7 +473,9 @@ nnoremap <silent><Leader>o :call ide#Open('code')<CR>| "Open vscode of current f
 nnoremap <silent><Leader><CR> :ExecuteFile<CR>|    "Run executable file (python, ruby, bash..)
 nnoremap <Leader><Leader><CR> :ExecuteFile<Space>| "Same with argument
 nnoremap <silent><Leader>R :redraw!<CR>
-nnoremap <silent><Leader>c :call syntax#GetGroup()<CR>
+nnoremap <silent><Leader>cg :call syntax#GetGroup()<CR>
+nnoremap <silent><Leader>cf :call syntax#YankFgColor()<CR>
+nnoremap <silent><Leader>cb :call syntax#YankBgColor()<CR>
 " }}}
 " {{{ Abbreviation
 cabbrev vbnm verbose<Space>nmap
