@@ -2,7 +2,7 @@
 " File:        .vimrc
 " Description: Vim settings
 " Author:      Near Huscarl <near.huscarl@gmail.com>
-" Last Change: Fri Dec 08 22:19:22 +07 2017
+" Last Change: Sat Dec 09 13:19:45 +07 2017
 " Licence:     BSD 3-Clause license
 " Note:        This is a personal vim config. therefore most likely not work 
 "              on your machine
@@ -28,6 +28,7 @@ if g:os ==# 'win'
 	let s:session  = $HOME.'\vimfiles\session\'
 	let s:snippet  = $HOME.'\vimfiles\snippet\'
 	let s:swapfile = $HOME.'\vimfiles\swapfiles//'
+	let s:templates = $HOME.'\vimfiles\templates\'
 	let s:undo     = $HOME.'\vimfiles\undo\'
 else
 	let s:autoload = $HOME.'/.vim/autoload/'
@@ -35,6 +36,7 @@ else
 	let s:session  = $HOME.'/.vim/session/'
 	let s:snippet  = $HOME.'/.vim/snippet/'
 	let s:swapfile = $HOME.'/.vim/swapfiles//'
+	let s:templates = $HOME.'/.vim/templates/'
 	let s:undo     = $HOME.'/.vim/undo/'
 endif
 
@@ -925,13 +927,23 @@ let g:UltiSnipsJumpBackwardTrigger = '<A-k>'
 "}}}
 "{{{ Autocmd
 
+function! InitPyTemplate()
+	if line('$') == 1 && getline(1) ==# ''
+		if match(expand('%'), 'test_') != -1
+			execute '0read' . s:templates . 'skeleton.test.py'
+		else
+			execute '0read' . s:templates . 'skeleton.py'
+		endif
+	endif
+endfunction
 " :help template.
 augroup TemplateFile
 	autocmd!
-	for ft in ['css', 'html', 'js', 'py', 'scss', 'sh']
-		execute 'autocmd BufNewFile *.' . ft . ' 0read $HOME/.vim/templates/skeleton.' . ft
+	for ft in ['css', 'html', 'js', 'scss', 'sh']
+		execute 'autocmd BufNewFile *.' . ft . ' 0read' . s:templates . 'skeleton.' . ft
 		execute 'autocmd BufRead *.' . ft .
-					\ ' if line("$") == 1 && getline(1) ==# "" | 0read $HOME/.vim/templates/skeleton.' . ft . '| endif'
+					\ ' if line("$") == 1 && getline(1) ==# "" | 0read' . s:templates . '/skeleton.' . ft . '| endif'
+		autocmd BufNewFile,BufRead *.py call InitPyTemplate()
 	endfor
 augroup END
 
