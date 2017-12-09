@@ -2,7 +2,7 @@
 " File:        source.vim
 " Description: Source vimrc + current file if it's in autoload/
 " Author:      Near Huscarl <near.huscarl@gmail.com>
-" Last Change: Thu Dec 07 09:31:17 +07 2017
+" Last Change: Fri Dec 08 08:14:09 +07 2017
 " Licence:     BSD 3-Clause license
 " Note:        Note
 " ============================================================================
@@ -41,6 +41,7 @@ function! source#Vimfile() " {{{
 		endif
 	endfor
 
+	redraw
 	call s:EchoHL('current file cannot be sourced!', 'PreProc')
 endfunction
 " }}}
