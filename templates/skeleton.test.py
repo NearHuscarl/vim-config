@@ -6,13 +6,15 @@ import os
 import unittest
 
 class TestCode(unittest.TestCase):
+	""" Test template """
+
 	@classmethod
-	def setUpClass(self):
+	def setUpClass(cls):
 		""" Run before all the tests """
 		pass
 
 	@classmethod
-	def tearDownClass(self):
+	def tearDownClass(cls):
 		""" Run after all the tests """
 		pass
 
@@ -26,8 +28,8 @@ class TestCode(unittest.TestCase):
 
 	def test_cmd(self):
 		""" Test command exit status """
-		os.system('echo "Test run!"')
-		self.assertEqual(os.system('echo $?'), 0)
+
+		self.assertEqual(os.system('echo "Test run!"'), 0)
 
 
 if __name__ == '__main__':
