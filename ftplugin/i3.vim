@@ -1,6 +1,6 @@
 setlocal commentstring=#\ %s
 
-let sync_i3_win = '$HOME/script/sync_i3_win.py'
+let sync_i3_win = '$HOME/script/bin/sync_i3_win.py'
 
 if exists('*ExistsFile')
 	if ExistsFile('$HOME/.vim/plugged/asyncrun.vim/')
