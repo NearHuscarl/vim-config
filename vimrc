@@ -258,10 +258,10 @@ nnoremap <A-m>     <C-w>w|                         "Cycle through panes
 nnoremap <A-n>     <C-w>W|                         "Cycle through panes (backward)
 nnoremap <A-r>     <C-w>r|                         "Rotate pane down/right
 nnoremap <A-R>     <C-w>R|                         "Rotate pane up/left
-nnoremap <Leader>L <C-w>L|                         "Move current pane to the far left
-nnoremap <Leader>H <C-w>H|                         "Move current pane to the far right
-nnoremap <Leader>K <C-w>K|                         "Move current pane to the very top
-nnoremap <Leader>J <C-w>J|                         "Move current pane to the very bottom
+" nnoremap <Leader>L <C-w>L|                         "Move current pane to the far left
+" nnoremap <Leader>H <C-w>H|                         "Move current pane to the far right
+" nnoremap <Leader>K <C-w>K|                         "Move current pane to the very top
+" nnoremap <Leader>J <C-w>J|                         "Move current pane to the very bottom
 " }}}
 " {{{ Tab
 nnoremap <silent><Leader><Tab> :tabnew<CR>|        "Make a new tab
@@ -709,18 +709,29 @@ command! -nargs=? -complete=dir Files
 			\   'options': g:fzf_option,
 			\   'source': 'rg --files --hidden --follow --no-messages'
 			\ }, 0)
+command! -bang -nargs=? FilesAbsolute
+			\ call fzf#run({
+			\  'source': 'rg --files --hidden --follow --no-messages',
+			\  'sink': 'edit',
+			\  'options': g:fzf_option
+			\ })
 
-command! GitFiles execute 'Files ' . git#GetRootDir()
 command! Colors   call fzf#vim#colors({'options': g:fzf_option}, 0)
 command! MRU      call fzf#vim#history({'options': g:fzf_option}, 0)
 command! Helptags call fzf#vim#helptags({'options': g:fzf_option}, 0)
 command! Tags     call fzf#vim#tags(<q-args>, {'options': g:fzf_option}, 0)
 command! Maps     call fzf#vim#maps(<q-args>, {'options': g:fzf_option}, 0)
 command! Lines    call fzf#vim#lines({'options': g:fzf_option}, 0)
+command! BLines   call fzf#vim#buffer_lines({'options': g:fzf_option}, 0)
 command! Buffers  call fzf#vim#buffers({'options': g:fzf_option}, 0)
+command! Commit   call fzf#vim#commits({'options': g:fzf_option}, 0)
+command! BCommit  call fzf#vim#buffer_commits({'options': g:fzf_option}, 0)
 
 nnoremap gr :Grep<Space>
-nnoremap <silent> <Leader>ep :GitFiles<CR>|    "Fzf files in the whole git repo
+" Respect .gitignore. Full path and can open multiple file
+nnoremap <silent> <Leader>ep :FilesAbsolute git#GetRootDir()<CR>
+" Respect .gitignore. Shorter path but cant open multiple files in subdirectory
+nnoremap <silent> <Leader>ec :execute 'Files ' . git#GetRootDir()<CR>
 nnoremap <silent> <Leader>ef :Files<CR>|       "Fzf files from cwd
 nnoremap <silent> <Leader>eh :Files $HOME<CR>
 nnoremap <silent> <Leader>ev :Files $HOME/.vim/<CR>
@@ -728,7 +739,8 @@ nnoremap <silent> <Leader>em :MRU<CR>
 nnoremap <silent> <Leader>h  :Helptags<CR>
 nnoremap <silent> <Leader>j  :Tags<CR>
 nnoremap <silent> <Leader>m  :Maps<CR>
-nnoremap <silent> <Leader>l  :Lines<CR>
+nnoremap <silent> <Leader>l  :BLines<CR>
+nnoremap <silent> <Leader>L  :Lines<CR>
 nnoremap <silent> <Leader>b  :Buffers<CR>
 "}}}
 "{{{ Incsearch
