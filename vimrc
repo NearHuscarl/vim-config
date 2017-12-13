@@ -2,7 +2,7 @@
 " File:        .vimrc
 " Description: Vim settings
 " Author:      Near Huscarl <near.huscarl@gmail.com>
-" Last Change: Sat Dec 09 13:19:45 +07 2017
+" Last Change: Wed Dec 13 17:20:18 +07 2017
 " Licence:     BSD 3-Clause license
 " Note:        This is a personal vim config. therefore most likely not work 
 "              on your machine
@@ -161,7 +161,6 @@ set clipboard^=unnamedplus                         "Use + register (use Mouse se
 set number                                         "Set line number on startup
 set relativenumber                                 "Choose relave number to make moving between line easier
 set numberwidth=2                                  "Number Column width
-set nrformats+=alpha                               "Enable increment/decrement alphabetic character
 
 set nobackup                                       "No fucking backup
 set noshowmode                                     "Dont show --INSERT-- or --VISUAL--
@@ -709,11 +708,11 @@ command! -nargs=? -complete=dir Files
 			\   'options': g:fzf_option,
 			\   'source': 'rg --files --hidden --follow --no-messages'
 			\ }, 0)
-command! -bang -nargs=? FilesAbsolute
+command! -nargs=1 FilesAbsolute
 			\ call fzf#run({
-			\  'source': 'rg --files --hidden --follow --no-messages',
-			\  'sink': 'edit',
-			\  'options': g:fzf_option
+			\   'source': 'rg ' . <args> . ' --files --hidden --follow --no-messages',
+			\   'sink': 'edit',
+			\   'options': g:fzf_option
 			\ })
 
 command! Colors   call fzf#vim#colors({'options': g:fzf_option}, 0)
