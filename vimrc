@@ -2,7 +2,7 @@
 " File:        .vimrc
 " Description: Vim settings
 " Author:      Near Huscarl <near.huscarl@gmail.com>
-" Last Change: Wed Dec 13 17:20:18 +07 2017
+" Last Change: Thu Dec 14 23:42:43 +07 2017
 " Licence:     BSD 3-Clause license
 " Note:        This is a personal vim config. therefore most likely not work 
 "              on your machine
@@ -237,12 +237,12 @@ nnoremap gl  l|                                    "Move 1 character to the left
 nnoremap :   =|                                    "Indent + motion
 nnoremap :: ==|                                    "Indent
 
-vnoremap l  ;
-vnoremap h  ,
-vnoremap gh h
-vnoremap gl l
-vnoremap :  =
-vnoremap :: ==
+xnoremap l  ;
+xnoremap h  ,
+xnoremap gh h
+xnoremap gl l
+xnoremap :  =
+xnoremap :: ==
 " }}}
 " {{{ Buffer
 nnoremap <silent><A-'> :bnext<CR>|                 "Go to the next buffer
@@ -346,8 +346,8 @@ nnoremap <silent>[Q :cfirst<CR>|                   "Jump to the previous quickfi
 " {{{ Number
 nnoremap <Up>   <C-a>|                             "Increment number under cursor
 nnoremap <Down> <C-x>|                             "Decrement number under cursor
-vnoremap <Up>   g<C-a>|                            "Make an increment sequence using visual block
-vnoremap <Down> g<C-x>|                            "Make a decrement sequence using visual block
+xnoremap <Up>   g<C-a>|                            "Make an increment sequence using visual block
+xnoremap <Down> g<C-x>|                            "Make a decrement sequence using visual block
 " }}}
 " {{{ Insert Mode
 inoremap <A-9> <C-w>|                              "Delete previous word
@@ -359,6 +359,12 @@ inoremap <A-r> <C-r>|                              "Insert register ...
 inoremap <A-m> <Esc>zzli|                          "Make current line the center of window
 inoremap <S-Tab> <C-p>|                            "Go to previous selection in comepletion menu
 inoremap <A-v> <C-v>|                              "Insert special character
+inoremap <A-d> <C-k>|                              "Insert character based on (d)iagraph
+inoremap <A-o> <C-o>|                              "Execute one command and return to Insert mode
+" }}}
+" {{{ Operator-pending Mode
+onoremap F :<C-u>execute 'normal! 0f(Bvt('<CR>| "Function name
+onoremap if :<C-u>execute 'normal! ggVG'<CR>|   "Whole file
 " }}}
 " {{{ Popup
 inoremap <expr><A-n>   pumvisible() ? "\<Down>"        : "\<C-n>"
@@ -391,27 +397,27 @@ inoremap <expr><A-u>   pumvisible() ? "\<C-x>"         : "\<Esc>0Di"
 " }}}
 " {{{ Change mode
 inoremap <A-i> <Esc><Esc>|                         "Switch to normal mode from insert mode
-vnoremap <A-i> <Esc>|                              "Switch to normal mode from visual mode
+xnoremap <A-i> <Esc>|                              "Switch to normal mode from visual mode
 snoremap <A-i> <Esc>|                              "Switch to normal mode from select mode
 cnoremap <A-i> <C-c>|                              "Switch to normal mode from command mode
 " }}}
 " {{{ Visual mode
 nnoremap gV `[v`]|                                 "Visual select the last inserted text
 
-vnoremap $ $h
-vnoremap <silent><A-k> 6<C-y>6k|                  "Scroll 6 lines above
-vnoremap <silent><A-j> 6<C-e>6j|                  "Scroll 6 lines below
-vnoremap <silent><A-l> 12<C-e>12j|                "Scroll 12 lines above
-vnoremap <silent><A-h> 12<C-y>12k|                "Scroll 12 lines below
+xnoremap $ $h
+xnoremap <silent><A-k> 6<C-y>6k|                  "Scroll 6 lines above
+xnoremap <silent><A-j> 6<C-e>6j|                  "Scroll 6 lines below
+xnoremap <silent><A-l> 12<C-e>12j|                "Scroll 12 lines above
+xnoremap <silent><A-h> 12<C-y>12k|                "Scroll 12 lines below
 
-vnoremap Kh y:OpenHelpInTab <C-r>"<CR>|           "Open help about the word under cursor
-vnoremap Ka
+xnoremap Kh y:OpenHelpInTab <C-r>"<CR>|           "Open help about the word under cursor
+xnoremap Ka
 			\ y:grep! "<C-R>""<CR><Bar>
 			\ :copen 20<CR>|                          "Find word under cursor in current working directory
-vnoremap ; <Esc>:'<,'>|                            "Execute command in visual range
+xnoremap ; <Esc>:'<,'>|                            "Execute command in visual range
 
 nnoremap <A-v> <C-q>|                              "Visual block
-vnoremap <A-v> <C-q>|                              "Visual block (Use to switch to VBlock from Visual)
+xnoremap <A-v> <C-q>|                              "Visual block (Use to switch to VBlock from Visual)
 " }}}
 " {{{ Command mode
 cnoremap <A-k> <C-r><C-w>|                         "Insert word under cursor
@@ -434,13 +440,17 @@ cnoremap <silent><A-y> <C-f>yy:q<CR>|              "Copy command content
 cnoremap <A-r> <C-r>*|                             "Paste yanked text in command line
 " }}}
 " {{{ Replace
-vnoremap <Leader>rf y:Replace %s/\<<C-r>"\>/|           "Replace selected word in this file
-vnoremap <Leader>rb y:Replace bufdo %s/\<<C-r>"\>/|     "Replace selected word across buffers
+xnoremap <Leader>rf y:Replace %s/\<<C-r>"\>/|           "Replace selected word in this file
+xnoremap <Leader>rb y:Replace bufdo %s/\<<C-r>"\>/|     "Replace selected word across buffers
 nnoremap <Leader>rk  :Replace %s/\<<C-r><C-w>\>/|       "Replace current word in this file
 nnoremap <Leader>rK  :Replace bufdo %s/\<<C-r><C-w>\>/| "Replace current word across buffers
 nnoremap <Leader>rf  :Replace %s/|                      "Replace in this file
 nnoremap <Leader>rb  :Replace bufdo %s/|                "Replace across buffers
 nnoremap <Leader>rr  :Replace |                         "Replace with custom range
+nnoremap R gR| "Replace mode that play nice with tab
+nnoremap gR R| "Old one
+nnoremap r gr| "One character version
+nnoremap gr r| "Old one
 " }}}
 " {{{ Misc
 nnoremap U :later 1f<CR>|                          "Go to the latest change
@@ -449,8 +459,8 @@ cmap < <
 nnoremap << <_|                                    " << not working
 nnoremap <F8> mzggg?G`z|                           "Encrypted with ROT13, just for fun
 nnoremap Q @q|                                     "Execute macro
-vnoremap > >gv|                                    "Make indent easier
-vnoremap < <gv|                                    "Make indent easier
+xnoremap > >gv|                                    "Make indent easier
+xnoremap < <gv|                                    "Make indent easier
 nnoremap yp :call yank#Path()<CR>|                 "Yank and show current path
 
 if ExistsFile(s:autoload . 'license.vim')
@@ -529,6 +539,7 @@ Plug 'haya14busa/incsearch.vim', {'on': [
 			\ '<Plug>(incsearch-nohl-g#)'
 			\ ]}
 Plug 'tpope/vim-repeat'
+Plug 'wellle/targets.vim'
 " Plug 'haya14busa/is.vim', {'on': [
 " 			\ '<Plug>(is-n)',
 " 			\ '<Plug>(is-N)',
@@ -593,11 +604,6 @@ Plug 'tpope/vim-surround', {'on': [
 			\ '<Plug>YSsurround',
 			\ '<Plug>VSurround',
 			\ '<Plug>VgSurround'
-			\ ]}
-Plug 'Ron89/thesaurus_query.vim', {'on': [
-			\ 'ThesaurusQueryReplaceCurrentWord',
-			\ 'Thesaurus',
-			\ 'ThesaurusQueryReplace'
 			\ ]}
 
 Plug 'Valloric/YouCompleteMe'
@@ -777,7 +783,7 @@ let g:gundo_return_on_revert = 0
 let g:gundo_auto_preview     = 1
 "}}}
 "{{{ Easy Align
-vnoremap ga <Esc>:'<,'>EasyAlign // dl<Left><Left><Left><Left>| " Align with delimiter aligned left
+xnoremap ga <Esc>:'<,'>EasyAlign // dl<Left><Left><Left><Left>| " Align with delimiter aligned left
 nmap ga <Plug>(EasyAlign)
 let g:easy_align_ignore_groups = []       " Vim Align ignore comment by default
 "}}}
@@ -890,31 +896,16 @@ nmap ySs <Plug>YSsurround
 xmap s   <Plug>VSurround
 xmap gs  <Plug>VgSurround
 "}}}
-"{{{ Thesaurus Query
-"Require internet
-if has('python3')
-	let g:tq_python_version          = 3
-	let g:tq_online_backends_timeout = 0.6
-
-	nnoremap <Leader>to :Thesaurus<Space>
-	nnoremap Kt :ThesaurusQueryReplaceCurrentWord<CR>
-	vnoremap Kt y:ThesaurusQueryReplace <C-r>"<CR>
-endif
+"{{{ Target
+let g:targets_pairs = '()b {}B [] <>e'
+let g:targets_quotes = '"q '' `'
+let g:targets_separators = ', . ; : + - = ~ _u * # / | \ & $'
 "}}}
 "{{{ Vim-man
 " ../vim-man/plugin/man.vim
 command! -nargs=* -bar -complete=customlist,man#completion#run Man
 			\ call plug#load('vim-man')
 			\|call man#get_page('horizontal', <f-args>)
-"}}}
-"{{{ Neocomplete
-let g:neocomplete#enable_at_startup                 = 1 " Use neocomplete.
-let g:neocomplete#enable_smart_case                 = 1 " Use smartcase.
-let g:NeoCompleteAutoCompletionLength               = 3 " Set minimum char to trigger Autocomplete
-let g:neocomplete#sources#syntax#min_keyword_length = 3 " Set minimum syntax keyword length.
-let g:neocomplete#enable_auto_delimiter             = 1
-let g:neocomplete#auto_complete_delay               = 100
-let g:neocomplete#sources#omni#functions            = ['cpp']
 "}}}
 " {{{ Youcompleteme
 let g:ycm_semantic_triggers = {
