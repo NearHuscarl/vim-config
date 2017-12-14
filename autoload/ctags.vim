@@ -2,7 +2,7 @@
 " File:        ctags.vim
 " Description: Update ctags file. Use with autocmd BufWritePost
 " Author:      Near Huscarl <near.huscarl@gmail.com>
-" Last Change: Tue Dec 05 14:26:14 +07 2017
+" Last Change: Tue Dec 12 11:50:41 +07 2017
 " Licence:     BSD 3-Clause license
 " Note:        None
 " ============================================================================
@@ -59,6 +59,12 @@ function! ctags#Update() " {{{
 
 	redraw
 	call s:EchoHL(tag_path . '/tags has been updated!', 'String')
+endfunction
+" }}}
+function! ctags#Create() " {{{
+	call s:ExecuteCmd('ctags -R -f newtags && mv newtags tags &')
+	redraw
+	call s:EchoHL(fnamemodify(getcwd(), ':~:h') . '/tags has been created!', 'String')
 endfunction
 " }}}
 
