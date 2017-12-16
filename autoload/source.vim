@@ -2,7 +2,7 @@
 " File:        source.vim
 " Description: Source vimrc + current file if it's in autoload/
 " Author:      Near Huscarl <near.huscarl@gmail.com>
-" Last Change: Fri Dec 08 08:14:09 +07 2017
+" Last Change: Sat Dec 16 21:29:16 +07 2017
 " Licence:     BSD 3-Clause license
 " Note:        Note
 " ============================================================================
@@ -31,7 +31,8 @@ function! source#Vimfile() " {{{
 	for dirname in ['after', 'autoload', 'ftdetect', 'ftplugin', 'indent']
 		" dirname = 'autoload' => match ../autoload/.. or ../autoload
 		if expand('%:p:h') =~# '\(\/' . dirname . '\/\|\/' . dirname . '$\)'
-			let file_path = dirname . '/' . expand('%:t')
+			" /home/near/.vim/autoload/a/b/f.vim => autoload/a/b/f.vim
+			let file_path = substitute(expand('%:p'), '.*\(' . dirname . '\)\@=', '', '')
 
 			execute 'runtime ' . file_path
 			redraw
