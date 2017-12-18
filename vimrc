@@ -2,7 +2,7 @@
 " File:        .vimrc
 " Description: Vim settings
 " Author:      Near Huscarl <near.huscarl@gmail.com>
-" Last Change: Mon Dec 18 17:23:08 +07 2017
+" Last Change: Tue Dec 19 04:09:53 +07 2017
 " Licence:     BSD 3-Clause license
 " Note:        This is a personal vim config. therefore most likely not work 
 "              on your machine
@@ -363,8 +363,19 @@ inoremap <A-d> <C-k>|                              "Insert character based on (d
 inoremap <A-o> <C-o>|                              "Execute one command and return to Insert mode
 " }}}
 " {{{ Operator-pending Mode
-onoremap F :<C-u>execute 'normal! 0f(Bvt('<CR>| "Function name
-onoremap if :<C-u>execute 'normal! ggVG'<CR>|   "Whole file
+" Has been used: (a) b B (e) (f) (m) (q) (u)
+" (F) (s)
+" Also n,l in {in'} -> select the inner content inside the next '', works for multiline
+onoremap <silent> iF  :call operator#function_name_head('i')<CR>
+onoremap <silent> aF  :call operator#function_name_head('a')<CR>
+onoremap <silent> if  :call operator#function_name('i', 'forward')<CR>|  "Function name object
+onoremap <silent> inf :call operator#function_name('i', 'forward')<CR>|  "Search next
+onoremap <silent> ilf :call operator#function_name('i', 'backward')<CR>| "Search backward
+onoremap <silent> af  :call operator#function_name('a', 'forward')<CR>|  "Include (.*)
+onoremap <silent> anf :call operator#function_name('a', 'forward')<CR>
+onoremap <silent> alf :call operator#function_name('a', 'backward')<CR>
+onoremap <silent> A  :<C-u>execute "normal! f[bvf]"<CR>|   "Array variable object
+onoremap <silent> F  :<C-u>execute "normal! ggVG"<CR>|     "Whole file object
 " }}}
 " {{{ Popup
 inoremap <expr><A-n>   pumvisible() ? "\<Down>"        : "\<C-n>"
@@ -420,7 +431,7 @@ nnoremap <A-v> <C-q>|                              "Visual block
 xnoremap <A-v> <C-q>|                              "Visual block (Use to switch to VBlock from Visual)
 " }}}
 " {{{ Command mode
-cnoremap <A-k> <C-r><C-w>|                         "Insert word under cursor
+cnoremap <A-c> <C-r><C-w>|                         "Insert word under cursor
 cnoremap <A-a> <C-r><C-a>|                         "Insert WORD under cursor
 cnoremap <A-9> <C-w>|                              "Delete previous word
 cnoremap <A-0> <C-Right><C-w><BS>|                 "Delete forward word (Work for 1 whitespace only)
@@ -454,8 +465,8 @@ nnoremap gr r| "Old one
 " }}}
 " {{{ Misc
 nnoremap U :later 1f<CR>|                          "Go to the latest change
-imap < <|                                          "Pathetic attempt to fixing < map
-cmap < <
+inoremap < <|                                      "Pathetic attempt to fixing < map
+cnoremap < <
 nnoremap << <_|                                    " << not working
 nnoremap <F8> mzggg?G`z|                           "Encrypted with ROT13, just for fun
 nnoremap Q @q|                                     "Execute macro
@@ -478,7 +489,8 @@ nnoremap <Enter> o<Esc>|                           "Make new line
 nnoremap Y y$|                                     "Make Y yank to endline (same behaviours as D or R)
 nnoremap <C-w> :ToggleWrap<CR>|                    "Toggle wrap option
 nnoremap <silent>- :w<CR>|                         "Write changes
-nnoremap <silent><Leader>- :SudoWrite<CR>|         "Write changes with sudo
+nnoremap <silent><Leader>- :noautocmd w<CR>|       "Write changes with sudo
+nnoremap <silent><Leader><Leader>- :SudoWrite<CR>| "Write changes with sudo
 nnoremap <silent><Leader>tV :ToggleVerbose<CR>
 nnoremap <silent><Leader>o :call ide#Open('code')<CR>| "Open vscode of current file to debug
 nnoremap <silent><Leader><CR> :ExecuteFile<CR>|    "Run executable file (python, ruby, bash..)
@@ -542,6 +554,13 @@ Plug 'tpope/vim-rhubarb'
 Plug 'tpope/vim-fugitive'
 Plug 'skywind3000/asyncrun.vim'
 Plug 'w0rp/ale'
+Plug 'bkad/CamelCaseMotion', {'on': [
+			\ '<Plug>CamelCaseMotion_w',
+			\ '<Plug>CamelCaseMotion_b',
+			\ '<Plug>CamelCaseMotion_e',
+			\ '<Plug>CamelCaseMotion_ge',
+			\ '<Plug>CamelCaseMotion_iw',
+			\ ]}
 
 Plug 'xolox/vim-misc', {'on': []}
 Plug 'xolox/vim-shell', {'on': []}
@@ -596,11 +615,6 @@ Plug 'tpope/vim-surround', {'on': [
 			\ ]}
 
 Plug 'Valloric/YouCompleteMe'
-" Plug 'shougo/neocomplete.vim', {'on': []}
-" Plug 'Shougo/neoinclude.vim',  {'on': []}
-" Plug 'Shougo/neco-syntax',     {'on': []}
-" Plug 'Shougo/neco-vim',        {'on': []}
-
 Plug 'gioele/vim-autoswap'
 Plug 'Konfekt/FastFold'
 
@@ -652,6 +666,16 @@ command! -bang -nargs=* -complete=file Make AsyncRun -program=make @ <args>
 "{{{ Bufferline
 let g:bufferline_rotate              = 2
 let g:bufferline_solo_highlight      = 1
+"}}}
+"{{{ CamelCaseMotion
+imap <silent> <A-'> <C-o><Plug>CamelCaseMotion_w
+imap <silent> <A-;> <C-o><Plug>CamelCaseMotion_b
+map <silent> w <Plug>CamelCaseMotion_w
+map <silent> b <Plug>CamelCaseMotion_b
+map <silent> e <Plug>CamelCaseMotion_e
+map <silent> ge <Plug>CamelCaseMotion_ge
+omap <silent> iw <Plug>CamelCaseMotion_iw
+xmap <silent> iw <Plug>CamelCaseMotion_iw
 "}}}
 "{{{ Commentary
 map  gc  <Plug>Commentary
@@ -946,7 +970,8 @@ augroup END
 
 augroup SwitchBuffer
 	autocmd!
-	autocmd BufEnter * set cursorline | silent! lcd %:p:h
+	" autocmd BufEnter * set cursorline | silent! lcd %:p:h
+	autocmd BufEnter * set cursorline
 	autocmd BufEnter * set number relativenumber
 	autocmd BufLeave * set nocursorline
 	autocmd BufLeave * set norelativenumber
@@ -990,7 +1015,7 @@ if !exists(g:colors_name)
 	highlight link ALEWarningSign Statement
 	highlight link ALEInfoSign Type
 
-	highlight link Sneak Search
+	highlight link Sneak None
 endif
 "}}}
 
