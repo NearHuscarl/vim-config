@@ -2,7 +2,7 @@
 " File:        .vimrc
 " Description: Vim settings
 " Author:      Near Huscarl <near.huscarl@gmail.com>
-" Last Change: Thu Dec 14 23:42:43 +07 2017
+" Last Change: Mon Dec 18 17:23:08 +07 2017
 " Licence:     BSD 3-Clause license
 " Note:        This is a personal vim config. therefore most likely not work 
 "              on your machine
@@ -399,7 +399,7 @@ inoremap <expr><A-u>   pumvisible() ? "\<C-x>"         : "\<Esc>0Di"
 inoremap <A-i> <Esc><Esc>|                         "Switch to normal mode from insert mode
 xnoremap <A-i> <Esc>|                              "Switch to normal mode from visual mode
 snoremap <A-i> <Esc>|                              "Switch to normal mode from select mode
-cnoremap <A-i> <C-c>|                              "Switch to normal mode from command mode
+cnoremap <A-i> <C-c>:nohlsearch<CR>|               "Switch to normal mode from command mode
 " }}}
 " {{{ Visual mode
 nnoremap gV `[v`]|                                 "Visual select the last inserted text
@@ -527,27 +527,16 @@ call plug#begin(s:plugged)
 Plug 'bling/vim-bufferline'
 Plug '/usr/share/vim/vimfiles'
 Plug 'junegunn/fzf.vim'
-Plug 'haya14busa/incsearch.vim', {'on': [
-			\ '<Plug>(incsearch-forward)',
-			\ '<Plug>(incsearch-backward)',
-			\ '<Plug>(incsearch-stay)',
-			\ '<Plug>(incsearch-nohl-n)',
-			\ '<Plug>(incsearch-nohl-N)',
-			\ '<Plug>(incsearch-nohl-*)',
-			\ '<Plug>(incsearch-nohl-#)',
-			\ '<Plug>(incsearch-nohl-g*)',
-			\ '<Plug>(incsearch-nohl-g#)'
-			\ ]}
 Plug 'tpope/vim-repeat'
 Plug 'wellle/targets.vim'
-" Plug 'haya14busa/is.vim', {'on': [
-" 			\ '<Plug>(is-n)',
-" 			\ '<Plug>(is-N)',
-" 			\ '<Plug>(is-*)',
-" 			\ '<Plug>(is-#)',
-" 			\ '<Plug>(is-scroll-f)',
-" 			\ '<Plug>(is-scroll-b)'
-" 			\ ]}
+Plug 'haya14busa/is.vim', {'on': [
+			\ '<Plug>(is-n)',
+			\ '<Plug>(is-N)',
+			\ '<Plug>(is-*)',
+			\ '<Plug>(is-#)',
+			\ '<Plug>(is-scroll-f)',
+			\ '<Plug>(is-scroll-b)'
+			\ ]}
 Plug 'vim-utils/vim-man', {'on': []}
 Plug 'tpope/vim-rhubarb'
 Plug 'tpope/vim-fugitive'
@@ -748,24 +737,11 @@ nnoremap <silent> <Leader>l  :BLines<CR>
 nnoremap <silent> <Leader>L  :Lines<CR>
 nnoremap <silent> <Leader>b  :Buffers<CR>
 "}}}
-"{{{ Incsearch
-let g:incsearch#auto_nohlsearch = 1
-map /  <Plug>(incsearch-forward)
-map ?  <Plug>(incsearch-backward)
-map g/ <Plug>(incsearch-stay)
-
-map n  <Plug>(incsearch-nohl-n)zzzo
-map N  <Plug>(incsearch-nohl-N)zzzo
-map *  <Plug>(incsearch-nohl-*)zzzo
-map #  <Plug>(incsearch-nohl-#)zzzo
-map g* <Plug>(incsearch-nohl-g*)zzzo
-map g# <Plug>(incsearch-nohl-g#)zzzo
-"}}}
 "{{{ is.vim
-" nmap n <Plug>(is-n)zozz
-" nmap N <Plug>(is-N)zozz
-" nmap * <Plug>(is-*)zozz
-" nmap # <Plug>(is-#)zozz
+nmap n <Plug>(is-n)zozz
+nmap N <Plug>(is-N)zozz
+nmap * <Plug>(is-*)zozz
+nmap # <Plug>(is-#)zozz
 "}}}
 "{{{ Gundo
 if has('python3') && !has('python')
