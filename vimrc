@@ -2,7 +2,7 @@
 " File:        .vimrc
 " Description: Vim settings
 " Author:      Near Huscarl <near.huscarl@gmail.com>
-" Last Change: Tue Dec 19 04:09:53 +07 2017
+" Last Change: Wed Dec 20 02:38:47 +07 2017
 " Licence:     BSD 3-Clause license
 " Note:        This is a personal vim config. therefore most likely not work 
 "              on your machine
@@ -481,6 +481,8 @@ else
 	nnoremap <silent><A-u> <C-r>
 endif
 
+nnoremap gD gD:nohlsearch<CR>
+nnoremap gd gd:nohlsearch<CR>
 nnoremap <A-p> ciw<C-r>*<esc>|                     "Paste over a word
 nnoremap <silent><A-F1> :ToggleMenuBar<CR>|        "Toggle menu bar
 nnoremap <silent><Leader>N :nohlsearch<CR>|        "diable highlight result
@@ -504,6 +506,7 @@ nnoremap <silent><Leader>cb :call syntax#YankBgColor()<CR>
 cabbrev vbnm verbose<Space>nmap
 cabbrev vbim verbose<Space>imap
 cabbrev vbvm verbose<Space>vmap
+cabbrev vbom verbose<Space>omap
 cabbrev vbcm verbose<Space>cmap
 " }}}
 " {{{ Command difinition
