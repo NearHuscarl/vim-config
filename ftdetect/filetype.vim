@@ -1,5 +1,4 @@
 " Custom filetype detect
-autocmd BufRead,BufNewFile *i3/config,*i3/config.ctrl set ft=i3
 autocmd BufRead,BufNewFile *.todo *.Todo set ft=todo
 
 autocmd BufWritePost *after/*.vim,*autoload/*.vim,*colors/*.vim,*ftdetect/*.vim,*ftplugin/*.vim,*indent/*.vim
