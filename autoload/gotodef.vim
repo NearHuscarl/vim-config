@@ -2,7 +2,7 @@
 " File:        gotodef.vim
 " Description: make gd command work again for certain filetypes
 " Author:      Near Huscarl <near.huscarl@gmail.com>
-" Last Change: Mon Dec 18 16:21:20 +07 2017
+" Last Change: Tue Dec 19 04:16:49 +07 2017
 " Licence:     BSD 3-Clause license
 " Note:        N/A
 " ============================================================================
@@ -14,13 +14,12 @@ endfunction
 " }}}
 function! s:get_function_def_pattern() " {{{
 	if &filetype ==# 'python'
-		return '^\s*\(class\|def\|async def\)\s\*\h'
+		return '^\s*\(class\|def\|async def\)\s\+\h'
 	elseif &filetype ==# 'vim'
 		return '^\s*fu\%[nction]\>!\?'
 	elseif &filetype ==# 'javascript'
 		return '^\s*function\s\+\h\w*('
 	endif
-
 endfunction
 " }}}
 function! gotodef#exe() " {{{
