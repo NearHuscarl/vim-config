@@ -2,7 +2,7 @@
 " File:        .vimrc
 " Description: Vim settings
 " Author:      Near Huscarl <near.huscarl@gmail.com>
-" Last Change: Wed Dec 20 02:38:47 +07 2017
+" Last Change: Wed Dec 20 16:15:45 +07 2017
 " Licence:     BSD 3-Clause license
 " Note:        This is a personal vim config. therefore most likely not work 
 "              on your machine
@@ -485,7 +485,6 @@ nnoremap gD gD:nohlsearch<CR>
 nnoremap gd gd:nohlsearch<CR>
 nnoremap <A-p> ciw<C-r>*<esc>|                     "Paste over a word
 nnoremap <silent><A-F1> :ToggleMenuBar<CR>|        "Toggle menu bar
-nnoremap <silent><Leader>N :nohlsearch<CR>|        "diable highlight result
 nnoremap <A-Space> a<Space><Left><esc>|            "Insert a whitespace
 nnoremap <Enter> o<Esc>|                           "Make new line
 nnoremap Y y$|                                     "Make Y yank to endline (same behaviours as D or R)
@@ -557,13 +556,6 @@ Plug 'tpope/vim-rhubarb'
 Plug 'tpope/vim-fugitive'
 Plug 'skywind3000/asyncrun.vim'
 Plug 'w0rp/ale'
-Plug 'bkad/CamelCaseMotion', {'on': [
-			\ '<Plug>CamelCaseMotion_w',
-			\ '<Plug>CamelCaseMotion_b',
-			\ '<Plug>CamelCaseMotion_e',
-			\ '<Plug>CamelCaseMotion_ge',
-			\ '<Plug>CamelCaseMotion_iw',
-			\ ]}
 
 Plug 'xolox/vim-misc', {'on': []}
 Plug 'xolox/vim-shell', {'on': []}
@@ -669,16 +661,6 @@ command! -bang -nargs=* -complete=file Make AsyncRun -program=make @ <args>
 "{{{ Bufferline
 let g:bufferline_rotate              = 2
 let g:bufferline_solo_highlight      = 1
-"}}}
-"{{{ CamelCaseMotion
-imap <silent> <A-'> <C-o><Plug>CamelCaseMotion_w
-imap <silent> <A-;> <C-o><Plug>CamelCaseMotion_b
-map <silent> w <Plug>CamelCaseMotion_w
-map <silent> b <Plug>CamelCaseMotion_b
-map <silent> e <Plug>CamelCaseMotion_e
-map <silent> ge <Plug>CamelCaseMotion_ge
-omap <silent> iw <Plug>CamelCaseMotion_iw
-xmap <silent> iw <Plug>CamelCaseMotion_iw
 "}}}
 "{{{ Commentary
 map  gc  <Plug>Commentary
