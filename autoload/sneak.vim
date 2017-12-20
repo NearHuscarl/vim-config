@@ -3,8 +3,8 @@
 function! s:SetupSneakPlugin(map_list) " {{{
 	call plug#load('vim-sneak')
 
-	silent! execute 'nnoremap <silent>' . a:map_list[0] . ' :<C-U>call sneak#wrap('',           3, 0, 2, 1)<CR>'
-	silent! execute 'nnoremap <silent>' . a:map_list[1] . ' :<C-U>call sneak#wrap('',           3, 1, 2, 1)<CR>'
+	silent! execute 'nnoremap <silent>' . a:map_list[0] . ' :<C-U>call sneak#wrap("",           3, 0, 2, 1)<CR>'
+	silent! execute 'nnoremap <silent>' . a:map_list[1] . ' :<C-U>call sneak#wrap("",           3, 1, 2, 1)<CR>'
 	silent! execute 'xnoremap <silent>' . a:map_list[2] . ' :<C-U>call sneak#wrap(visualmode(), 3, 0, 2, 1)<CR>'
 	silent! execute 'xnoremap <silent>' . a:map_list[3] . ' :<C-U>call sneak#wrap(visualmode(), 3, 1, 2, 1)<CR>'
 endfunction
