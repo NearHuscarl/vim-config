@@ -2,7 +2,7 @@
 " File:        .vimrc
 " Description: Vim settings
 " Author:      Near Huscarl <near.huscarl@gmail.com>
-" Last Change: Wed Dec 20 16:15:45 +07 2017
+" Last Change: Sat Dec 23 00:32:13 +07 2017
 " Licence:     BSD 3-Clause license
 " Note:        This is a personal vim config. therefore most likely not work 
 "              on your machine
@@ -509,14 +509,10 @@ cabbrev vbom verbose<Space>omap
 cabbrev vbcm verbose<Space>cmap
 " }}}
 " {{{ Command difinition
-if ExistsFile(s:autoload . 'help.vim')
-	command! -nargs=* GetHelp silent! call help#GetHelp(<f-args>)
-endif
-if ExistsFile(s:autoload . 'toggleOption.vim')
-	command! ToggleMenuBar call toggleOption#MenuBar()
-	command! ToggleVerbose call toggleOption#Verbose()
-	command! ToggleWrap    call toggleOption#Wrap()
-endif
+command! -nargs=* GetHelp silent! call help#GetHelp(<f-args>)
+command! ToggleMenuBar call toggle#menubar()
+command! ToggleVerbose call toggle#verbose()
+command! ToggleWrap    call toggle#wrap()
 command! ToggleHeader                           call utils#ToggleHeader()
 command! -nargs=? -complete=help OpenHelpInTab  call utils#OpenHelpInTab(<q-args>)
 command! CloseEmptyBuffer                       call <SID>CloseEmptyBuffer()
