@@ -2,7 +2,7 @@
 " File:        source.vim
 " Description: Source vimrc + current file if it's in autoload/
 " Author:      Near Huscarl <near.huscarl@gmail.com>
-" Last Change: Sat Dec 16 21:29:16 +07 2017
+" Last Change: Sun Dec 17 15:55:52 +07 2017
 " Licence:     BSD 3-Clause license
 " Note:        Note
 " ============================================================================
@@ -32,12 +32,11 @@ function! source#Vimfile() " {{{
 		" dirname = 'autoload' => match ../autoload/.. or ../autoload
 		if expand('%:p:h') =~# '\(\/' . dirname . '\/\|\/' . dirname . '$\)'
 			" /home/near/.vim/autoload/a/b/f.vim => autoload/a/b/f.vim
-			let file_path = substitute(expand('%:p'), '.*\(' . dirname . '\)\@=', '', '')
+			let file_path = matchlist(expand('%:p'), '.*\(' . dirname . '.*$\)')[1]
 
 			execute 'runtime ' . file_path
 			redraw
 			call s:EchoHL(file_path . ' has been sourced!', 'String')
-
 			return
 		endif
 	endfor
