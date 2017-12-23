@@ -2,12 +2,12 @@
 " File:        source.vim
 " Description: Source vimrc + current file if it's in autoload/
 " Author:      Near Huscarl <near.huscarl@gmail.com>
-" Last Change: Sun Dec 17 15:55:52 +07 2017
+" Last Change: Sun Dec 24 01:32:37 +07 2017
 " Licence:     BSD 3-Clause license
 " Note:        Note
 " ============================================================================
 
-function! source#Vimrc() " {{{
+function! source#vimrc() " {{{
 	source $MYVIMRC
 	if exists(':YcmRestartServer')
 		execute 'YcmRestartServer'
@@ -15,34 +15,34 @@ function! source#Vimrc() " {{{
 	nohlsearch
 endfunction
 " }}}
-function! s:EchoHL(msg, hl_group) " {{{
+function! s:echo_hl(msg, hl_group) " {{{
 	execute 'echohl ' . a:hl_group
 	echomsg a:msg
 	echohl None
 endfunction
 " }}}
-function! source#Vimfile() " {{{
+function! source#vimfile() " {{{
 	" Note: This function cannot source the file contain itself (autoload/source.vim)
 	" Because it cannot be redefined while still executing.
 	if expand('%:p') =~# 'autoload\/source\.vim'
 		return
 	endif
 
-	for dirname in ['after', 'autoload', 'ftdetect', 'ftplugin', 'indent']
+	for dirname in ['after', 'autoload', 'ftdetect', 'ftplugin', 'indent', 'plugin']
 		" dirname = 'autoload' => match ../autoload/.. or ../autoload
 		if expand('%:p:h') =~# '\(\/' . dirname . '\/\|\/' . dirname . '$\)'
 			" /home/near/.vim/autoload/a/b/f.vim => autoload/a/b/f.vim
 			let file_path = matchlist(expand('%:p'), '.*\(' . dirname . '.*$\)')[1]
 
-			execute 'runtime ' . file_path
+			execute 'source %'
 			redraw
-			call s:EchoHL(file_path . ' has been sourced!', 'String')
+			call s:echo_hl(file_path . ' has been sourced!', 'String')
 			return
 		endif
 	endfor
 
 	redraw
-	call s:EchoHL('current file cannot be sourced!', 'PreProc')
+	call s:echo_hl('current file cannot be sourced!', 'PreProc')
 endfunction
 " }}}
 function! source#Xresources() " {{{
@@ -62,7 +62,7 @@ function! source#Xresources() " {{{
 		endif
 
 		redraw
-		call s:EchoHL('~/.Xresources has been sourced!', 'String')
+		call s:echo_hl('~/.Xresources has been sourced!', 'String')
 	endif
 endfunction
 " }}}

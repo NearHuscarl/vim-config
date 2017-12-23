@@ -2,7 +2,7 @@
 " File:        .vimrc
 " Description: Vim settings
 " Author:      Near Huscarl <near.huscarl@gmail.com>
-" Last Change: Sat Dec 23 00:32:13 +07 2017
+" Last Change: Sun Dec 24 01:32:16 +07 2017
 " Licence:     BSD 3-Clause license
 " Note:        This is a personal vim config. therefore most likely not work 
 "              on your machine
@@ -227,8 +227,8 @@ let @n = "0f>a\<CR>\<Esc>$F<i\<CR>\<Esc>j"         "Newline per tag if not
 
 " {{{ Open / Source file
 nnoremap <Leader>tv :edit $MYVIMRC<Bar>CloseEmptyBuffer<CR>
-nnoremap <silent>,v :call source#Vimrc()<CR>
-nnoremap <silent>,, :call source#Vimfile()<CR>
+nnoremap <silent>,v :call source#vimrc()<CR>
+nnoremap <silent>,, :call source#vimfile()<CR>
 " }}}
 " {{{ Movement
 nnoremap ;   :|                                    "No need to shift ; anymore to enter command mode

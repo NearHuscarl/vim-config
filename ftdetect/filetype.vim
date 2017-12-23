@@ -1,9 +1,9 @@
 " Custom filetype detect
 autocmd BufRead,BufNewFile *.todo *.Todo set ft=todo
 
-autocmd BufWritePost *after/*.vim,*autoload/*.vim,*colors/*.vim,*ftdetect/*.vim,*ftplugin/*.vim,*indent/*.vim
-			\ call source#Vimfile()
-" Note: source#Vimfile() cannot source the file contain itself (autoload/source.vim)
+autocmd BufWritePost *after/*.vim,*autoload/*.vim,*ftdetect/*.vim,*ftplugin/*.vim,*indent/*.vim,*plugin/*.vim
+			\ call source#vimfile()
+" Note: source#vimfile() cannot source the file contain itself (autoload/source.vim)
 " Because it cannot be redefined while still executing.
 autocmd BufWritePost *autoload/source.vim
 			\ runtime autoload/source.vim
