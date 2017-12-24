@@ -410,7 +410,7 @@ inoremap <expr><A-u>   pumvisible() ? "\<C-x>"         : "\<Esc>0Di"
 inoremap <A-i> <Esc><Esc>|                         "Switch to normal mode from insert mode
 xnoremap <A-i> <Esc>|                              "Switch to normal mode from visual mode
 snoremap <A-i> <Esc>|                              "Switch to normal mode from select mode
-cnoremap <A-i> <C-c>:nohlsearch<CR>|               "Switch to normal mode from command mode
+cnoremap <silent> <A-i> <C-c>:nohlsearch<CR>|      "Switch to normal mode from command mode
 " }}}
 " {{{ Visual mode
 nnoremap gV `[v`]|                                 "Visual select the last inserted text
