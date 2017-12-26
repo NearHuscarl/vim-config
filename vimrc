@@ -439,8 +439,8 @@ cnoremap <A-Space> <BS>|                           "Delete 1 character
 cnoremap <A-u> <End><C-u>|                         "Delete current line
 cnoremap <A-;> <C-Left>|                           "Backward one word
 cnoremap <A-'> <C-Right>|                          "Forward one nail word
-cnoremap <A-j> <C-n>|                              "Go to the next command in history
-cnoremap <A-k> <C-p>|                              "Go to the previous command in history
+cnoremap <A-j> <Down>|                             "Go to the next command in history
+cnoremap <A-k> <Up>|                               "Go to the previous command in history
 cnoremap <A-n> <C-g>|                              "Next search in command mode
 cnoremap <A-p> <C-t>|                              "Previous search in command mode
 cnoremap <A-h> <Left>|                             "Go to the left one character
