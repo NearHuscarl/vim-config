@@ -2,7 +2,7 @@
 " File:        .vimrc
 " Description: Vim settings
 " Author:      Near Huscarl <near.huscarl@gmail.com>
-" Last Change: Sun Dec 24 01:32:16 +07 2017
+" Last Change: Wed Dec 27 21:03:10 +07 2017
 " Licence:     BSD 3-Clause license
 " Note:        This is a personal vim config. therefore most likely not work 
 "              on your machine
@@ -20,24 +20,25 @@ if !exists('os')
 	endif
 endif
 
-let is_nvim = has('nvim') ? 1: 0
+let is_nvim = has('nvim') ? 1 : 0
 
+let $VIMHOME = expand('<sfile>:p:h')
 if g:os ==# 'win'
-	let s:autoload = $HOME.'\vimfiles\autoload\'
-	let s:plugged  = $HOME.'\vimfiles\plugged\'
-	let s:session  = $HOME.'\vimfiles\session\'
-	let s:snippet  = $HOME.'\vimfiles\snippet\'
-	let s:swapfile = $HOME.'\vimfiles\swapfiles//'
-	let s:templates = $HOME.'\vimfiles\templates\'
-	let s:undo     = $HOME.'\vimfiles\undo\'
+	let s:autoload  = $VIMHOME.'\autoload\'
+	let s:plugged   = $VIMHOME.'\plugged\'
+	let s:session   = $VIMHOME.'\session\'
+	let s:snippet   = $VIMHOME.'\snippet\'
+	let s:swapfile  = $VIMHOME.'\swapfiles//'
+	let s:templates = $VIMHOME.'\templates\'
+	let s:undo      = $VIMHOME.'\undo\'
 else
-	let s:autoload = $HOME.'/.vim/autoload/'
-	let s:plugged  = $HOME.'/.vim/plugged/'
-	let s:session  = $HOME.'/.vim/session/'
-	let s:snippet  = $HOME.'/.vim/snippet/'
-	let s:swapfile = $HOME.'/.vim/swapfiles//'
-	let s:templates = $HOME.'/.vim/templates/'
-	let s:undo     = $HOME.'/.vim/undo/'
+	let s:autoload  = $VIMHOME.'/autoload/'
+	let s:plugged   = $VIMHOME.'/plugged/'
+	let s:session   = $VIMHOME.'/session/'
+	let s:snippet   = $VIMHOME.'/snippet/'
+	let s:swapfile  = $VIMHOME.'/swapfiles//'
+	let s:templates = $VIMHOME.'/templates/'
+	let s:undo      = $VIMHOME.'/undo/'
 endif
 
 let mapleader = "\<Space>"
@@ -231,7 +232,7 @@ nnoremap <silent>,v :call source#vimrc()<CR>
 nnoremap <silent>,, :call source#vimfile()<CR>
 " }}}
 " {{{ Movement
-nnoremap ;   :|                                    "No need to shift ; anymore to enter command mode
+nnoremap ;   :|                                    "No need to hold shift to enter command mode
 nnoremap gh  h|                                    "Move 1 character to the right
 nnoremap gl  l|                                    "Move 1 character to the left
 nnoremap :   =|                                    "Indent + motion
@@ -245,8 +246,8 @@ xnoremap :  =
 xnoremap :: ==
 " }}}
 " {{{ Buffer
-nnoremap <silent><A-'> :bnext<CR>|                 "Go to the next buffer
-nnoremap <silent><A-;> :bprevious<CR>|             "Go to the previous buffer
+nnoremap <silent><A-'> :silent bnext<CR>|          "Go to the next buffer
+nnoremap <silent><A-;> :silent bprevious<CR>|      "Go to the previous buffer
 nnoremap <silent><A-e> :enew<CR>|                  "Edit new buffer
 nnoremap <silent><A-b> :buffer#<CR>|               "Switch between last buffers
 nnoremap <silent><Leader>q :bprevious <Bar>:bdelete #<CR>| "Delete current buffer
@@ -449,6 +450,11 @@ cnoremap <A-,> <Home>|                             "Move to the beginning of the
 cnoremap <A-.> <End>|                              "Move to the end of the line
 cnoremap <silent><A-y> <C-f>yy:q<CR>|              "Copy command content
 cnoremap <A-r> <C-r>*|                             "Paste yanked text in command line
+
+" command line window
+nnoremap <silent> <A-q>    q::execute "nnoremap <buffer> q :q\r"<CR>
+nnoremap <silent> <A-/>    q/:execute "nnoremap <buffer> q :q\r"<CR>
+cnoremap <silent> <A-q> <C-f>:execute "nnoremap <buffer> q :q\r"<CR>
 " }}}
 " {{{ Replace
 xnoremap <Leader>rf y:Replace %s/\<<C-r>"\>/|           "Replace selected word in this file
@@ -490,8 +496,9 @@ nnoremap <Enter> o<Esc>|                           "Make new line
 nnoremap Y y$|                                     "Make Y yank to endline (same behaviours as D or R)
 nnoremap <C-w> :ToggleWrap<CR>|                    "Toggle wrap option
 nnoremap <silent>-
-			\ :call license#save_and_update_timestamp()<CR>| "Write changes if buffer is modified
-nnoremap <silent><Leader>- :update<CR>|            "Update without updating timestamp
+			\ :call license#save_and_update_timestamp()<CR>
+                                                   "Write changes + update timestamp if buffer is modified
+nnoremap <silent><Leader>- :update<CR>|            "Write without updating timestamp
 nnoremap <silent><Leader><Leader>- :SudoWrite<CR>| "Write changes with sudo
 nnoremap <silent><Leader>tV :ToggleVerbose<CR>
 nnoremap <silent><Leader>o :call ide#Open('code')<CR>| "Open vscode of current file to debug
@@ -716,6 +723,7 @@ command! -nargs=1 FilesAbsolute
 			\   'options': g:fzf_option
 			\ })
 
+command! Commands call fzf#vim#commands({'options': g:fzf_option}, 0)
 command! Colors   call fzf#vim#colors({'options': g:fzf_option}, 0)
 command! MRU      call fzf#vim#history({'options': g:fzf_option}, 0)
 command! Helptags call fzf#vim#helptags({'options': g:fzf_option}, 0)
@@ -731,7 +739,8 @@ nnoremap gr :Grep<Space>
 " Respect .gitignore. Full path and can open multiple file
 nnoremap <silent> <Leader>ep :FilesAbsolute git#GetRootDir()<CR>
 " Respect .gitignore. Shorter path but cant open multiple files in subdirectory
-nnoremap <silent> <Leader>ec :execute 'Files ' . git#GetRootDir()<CR>
+nnoremap <silent> <Leader>eP :execute 'Files ' . git#GetRootDir()<CR>
+nnoremap <silent> <Leader>ec :Commands<CR>
 nnoremap <silent> <Leader>ef :Files<CR>|       "Fzf files from cwd
 nnoremap <silent> <Leader>eh :Files $HOME<CR>
 nnoremap <silent> <Leader>ev :Files $HOME/.vim/<CR>
@@ -891,9 +900,9 @@ command! -nargs=* -bar -complete=customlist,man#completion#run Man
 "}}}
 " {{{ Youcompleteme
 let g:ycm_semantic_triggers = {
-	 \   'css':  [ 're!^\s{3,}', 're!^\t{1,}', 're!:\s'],
-	 \   'scss': [ 're!^\s{3,}', 're!^\t{1,}', 're!:\s'],
-	 \ }
+			\   'css':  [ 're!^\s{3,}', 're!^\t{1,}', 're!:\s'],
+			\   'scss': [ 're!^\s{3,}', 're!^\t{1,}', 're!:\s'],
+			\ }
 let g:ycm_key_list_select_completion = []
 " }}}
 "{{{ Ultisnips
