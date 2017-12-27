@@ -4,7 +4,7 @@
 "              BufWrite, and a function for undo/redo mappings to skip
 "              jumping to auto updated timestamp
 " Author:      Near Huscarl <near.huscarl@gmail.com>
-" Last Change: Wed Dec 27 16:39:58 +07 2017
+" Last Change: Wed Dec 27 20:42:23 +07 2017
 " Licence:     BSD 3-Clause license
 " Note:        N/A
 " ============================================================================
@@ -26,7 +26,7 @@ function! license#save_and_update_timestamp() " {{{
 		" 'Last Change' line, it means that the current change is the timestamp
 		" updating so no need to write the file which will update the timestamp
 		" again. This hack is made to avoid cluttering the save history [WIP]
-		if match(getline('.'), s:date_pattern) == -1
+		if match(getline('.'), s:date_pattern) == -1 && !&diff
 			call s:update_timestamp('%a %b %d %H:%M:%S %Z %Y')
 		endif
 	endif
@@ -39,7 +39,7 @@ function! s:update_timestamp(timefstring) " {{{
 				\ . '/s/' . s:date_prefix . '.*$/' . s:date_prefix . strftime(a:timefstring)
 	nohlsearch
 	call winrestview(view_info)
-	silent noautocmd update " Update timestamp will trigger update ctags autocmd again
+	silent noautocmd update " update timestamp now wont trigger update ctags autocmd again
 endfunction
 " }}}
 function! license#skip_license_date(action) " {{{
