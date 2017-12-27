@@ -481,8 +481,8 @@ xnoremap < <gv|                                    "Make indent easier
 nnoremap yp :call yank#Path()<CR>|                 "Yank and show current path
 
 if ExistsFile(s:autoload . 'license.vim')
-	nnoremap <silent>u     :call license#SkipLicenseDate('undo')<CR>
-	nnoremap <silent><A-u> :call license#SkipLicenseDate('redo')<CR>
+	nnoremap <silent>u     :call license#skip_license_date('undo')<CR>
+	nnoremap <silent><A-u> :call license#skip_license_date('redo')<CR>
 else
 	nnoremap <silent><A-u> <C-r>
 endif
