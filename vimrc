@@ -489,8 +489,9 @@ nnoremap <A-Space> a<Space><Left><esc>|            "Insert a whitespace
 nnoremap <Enter> o<Esc>|                           "Make new line
 nnoremap Y y$|                                     "Make Y yank to endline (same behaviours as D or R)
 nnoremap <C-w> :ToggleWrap<CR>|                    "Toggle wrap option
-nnoremap <silent>- :w<CR>|                         "Write changes
-nnoremap <silent><Leader>- :noautocmd w<CR>|       "Write changes with sudo
+nnoremap <silent>-
+			\ :call license#save_and_update_timestamp()<CR>| "Write changes if buffer is modified
+nnoremap <silent><Leader>- :update<CR>|            "Update without updating timestamp
 nnoremap <silent><Leader><Leader>- :SudoWrite<CR>| "Write changes with sudo
 nnoremap <silent><Leader>tV :ToggleVerbose<CR>
 nnoremap <silent><Leader>o :call ide#Open('code')<CR>| "Open vscode of current file to debug
@@ -970,8 +971,7 @@ autocmd BufLeave * if (&diff || &ft == 'gundo') | set timeout& timeoutlen& | end
 autocmd QuickFixCmdPost * cwindow
 autocmd CursorHold * nohlsearch
 
-autocmd FocusLost * if &modified && filereadable(expand("%:p")) | write | endif
-autocmd BufWritePre * call license#SetLastChangeBeforeBufWrite('%a %b %d %H:%M:%S %Z %Y')
+autocmd FocusLost * if &modified && filereadable(expand("%:p")) | update | endif
 
 autocmd BufWritePost *.py,*.js,*vimrc call ctags#Update()
 
