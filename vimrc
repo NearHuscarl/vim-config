@@ -973,7 +973,7 @@ autocmd CursorHold * nohlsearch
 
 autocmd FocusLost * if &modified && filereadable(expand("%:p")) | update | endif
 
-autocmd BufWritePost *.py,*.js,*vimrc call ctags#Update()
+autocmd BufWritePost *.py,*.js,*.vim,*vimrc call ctags#update()
 
 " Auto resize panes when window is resized
 autocmd VimResized * wincmd =
