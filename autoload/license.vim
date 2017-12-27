@@ -4,7 +4,7 @@
 "              BufWrite, and a function for undo/redo mappings to skip
 "              jumping to auto updated timestamp
 " Author:      Near Huscarl <near.huscarl@gmail.com>
-" Last Change: Wed Dec 27 20:42:23 +07 2017
+" Last Change: Thu Dec 28 01:57:16 +07 2017
 " Licence:     BSD 3-Clause license
 " Note:        N/A
 " ============================================================================
@@ -16,7 +16,7 @@ function! license#save_and_update_timestamp() " {{{
 	" command + call update_timestamp() on BufWritePost because what if I dont
 	" want to update timestamp when saving on some occasion? I have to disable
 	" all other BufWritePost autocmd :(
-	let comment = substitute(&commentstring, '%s', '', '')
+	let comment = substitute(&commentstring, '\s*%s.*$', '', '')
 	let s:date_pattern = comment . ' ' . s:date_prefix
 	if &modified
 		update
