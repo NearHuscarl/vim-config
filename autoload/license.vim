@@ -4,7 +4,7 @@
 "              BufWrite, and a function for undo/redo mappings to skip
 "              jumping to auto updated timestamp
 " Author:      Near Huscarl <near.huscarl@gmail.com>
-" Last Change: Wed Dec 27 15:27:07 +07 2017
+" Last Change: Wed Dec 27 16:39:58 +07 2017
 " Licence:     BSD 3-Clause license
 " Note:        N/A
 " ============================================================================
@@ -19,7 +19,7 @@ function! license#save_and_update_timestamp() " {{{
 	let comment = substitute(&commentstring, '%s', '', '')
 	let s:date_pattern = comment . ' ' . s:date_prefix
 	if &modified
-		silent update
+		update
 		" only updating timestamp when saving if cursor is not on 'Last Change:'
 		" line.  When you go through editing history using undo/redo command the
 		" cursor move to the edited line in the history, so when it moves to the
@@ -39,7 +39,7 @@ function! s:update_timestamp(timefstring) " {{{
 				\ . '/s/' . s:date_prefix . '.*$/' . s:date_prefix . strftime(a:timefstring)
 	nohlsearch
 	call winrestview(view_info)
-	update
+	silent noautocmd update " Update timestamp will trigger update ctags autocmd again
 endfunction
 " }}}
 function! license#skip_license_date(action) " {{{
