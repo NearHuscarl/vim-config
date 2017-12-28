@@ -320,10 +320,10 @@ nnoremap [z [zzz|                                  "jump at the start and zz
 nnoremap <Leader>z zMzv|                           "Open current fold and close all other fold outside
 " }}}
 " {{{ Diff
-nnoremap <silent> L  :call diff#JumpForward('L')<CR>|  "In diff mode: go to next change
-nnoremap <silent> H  :call diff#JumpBackward('H')<CR>| "In diff mode: go to previous change
-nnoremap <silent> du :call diff#DiffUpdate('')<CR>|    "Update diff if it doesnt update automatically
-" nnoremap <silent> q  :call diff#Quit('q')<CR>|         "Quit Key in diff
+nnoremap <silent> L  :call diff#jump_forward('L')<CR>|  "Go to next change in diff
+nnoremap <silent> H  :call diff#jump_backward('H')<CR>| "Go to previous change in diff
+nnoremap <silent> du :call diff#update('k')<CR>|        "Force update diff
+nnoremap <silent> q  :call diff#quit('q')<CR>|          "Quit diff
 " }}}
 " {{{ Help
 nnoremap Kc K|                                     "Help for word under cursor
