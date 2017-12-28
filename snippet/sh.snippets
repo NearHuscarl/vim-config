@@ -45,13 +45,19 @@ endsnippet
 
 snippet for "for loop" b
 for ${1:i} in ${2:$(seq 1 10)}; do
-	${3:echo "$i"}
+	echo "$$1"
 done
 endsnippet
 
 snippet forarr "for loop with array" b
-for ${1:i} in ${2:"${arr[@]}"}; do
-	${3:echo "$i"}
+for ${1:each} in ${2:"${arr[@]}"}; do
+	echo "$$1"
+done
+endsnippet
+
+snippet fori "for loop with array and index" b
+for ${1:index} in ${2:"${!arr[@]}"}; do
+	echo "$$1": "${arr[$1]}"
 done
 endsnippet
 
