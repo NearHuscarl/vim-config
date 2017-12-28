@@ -469,6 +469,10 @@ nnoremap gR R| "Old one
 nnoremap r gr| "One character version
 nnoremap gr r| "Old one
 " }}}
+" {{{ Search match
+xnoremap / y/<C-r>"<CR>N:nohlsearch<CR>|           "Search the selected text. use with gn
+nnoremap <A-8> *N:nohlsearch<CR>|                  "Search word under cursor. use with gn
+" }}}
 " {{{ Misc
 nnoremap U :later 1f<CR>|                          "Go to the latest change
 inoremap < <|                                      "Pathetic attempt to fixing < map
