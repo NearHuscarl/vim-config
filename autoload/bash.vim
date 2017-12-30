@@ -17,8 +17,8 @@ function! bash#insert_trace(...) " {{{
 		execute 'normal! O' . set_trace
 		execute 'normal! j'
 		execute 'normal! o' . unset_trace
-		let &formatoptions = old_formatoption
 	endif
+	let &formatoptions = old_formatoption
 endfunction
 " }}}
 function! bash#remove_trace() " {{{
