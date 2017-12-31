@@ -20,8 +20,13 @@ setlocal indentexpr=GetTodoIndent()
 setlocal nolisp
 setlocal nosmartindent
 
+function! s:TrimWhitespace(lineArg) " {{{
+   let line = substitute(a:lineArg, '\s\+$', '', '')
+   let line = substitute(line, '^\s\+', '', '')
+   return line
+endfunction " }}}
 function! s:GetCategoryNum(lineArg) " {{{
-   let line = todo#TrimWhitespace(a:lineArg)
+   let line = s:TrimWhitespace(a:lineArg)
    return line[strlen(line) - 2]
 endfunction
 " }}}
@@ -72,11 +77,11 @@ function! GetTodoIndent() " {{{
    if currentLine =~# '\(^\s*\[[xs XS_]\]\|^\s*#\|^\s*$\)'
       let result = s:SearchBackwardCheckbox(v:lnum)
 
-      if result.type == 'pcheckbox' || result.type == 'category'
+      if result.type ==# 'pcheckbox' || result.type ==# 'category'
          return result.indent + &shiftwidth
-      elseif result.type == 'checkbox' || result.type == 'none'
+      elseif result.type ==# 'checkbox' || result.type ==# 'none'
          return result.indent
-      elseif result.type == 'ENDcomment'
+      elseif result.type ==# 'ENDcomment'
          return result.indent - &shiftwidth
       endif
    endif

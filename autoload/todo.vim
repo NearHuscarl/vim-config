@@ -2,51 +2,64 @@
 " File:        todo.vim
 " Description: functions for local mappings in todo files
 " Author:      Near Huscarl <near.huscarl@gmail.com>
-" Last Change: Mon Oct 23 17:05:30 +07 2017
+" Last Change: Mon Jan 01 02:28:33 +07 2018
 " Licence:     BSD 3-Clause license
 " Note:        N/A
 " ============================================================================
+
+let s:child_ticked_pattern = '^\s*\[[sx]\]\C'
+let s:parent_ticked_pattern = '^\s*\[[SX]\]\C'
+let s:child_unticked_pattern = '^\s*\[ \]'
+let s:parent_unticked_pattern = '^\s*\[_\]'
+let s:child_all_pattern = '^\s*\[[sx ]\]\C'
+let s:parent_all_pattern = '^\s*\[[SX_]\]\C'
+let s:highlight_pattern = '^\s*\[.\].*\*\*$'
+let s:unhighlight_pattern = '^\s*\[.\].*\(\*\*\)\@<!$'
+let s:category_pattern = '^\s*\[\([xsXS _]\]\)\@![a-zA-Z0-9 ]*\]'
 
 try
    call plug#load('vim-easy-align')
 endtry
 " {{{ Wrapper Functions
 function! todo#ToggleDoneVisual(type)
-   call todo#ModifyCheckbox('toggle', 'x', '<', '>')
+   call s:ModifyCheckbox('toggle', 'x', '<', '>')
+endfunction
+function! todo#ToggleSuspendVisual(type)
+   call s:ModifyCheckbox('toggle', 's', '<', '>')
 endfunction
 function! todo#ToggleDone(type)
-   call todo#ModifyCheckbox('toggle', 'x', '[', ']')
+   call s:ModifyCheckbox('toggle', 'x', '[', ']')
 endfunction
 function! todo#ToggleSuspend(type)
-   call todo#ModifyCheckbox('toggle', 's', '[', ']')
+   call s:ModifyCheckbox('toggle', 's', '[', ']')
 endfunction
 function! todo#TickDone(type)
-   call todo#ModifyCheckbox('tick', 'x', '[', ']')
+   call s:ModifyCheckbox('tick', 'x', '[', ']')
 endfunction
 function! todo#TickSuspend(type)
-   call todo#ModifyCheckbox('tick', 's', '[', ']')
+   call s:ModifyCheckbox('tick', 's', '[', ']')
 endfunction
 function! todo#UntickDone(type)
-   call todo#ModifyCheckbox('untick', 'x', '[', ']')
+   call s:ModifyCheckbox('untick', 'x', '[', ']')
 endfunction
 function! todo#UntickSuspend(type)
-   call todo#ModifyCheckbox('untick', 's', '[', ']')
+   call s:ModifyCheckbox('untick', 's', '[', ']')
 endfunction
 function! todo#UntickAll(type)
-   call todo#ModifyCheckbox('untick', 'a', '[', ']')
+   call s:ModifyCheckbox('untick', 'a', '[', ']')
 endfunction
 " }}}
-function! todo#ModifyCheckbox(action, char, markBegin, markEnd) " {{{
+function! s:ModifyCheckbox(action, char, markBegin, markEnd) " {{{
    let viewInfo  = winsaveview()
    let lineBegin = line("'" . a:markBegin)
    let lineEnd   = line("'" . a:markEnd)
    let range = lineBegin . ',' . lineEnd
 
-   if a:action == 'tick'
-      execute range . "call todo#TickCheckbox(a:char)"
-   elseif a:action == 'untick'
-      execute range . "call todo#UntickCheckbox(a:char)"
-   elseif a:action == 'toggle'
+   if a:action ==# 'tick'
+      execute range . 'call todo#TickCheckbox(a:char)'
+   elseif a:action ==# 'untick'
+      execute range . 'call todo#UntickCheckbox(a:char)'
+   elseif a:action ==# 'toggle'
       execute range . 'call todo#ToggleCheckbox(a:char)'
    endif
 
@@ -56,61 +69,61 @@ function! todo#UntickCheckbox(char) " {{{
    let currentLine = getline('.')
 
    " Untick all
-   if a:char == 'a'
-      if match(currentLine, '^\s*\[[sx]\]\C') != -1
-         execute "normal! ^lr "
-      elseif match(currentLine, '^\s*\[[SX]\]\C') != -1
-         execute "normal! ^lr_"
+   if a:char ==# 'a'
+      if match(currentLine, s:child_ticked_pattern) != -1
+         execute 'normal! ^lr '
+      elseif match(currentLine, s:parent_all_pattern) != -1
+         execute 'normal! ^lr_'
       endif
    endif
 
-   if match(currentLine, '^\s*\[[sx]\]\C') != -1
-      execute "normal! ^lr "
-   elseif match(currentLine, '^\s*\[[SX]\]\C') != -1
-      execute "normal! ^lr_"
+   if match(currentLine, s:child_ticked_pattern) != -1
+      execute 'normal! ^lr '
+   elseif match(currentLine, s:parent_ticked_pattern) != -1
+      execute 'normal! ^lr_'
    endif 
 endfunction " }}}
 function! todo#TickCheckbox(char) " {{{
    let currentLine = getline('.')
 
    if match(currentLine, '^\s*\[[^' . a:char . ']\]') != -1
-      if match(currentLine, '^\s*\[[sx ]\]\C') != -1
-         execute "normal! ^lr" . a:char
-      elseif match(currentLine, '^\s*\[[SX_]\]\C') != -1
-         execute "normal! ^lr" . toupper(a:char)
+      if match(currentLine, s:child_all_pattern) != -1
+         execute 'normal! ^lr' . a:char
+      elseif match(currentLine, s:parent_all_pattern) != -1
+         execute 'normal! ^lr' . toupper(a:char)
       endif
    endif
 endfunction " }}}
 function! todo#ToggleCheckbox(char) " {{{
    let currentLine = getline('.')
 
-   if match(currentLine, '^\s*\[ \]') != -1
-      execute "normal! ^lr" . a:char
-   elseif match(currentLine, '^\s*\[_\]') != -1
-      execute "normal! ^lr" . toupper(a:char)
-   elseif match(currentLine, '^\s*\[[sx]\]\C') != -1
-      execute "normal! ^lr "
-   elseif match(currentLine, '^\s*\[[SX]\]\C') != -1
-      execute "normal! ^lr_"
+   if match(currentLine, s:child_unticked_pattern) != -1
+      execute 'normal! ^lr' . a:char
+   elseif match(currentLine, s:parent_unticked_pattern) != -1
+      execute 'normal! ^lr' . toupper(a:char)
+   elseif match(currentLine, s:child_ticked_pattern) != -1
+      execute 'normal! ^lr '
+   elseif match(currentLine, s:parent_ticked_pattern) != -1
+      execute 'normal! ^lr_'
    endif
 endfunction " }}}
 function! todo#InsertNewTask(char) " {{{
    let autoindentOld = &autoindent
    set autoindent
    if a:char ==# 'c'
-      let text = "[ ] "
+      let text = '[ ] '
    elseif a:char ==# 'p'
-      let text = "[_] "
-      let end = "# END"
+      let text = '[_] '
+      let end = '# END'
       execute "normal! o\<Tab>" . end . "\<Esc>k"
    endif
 
    " match empty line
    if match(getline('.'), '^\s*$') != -1
-      execute "normal! cc" . text
+      execute 'normal! cc' . text
    " not empty line, open newline and insert task
    else
-      execute "normal! o" . text
+      execute 'normal! o' . text
    endif
 
    " go to insert mode
@@ -142,27 +155,22 @@ function! todo#JumpUpCategory() " {{{
    " Not Match: [x]
    "            [s]
    "            [ ]
-   let line = search('^\s*\[\([xs ]\]\)\@![a-zA-Z0-9 ]*\]', 'nb')
+	let line = search(s:category_pattern, 'nb')
    " Use G and | instead of search() to add to the jumplist
-   execute "normal! " . line . "G0"
+   execute 'normal! ' . line . 'G0'
 endfunction " }}}
 function! todo#JumpDownCategory() " {{{
-   let line = search('^\s*\[\([xs ]\]\)\@![a-zA-Z0-9 ]*\]', 'n')
-   execute "normal! " . line . "G0"
+	let line = search(s:category_pattern, 'n')
+   execute 'normal! ' . line . 'G0'
 endfunction " }}}
 function! todo#Delete() " {{{
    let currentLine  = getline('.')
 
-   if match(currentLine, '^\s*\[[XS_]\]') != -1
-      execute "normal! jzcdd"
+   if match(currentLine, s:parent_all_pattern) != -1
+      execute 'normal! jzcdd'
    else
-      execute "normal! dd"
+      execute 'normal! dd'
    endif
-endfunction " }}}
-function! todo#TrimWhitespace(lineArg) " {{{
-   let line = substitute(a:lineArg, '\s\+$', '', '')
-   let line = substitute(line, '^\s\+', '', '')
-   return line
 endfunction " }}}
 function! todo#SearchBackward(lineNumArg, ...) " {{{
    let lineNum = a:lineNumArg
@@ -180,11 +188,11 @@ endfunction " }}}
 function! todo#ToggleHighlightTask() " {{{
    let cursorInfo = [line('.'), col('.')]
 
-   if match(getline('.'), '^\s*\[.\].*\*\*$') != -1
-      execute "normal! $xxx"
-   elseif match(getline('.'), '^\s*\[.\].*\(\*\*\)\@<!$') != -1
+   if match(getline('.'), s:highlight_pattern) != -1
+      execute 'normal! $xxx'
+   elseif match(getline('.'), s:unhighlight_pattern) != -1
       let hl = ' **'
-      execute "normal! A" . hl
+      execute 'normal! A' . hl
    endif
    call cursor(cursorInfo[0], cursorInfo[1])
 endfunction " }}}
