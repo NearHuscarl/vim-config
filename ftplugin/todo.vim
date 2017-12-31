@@ -2,7 +2,7 @@
 " File:        todo.vim
 " Description: Custom mappings for todo file, see syntax/todo.vim
 " Author:      Near Huscarl <near.huscarl@gmail.com>
-" Last Change: Wed Oct 25 02:34:56 +07 2017
+" Last Change: Sun Dec 31 18:40:08 +07 2017
 " Licence:     BSD 3-Clause license
 " Note:        N/A
 " ============================================================================
@@ -14,27 +14,26 @@ setlocal foldmethod=indent
 
 nnoremap <silent><buffer> q :q<CR>
 
-nnoremap <silent><buffer> f          :set opfunc=todo#ToggleDone<CR>g@l|            " Fixed
-nnoremap <silent><buffer> <Leader>d  :set opfunc=todo#ToggleDone<CR>g@
-nnoremap <silent><buffer> s          :set opfunc=todo#ToggleSuspend<CR>g@l
-nnoremap <silent><buffer> <Leader>s  :set opfunc=todo#ToggleSuspend<CR>g@
-xnoremap <silent><buffer> <Leader>d  :<C-u>call todo#ToggleDoneVisual('block')<CR>
+nnoremap <silent><buffer> <Tab>   :set opfunc=todo#ToggleDone<CR>g@l
+nnoremap <silent><buffer> <S-Tab> :set opfunc=todo#ToggleSuspend<CR>g@l
+nnoremap <silent><buffer> gd      :set opfunc=todo#ToggleDone<CR>g@
+nnoremap <silent><buffer> gs      :set opfunc=todo#ToggleSuspend<CR>g@
+xnoremap <silent><buffer> gd      :<C-u>call todo#ToggleDoneVisual('block')<CR>
+xnoremap <silent><buffer> gs      :<C-u>call todo#ToggleSuspendVisual('block')<CR>
 
-nnoremap <silent><buffer> td         :set opfunc=todo#TickDone<CR>g@
-nnoremap <silent><buffer> ts         :set opfunc=todo#TickSuspend<CR>g@
+" nnoremap <silent><buffer> gtd     :set opfunc=todo#TickDone<CR>g@
+" nnoremap <silent><buffer> gts     :set opfunc=todo#TickSuspend<CR>g@
+" nnoremap <silent><buffer> gud     :set opfunc=todo#UntickDone<CR>g@
+" nnoremap <silent><buffer> gus     :set opfunc=todo#UntickSuspend<CR>g@
+" nnoremap <silent><buffer> gta     :set opfunc=todo#UntickAll<CR>g@
 
-nnoremap <silent><buffer> tS         :set opfunc=todo#UntickSuspend<CR>g@
-nnoremap <silent><buffer> tD         :set opfunc=todo#UntickDone<CR>g@
-nnoremap <silent><buffer> tA         :set opfunc=todo#UntickAll<CR>g@
+nnoremap <silent><buffer> gH    :call todo#ToggleHighlightTask()<CR>
 
-nnoremap <silent><buffer> th    :call todo#ToggleHighlightTask()<CR>
-
-nnoremap <silent><buffer> ti    :call todo#InsertNewTask('c')<CR>|  " Make new child task
-nnoremap <silent><buffer> tI    :call todo#InsertNewTask('p')<CR>|  " Make new parent task
+nnoremap <silent><buffer> gi    :call todo#InsertNewTask('c')<CR>|  " Make new child task
+nnoremap <silent><buffer> gI    :call todo#InsertNewTask('p')<CR>|  " Make new parent task
 
 nnoremap <silent><buffer> <A-p> :call todo#JumpUpCategory()<CR>zz
 nnoremap <silent><buffer> <A-n> :call todo#JumpDownCategory()<CR>zz
 
 " nnoremap <silent><buffer> dd    :call todo#Delete()<CR>
-nnoremap <silent><buffer> tr    :call todo#Restore()<CR>
 " dd to delete task and subtask
