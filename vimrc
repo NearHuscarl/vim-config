@@ -124,7 +124,7 @@ set selection=inclusive                            "Last character is included i
 set scrolloff=4                                    "Min lines at 2 ends where cursor start to scroll
 
 set wildmenu                                       "Visual Autocomplete in cmd menu
-set wildmode=list:full
+set wildmode=list,full                             "List all matches and complete each full match
 set completeopt=menu,longest
 set complete-=i                                    "An attempt to make YCM faster
 
