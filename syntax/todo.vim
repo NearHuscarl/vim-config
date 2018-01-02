@@ -2,13 +2,13 @@
 " File:        todo.vim
 " Description: Vim syntax file: todo
 " Author:      Near Huscarl <near.huscarl@gmail.com>
-" Last Change: Mon Oct 23 17:06:28 +07 2017
+" Last Change: Wed Jan 03 02:53:40 +07 2018
 " Licence:     BSD 3-Clause license
 " Note:        todo file used to take note, reminder, and manage daily tasks
 " ============================================================================
 
-if exists("b:current_syntax")
-  finish
+if exists('b:current_syntax')
+	finish
 endif
 
 syn match todoTaskCategory       "^\s*\[\([xsXS _]\]\)\@![a-zA-Z0-9 ]*\]" nextgroup=todoTaskCategoryNumber
@@ -41,4 +41,4 @@ hi def link todoDoneHighlight      TodoDoneHighlight
 hi def link todoNotDoneHighlight   DiffDelete
 hi def link todoSuspendHighlight   DiffChange
 
-let b:current_syntax = "todo"
+let b:current_syntax = 'todo'
