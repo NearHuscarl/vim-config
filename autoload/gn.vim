@@ -1,4 +1,4 @@
-function! s:EchoHL(msg, hl_group) " {{{
+function! s:echo_hl(msg, hl_group) " {{{
 	execute 'echohl ' . a:hl_group
 	echo a:msg
 	echohl None
@@ -18,16 +18,16 @@ function! s:get_visual_selection()
 endfunction
 function! gn#search_selected_word() " {{{
 	" Search for current selected words in visual mode, but dont move cursor, use with gn
-	call search(s:get_visual_selection(), 'nc')
+	let @/ = s:get_visual_selection()
 	nohlsearch
-	call s:EchoHL(s:get_visual_selection(), 'String')
+	call s:echo_hl(s:get_visual_selection(), 'String')
 endfunction
 " }}}
 function! gn#search_current_word() " {{{
 	" Search current word (normal *), but dont move cursor, use with gn
 	let word_boundary_pattern = '\(\\<\|\\>\)'
-	normal! *N
+	let @/ = expand('<cword>')
 	nohlsearch
-	call s:EchoHL(substitute(@/, word_boundary_pattern, '', 'g'), 'String')
+	call s:echo_hl(substitute(@/, word_boundary_pattern, '', 'g'), 'String')
 endfunction
 " }}}
