@@ -2,7 +2,7 @@
 " File:        todo.vim
 " Description: Custom mappings for todo file, see syntax/todo.vim
 " Author:      Near Huscarl <near.huscarl@gmail.com>
-" Last Change: Sun Dec 31 18:40:08 +07 2017
+" Last Change: Sun Jan 07 03:58:33 +07 2018
 " Licence:     BSD 3-Clause license
 " Note:        N/A
 " ============================================================================
@@ -13,6 +13,7 @@ setlocal foldmethod=indent
 " let todoIndentLevel = 3
 
 nnoremap <silent><buffer> q :q<CR>
+nnoremap <silent><buffer>0 ^4l
 
 nnoremap <silent><buffer> <Tab>   :set opfunc=todo#ToggleDone<CR>g@l
 nnoremap <silent><buffer> <S-Tab> :set opfunc=todo#ToggleSuspend<CR>g@l
@@ -35,5 +36,5 @@ nnoremap <silent><buffer> gI    :call todo#InsertNewTask('p')<CR>|  " Make new p
 nnoremap <silent><buffer> <A-p> :call todo#JumpUpCategory()<CR>zz
 nnoremap <silent><buffer> <A-n> :call todo#JumpDownCategory()<CR>zz
 
-" nnoremap <silent><buffer> dd    :call todo#Delete()<CR>
-" dd to delete task and subtask
+onoremap <silent><buffer> it :call todo#SelectChildTasks()<CR>
+onoremap <silent><buffer> at :call todo#SelectParentAndChildTasks()<CR>
