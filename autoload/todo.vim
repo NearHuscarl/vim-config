@@ -13,9 +13,10 @@ let s:child_unticked_pattern = '^\s*\[ \]'
 let s:parent_unticked_pattern = '^\s*\[_\]'
 let s:child_all_pattern = '^\s*\[[sx ]\]\C'
 let s:parent_all_pattern = '^\s*\[[SX_]\]\C'
-let s:highlight_pattern = '^\s*\[.\].*\*\*$'
+let s:highlight_pattern = '^\s*\[.\]\.'
 let s:unhighlight_pattern = '^\s*\[.\].*\(\*\*\)\@<!$'
 let s:category_pattern = '^\s*\[\([xsXS _]\]\)\@![a-zA-Z0-9 ]*\]'
+let s:checkbox_end_pattern = '^\s*# END'
 
 try
 	call plug#load('vim-easy-align')
@@ -108,7 +109,7 @@ function! todo#ToggleCheckbox(char) " {{{
 	endif
 endfunction " }}}
 function! todo#InsertNewTask(char) " {{{
-	let autoindentOld = &autoindent
+	let old_autoindent = &autoindent
 	set autoindent
 	if a:char ==# 'c'
 		let text = '[ ] '
@@ -126,9 +127,10 @@ function! todo#InsertNewTask(char) " {{{
 		execute 'normal! o' . text
 	endif
 
+	normal! ==
 	" go to insert mode
 	call feedkeys('A', 'n')
-	call s:RestoreAutoIndent(autoindentOld)
+	let &autoindent = old_autoindent
 endfunction " }}}
 function! s:GetIndent(arg) "{{{
 	let indent = ''
@@ -139,22 +141,7 @@ function! s:GetIndent(arg) "{{{
 	endwhile
 	return indent
 endfunction " }}}
-function! s:RestoreAutoIndent(bool) " {{{
-	if a:bool == 1
-		set autoindent
-	else
-		set noautoindent
-	endif
-endfunction " }}}
 function! todo#JumpUpCategory() " {{{
-	" \@! -> negative lookahead
-	" Match: [abc]
-	"        [xterm]
-	"        [sass]
-	"        [mux]
-	" Not Match: [x]
-	"            [s]
-	"            [ ]
 	let line = search(s:category_pattern, 'nb')
 	" Use G and | instead of search() to add to the jumplist
 	execute 'normal! ' . line . 'G0'
@@ -189,10 +176,9 @@ function! todo#ToggleHighlightTask() " {{{
 	let cursorInfo = [line('.'), col('.')]
 
 	if match(getline('.'), s:highlight_pattern) != -1
-		execute 'normal! $xxx'
+		execute 'normal! ^3lr '
 	elseif match(getline('.'), s:unhighlight_pattern) != -1
-		let hl = ' **'
-		execute 'normal! A' . hl
+		execute 'normal! ^3lr.'
 	endif
 	call cursor(cursorInfo[0], cursorInfo[1])
 endfunction " }}}
