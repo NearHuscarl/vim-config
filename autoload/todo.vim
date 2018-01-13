@@ -132,15 +132,6 @@ function! todo#InsertNewTask(char) " {{{
 	call feedkeys('A', 'n')
 	let &autoindent = old_autoindent
 endfunction " }}}
-function! s:GetIndent(arg) "{{{
-	let indent = ''
-	let level = a:arg
-	while level > 0
-		let indent = indent . ' '
-		let level -= 1
-	endwhile
-	return indent
-endfunction " }}}
 function! todo#JumpUpCategory() " {{{
 	let line = search(s:category_pattern, 'nb')
 	" Use G and | instead of search() to add to the jumplist
@@ -149,15 +140,6 @@ endfunction " }}}
 function! todo#JumpDownCategory() " {{{
 	let line = search(s:category_pattern, 'n')
 	execute 'normal! ' . line . 'G0'
-endfunction " }}}
-function! todo#Delete() " {{{
-	let currentLine  = getline('.')
-
-	if match(currentLine, s:parent_all_pattern) != -1
-		execute 'normal! jzcdd'
-	else
-		execute 'normal! dd'
-	endif
 endfunction " }}}
 function! todo#ToggleHighlightTask() " {{{
 	let cursorInfo = [line('.'), col('.')]
