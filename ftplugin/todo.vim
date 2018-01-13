@@ -26,7 +26,7 @@ xnoremap <silent><buffer> gs      :<C-u>call todo#ToggleSuspendVisual('block')<C
 " nnoremap <silent><buffer> gts     :set opfunc=todo#TickSuspend<CR>g@
 " nnoremap <silent><buffer> gud     :set opfunc=todo#UntickDone<CR>g@
 " nnoremap <silent><buffer> gus     :set opfunc=todo#UntickSuspend<CR>g@
-" nnoremap <silent><buffer> gta     :set opfunc=todo#UntickAll<CR>g@
+" nnoremap <silent><buffer> gua     :set opfunc=todo#UntickAll<CR>g@
 
 nnoremap <silent><buffer> gH    :call todo#ToggleHighlightTask()<CR>
 
