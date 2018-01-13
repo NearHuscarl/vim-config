@@ -212,3 +212,52 @@ function! todo#SelectParentAndChildTasks()
 	let end_line = s:SearchParentCheckboxEnd(start_line)
 	execute 'normal! ' . start_line . 'GV' . end_line . 'G'
 endfunction
+" }}}
+function! s:TrimWhitespace(line) " {{{
+   return substitute(a:line, '\(^\s\+\|\s\+$\)', '', 'g')
+endfunction " }}}
+function! s:GetCategoryNum(line) " {{{
+	let line = s:TrimWhitespace(a:line)
+	return line[strlen(line) - 2]
+endfunction
+" }}}
+function! s:GetCurrentCategoryNum(lnum) " {{{
+	let line = getline(a:lnum)
+	if line =~# s:category_pattern
+		return s:GetCategoryNum(line)
+	else
+		let lnum = search(s:category_pattern, 'bW')
+		if lnum != 0
+			return s:GetCategoryNum(getline(lnum))
+		endif
+	endif
+	return 0
+endfunction
+" }}}
+function! todo#GetTodoFoldLevel(lnum) " {{{
+	let current_line = getline(a:lnum)
+	let next_line = getline(a:lnum + 1)
+
+	if next_line =~# s:category_pattern
+		let current_category_num = s:GetCurrentCategoryNum(a:lnum)
+		let next_category_num = s:GetCurrentCategoryNum(a:lnum + 1)
+		if current_category_num > next_category_num
+			let offset = current_category_num - next_category_num
+		elseif current_category_num == next_category_num
+			let offset = 1
+		else
+			return '='
+		endif
+		let offset += (current_line =~# s:checkbox_end_pattern ? 1 : 0)
+		return 's' . string(offset + 1)
+	endif
+
+	if current_line =~# '\(' . s:parent_all_pattern . '\|' . s:category_pattern . '\)'
+		return 'a1'
+	elseif current_line =~# s:checkbox_end_pattern
+		return 's1'
+	else
+		return '='
+	endif
+endfunction
+" }}}

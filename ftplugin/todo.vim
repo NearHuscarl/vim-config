@@ -2,14 +2,14 @@
 " File:        todo.vim
 " Description: Custom mappings for todo file, see syntax/todo.vim
 " Author:      Near Huscarl <near.huscarl@gmail.com>
-" Last Change: Sun Jan 07 03:58:33 +07 2018
+" Last Change: Sat Jan 13 20:42:48 +07 2018
 " Licence:     BSD 3-Clause license
 " Note:        N/A
 " ============================================================================
 
 setlocal commentstring=#%s
-setlocal foldmethod=indent
-
+setlocal foldexpr=todo#GetTodoFoldLevel(v:lnum)
+setlocal foldmethod=expr
 " let todoIndentLevel = 3
 
 nnoremap <silent><buffer> q :q<CR>
