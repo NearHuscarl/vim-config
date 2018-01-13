@@ -7,14 +7,15 @@
 " Note:        N/A
 " ============================================================================
 
-let s:child_ticked_pattern = '^\s*\[[sx]\]\C'
-let s:parent_ticked_pattern = '^\s*\[[SX]\]\C'
-let s:child_unticked_pattern = '^\s*\[ \]'
-let s:parent_unticked_pattern = '^\s*\[_\]'
-let s:child_all_pattern = '^\s*\[[sx ]\]\C'
-let s:parent_all_pattern = '^\s*\[[SX_]\]\C'
-let s:highlight_pattern = '^\s*\[.\]\.'
-let s:unhighlight_pattern = '^\s*\[.\].*\(\*\*\)\@<!$'
+let s:checkbox_ticked_pattern = '^\s*\[[sx]\]\C'
+let s:parent_checkbox_ticked_pattern = '^\s*\[[SX]\]\C'
+let s:checkbox_unticked_pattern = '^\s*\[ \]'
+let s:parent_checkbox_unticked_pattern = '^\s*\[_\]'
+let s:all_checkbox_pattern = '^\s*\[[sxSX _]\]\C'
+let s:checkbox_pattern = '^\s*\[[sx ]\]\C'
+let s:parent_checkbox_pattern = '^\s*\[[SX_]\]\C'
+let s:highlight_checkbox_pattern = '^\s*\[.\]\.'
+let s:unhighlight_checkbox_pattern = '^\s*\[.\].*\(\*\*\)\@<!$'
 let s:category_pattern = '^\s*\[\([xsXS _]\]\)\@![a-zA-Z0-9 ]*\]'
 let s:checkbox_end_pattern = '^\s*# END'
 
@@ -57,74 +58,77 @@ function! s:ModifyCheckbox(action, char, markBegin, markEnd) " {{{
 	let range = lineBegin . ',' . lineEnd
 
 	if a:action ==# 'tick'
-		execute range . 'call todo#TickCheckbox(a:char)'
+		execute range . 'call s:TickCheckbox("' . a:char . '")'
 	elseif a:action ==# 'untick'
-		execute range . 'call todo#UntickCheckbox(a:char)'
+		execute range . 'call s:UntickCheckbox("' . a:char . '")'
 	elseif a:action ==# 'toggle'
-		execute range . 'call todo#ToggleCheckbox(a:char)'
+		execute range . 'call s:ToggleCheckbox("' . a:char . '")'
 	endif
 
 	call winrestview(viewInfo)
 endfunction " }}}
-function! todo#UntickCheckbox(char) " {{{
-	let currentLine = getline('.')
+function! s:CheckboxPattern(char, ...) " {{{
+	let inverted = (a:0 == 0 ? '' : (a:1 == 0 ? '^' : ''))
+	return '^\s*\[[' . inverted . a:char . ']\]'
+endfunction
+" }}}
+function! s:Tick(char) " {{{
+	let tick = (getline('.') =~# s:parent_checkbox_pattern ? toupper(a:char) : a:char)
+	execute 'normal! ^lr' . tick
+endfunction
+" }}}
+function! s:Untick() " {{{
+	let untick = (getline('.') =~# s:parent_checkbox_pattern ? '_' : ' ')
+	execute 'normal! ^lr' . untick
+endfunction
+" }}}
+function! s:UntickCheckbox(char) " {{{
+	let line = getline('.')
 
 	" Untick all
 	if a:char ==# 'a'
-		if match(currentLine, s:child_ticked_pattern) != -1
-			execute 'normal! ^lr '
-		elseif match(currentLine, s:parent_all_pattern) != -1
-			execute 'normal! ^lr_'
-		endif
-	endif
-
-	if match(currentLine, s:child_ticked_pattern) != -1
-		execute 'normal! ^lr '
-	elseif match(currentLine, s:parent_ticked_pattern) != -1
-		execute 'normal! ^lr_'
-	endif 
-endfunction " }}}
-function! todo#TickCheckbox(char) " {{{
-	let currentLine = getline('.')
-
-	if match(currentLine, '^\s*\[[^' . a:char . ']\]') != -1
-		if match(currentLine, s:child_all_pattern) != -1
-			execute 'normal! ^lr' . a:char
-		elseif match(currentLine, s:parent_all_pattern) != -1
-			execute 'normal! ^lr' . toupper(a:char)
+		call s:Untick()
+	else
+		if line =~? s:CheckboxPattern(a:char, 1)
+			call s:Untick()
 		endif
 	endif
 endfunction " }}}
-function! todo#ToggleCheckbox(char) " {{{
-	let currentLine = getline('.')
+function! s:TickCheckbox(char) " {{{
+	let line = getline('.')
 
-	if match(currentLine, s:child_unticked_pattern) != -1
-		execute 'normal! ^lr' . a:char
-	elseif match(currentLine, s:parent_unticked_pattern) != -1
-		execute 'normal! ^lr' . toupper(a:char)
-	elseif match(currentLine, s:child_ticked_pattern) != -1
-		execute 'normal! ^lr '
-	elseif match(currentLine, s:parent_ticked_pattern) != -1
-		execute 'normal! ^lr_'
+	if line =~? s:CheckboxPattern(a:char, 0)
+		call s:Tick(a:char)
+	endif
+endfunction " }}}
+function! s:ToggleCheckbox(char) " {{{
+	let line = getline('.')
+
+	if line =~# s:all_checkbox_pattern
+		if line =~? s:CheckboxPattern(a:char)
+			call s:Untick()
+		else
+			call s:Tick(a:char)
+		endif
 	endif
 endfunction " }}}
 function! todo#InsertNewTask(char) " {{{
 	let old_autoindent = &autoindent
 	set autoindent
 	if a:char ==# 'c'
-		let text = '[ ] '
+		let checkbox = '[ ] '
 	elseif a:char ==# 'p'
-		let text = '[_] '
+		let checkbox = '[_] '
 		let end = '# END'
 		execute "normal! o\<Tab>" . end . "\<Esc>k"
 	endif
 
 	" match empty line
-	if match(getline('.'), '^\s*$') != -1
-		execute 'normal! cc' . text
+	if match(getline('.'), '^\s*$') >= 0
+		execute 'normal! cc' . checkbox
 		" not empty line, open newline and insert task
 	else
-		execute 'normal! o' . text
+		execute 'normal! o' . checkbox
 	endif
 
 	normal! ==
@@ -144,9 +148,9 @@ endfunction " }}}
 function! todo#ToggleHighlightTask() " {{{
 	let cursorInfo = [line('.'), col('.')]
 
-	if match(getline('.'), s:highlight_pattern) != -1
+	if match(getline('.'), s:highlight_checkbox_pattern) >= 0
 		execute 'normal! ^3lr '
-	elseif match(getline('.'), s:unhighlight_pattern) != -1
+	elseif match(getline('.'), s:unhighlight_checkbox_pattern) >= 0
 		execute 'normal! ^3lr.'
 	endif
 	call cursor(cursorInfo[0], cursorInfo[1])
@@ -154,14 +158,14 @@ endfunction " }}}
 function! s:SearchParentCheckbox(...) " {{{
 	" return line of parent checkbox that content the checkbox of current line
 	let lnum = a:0 == 1 ? a:1 : line('.')
-	if getline(lnum) =~# s:parent_all_pattern
+	if getline(lnum) =~# s:parent_checkbox_pattern
 		return lnum
 	endif
 
 	let parent_indent_lvl = indent(lnum) - &shiftwidth
 	while lnum != 0
-		let lnum = search(s:parent_all_pattern, 'bW')
-		if getline(lnum) =~# s:parent_all_pattern && indent(lnum) == parent_indent_lvl
+		let lnum = search(s:parent_checkbox_pattern, 'bW')
+		if getline(lnum) =~# s:parent_checkbox_pattern && indent(lnum) == parent_indent_lvl
 			return lnum
 		endif
 	endwhile
@@ -170,7 +174,7 @@ endfunction
 " }}}
 function! s:SearchParentCheckboxEnd(...) " {{{
 	let lnum = a:0 == 1 ? a:1 : line('.')
-	if getline(lnum) =~# s:parent_all_pattern
+	if getline(lnum) =~# s:parent_checkbox_pattern
 		let end_indent_lvl = indent(lnum) + &shiftwidth
 	else
 		let end_indent_lvl = indent(lnum)
@@ -209,7 +213,7 @@ function! s:GetCurrentCategoryNum(lnum) " {{{
 	if line =~# s:category_pattern
 		return s:GetCategoryNum(line)
 	else
-		let lnum = search(s:category_pattern, 'bW')
+		let lnum = search(s:category_pattern, 'nbW')
 		if lnum != 0
 			return s:GetCategoryNum(getline(lnum))
 		endif
@@ -235,7 +239,7 @@ function! todo#GetTodoFoldLevel(lnum) " {{{
 		return 's' . string(offset + 1)
 	endif
 
-	if current_line =~# '\(' . s:parent_all_pattern . '\|' . s:category_pattern . '\)'
+	if current_line =~# '\(' . s:parent_checkbox_pattern . '\|' . s:category_pattern . '\)'
 		return 'a1'
 	elseif current_line =~# s:checkbox_end_pattern
 		return 's1'
