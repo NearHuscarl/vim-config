@@ -2,7 +2,7 @@
 " File:        todo.vim
 " Description: functions for local mappings in todo files
 " Author:      Near Huscarl <near.huscarl@gmail.com>
-" Last Change: Sun Jan 07 03:11:33 +07 2018
+" Last Change: Sat Jan 13 21:11:04 +07 2018
 " Licence:     BSD 3-Clause license
 " Note:        N/A
 " ============================================================================
@@ -171,43 +171,44 @@ function! todo#ToggleHighlightTask() " {{{
 endfunction " }}}
 function! s:SearchParentCheckbox(...) " {{{
 	" return line of parent checkbox that content the checkbox of current line
-	let line = a:0 == 1 ? a:1 : line('.')
-	if match(getline(line), s:parent_all_pattern) != -1
-		return line
+	let lnum = a:0 == 1 ? a:1 : line('.')
+	if getline(lnum) =~# s:parent_all_pattern
+		return lnum
 	endif
 
-	let parent_indent_lvl = indent(line) - &shiftwidth
-	while line != 0
-		let line = search(s:parent_all_pattern, 'bW')
-		if getline(line) =~# s:parent_all_pattern && indent(line) == parent_indent_lvl
-			return line
+	let parent_indent_lvl = indent(lnum) - &shiftwidth
+	while lnum != 0
+		let lnum = search(s:parent_all_pattern, 'bW')
+		if getline(lnum) =~# s:parent_all_pattern && indent(lnum) == parent_indent_lvl
+			return lnum
 		endif
 	endwhile
 	return -1
 endfunction
 " }}}
 function! s:SearchParentCheckboxEnd(...) " {{{
-	let line = a:0 == 1 ? a:1 : line('.')
-	if match(getline(line), s:parent_all_pattern) != -1
-		let end_indent_lvl = indent(line) + &shiftwidth
+	let lnum = a:0 == 1 ? a:1 : line('.')
+	if getline(lnum) =~# s:parent_all_pattern
+		let end_indent_lvl = indent(lnum) + &shiftwidth
 	else
-		let end_indent_lvl = indent(line)
+		let end_indent_lvl = indent(lnum)
 	endif
-	while line != 0
-		let line = search(s:checkbox_end_pattern, 'W')
-		if getline(line) =~# s:checkbox_end_pattern && indent(line) == end_indent_lvl
-			return line
+	while lnum != 0
+		let lnum = search(s:checkbox_end_pattern, 'W')
+		if getline(lnum) =~# s:checkbox_end_pattern && indent(lnum) == end_indent_lvl
+			return lnum
 		endif
 	endwhile
 	return -1
 endfunction
 " }}}
 function! todo#SelectChildTasks()
-	let start_line = s:SearchParentCheckbox()
+	let start_line = s:SearchParentCheckbox() " {{{
 	let end_line = s:SearchParentCheckboxEnd(start_line)
 	execute 'normal! ' . start_line . 'GjV' . end_line . 'Gk'
 endfunction
-function! todo#SelectParentAndChildTasks()
+" }}}
+function! todo#SelectParentAndChildTasks() " {{{
 	let start_line = s:SearchParentCheckbox()
 	let end_line = s:SearchParentCheckboxEnd(start_line)
 	execute 'normal! ' . start_line . 'GV' . end_line . 'G'
