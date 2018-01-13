@@ -2,7 +2,7 @@
 " File:        todo.vim
 " Description: functions for local mappings in todo files
 " Author:      Near Huscarl <near.huscarl@gmail.com>
-" Last Change: Sun Jan 14 00:56:34 +07 2018
+" Last Change: Sun Jan 14 03:26:59 +07 2018
 " Licence:     BSD 3-Clause license
 " Note:        N/A
 " ============================================================================
@@ -16,7 +16,7 @@ let s:checkbox_pattern = '^\s*\[[sx ]\]\C'
 let s:parent_checkbox_pattern = '^\s*\[[SX_]\]\C'
 let s:highlight_checkbox_pattern = '^\s*\[.\]\.'
 let s:unhighlight_checkbox_pattern = '^\s*\[.\].*\(\*\*\)\@<!$'
-let s:category_pattern = '^\s*\[\([xsXS _]\]\)\@![a-zA-Z0-9 ]*\]'
+let s:category_pattern = '^\s*\[\([xsXS _]\]\)\@![^\]]*\]'
 let s:checkbox_end_pattern = '^\s*# END'
 
 try

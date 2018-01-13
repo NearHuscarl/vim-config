@@ -2,7 +2,7 @@
 " File:        todo.vim
 " Description: indent rule for file with todo extension
 " Author:      Near Huscarl <near.huscarl@gmail.com>
-" Last Change: Sat Jan 13 20:23:07 +07 2018
+" Last Change: Sun Jan 14 03:26:07 +07 2018
 " Licence:     BSD 3-Clause license
 " Note:        N/A
 " ============================================================================
@@ -27,7 +27,7 @@ let s:empty_line_pattern = '^\s*$'
 let s:checkbox_pattern = '^\s*\[[xs XS_]\]'
 let s:child_checkbox_pattern = '^\s*\[[xs ]\]'
 let s:parent_checkbox_pattern = '^\s*\[[XS_]\]'
-let s:category_pattern = '^\s*\[\([xsXS _]\]\)\@![a-zA-Z0-9 ]*\] \[[0-9]\]'
+let s:category_pattern = '^\s*\[\([xsXS _]\]\)\@![^\]]*\] \[[0-9]\]'
 let s:checkbox_end_pattern = '^\s*# END'
 
 let s:empty = 'none'

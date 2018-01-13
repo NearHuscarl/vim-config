@@ -2,7 +2,7 @@
 " File:        todo.vim
 " Description: Vim syntax file: todo
 " Author:      Near Huscarl <near.huscarl@gmail.com>
-" Last Change: Sun Jan 07 01:23:06 +07 2018
+" Last Change: Sun Jan 14 03:26:15 +07 2018
 " Licence:     BSD 3-Clause license
 " Note:        todo file used to take note, reminder, and manage daily tasks
 " ============================================================================
@@ -11,8 +11,8 @@ if exists('b:current_syntax')
 	finish
 endif
 
-syntax match todoTaskCategory       "^\s*\[\([xsXS _]\]\)\@![a-zA-Z0-9 ]*\]" nextgroup=todoTaskCategoryNumber
-syntax match todoTaskCategoryNumber "\(\[\([xsXS _]\]\)\@![a-zA-Z0-9 ]\{2,}\] \+\)\@<=\[\d\]"
+syntax match todoTaskCategory       "^\s*\[\([xsXS _]\]\)\@![^\]]*\]" nextgroup=todoTaskCategoryNumber
+syntax match todoTaskCategoryNumber "\(\[\([xsXS _]\]\)\@![^\]]*\] \+\)\@<=\[\d\]"
 
 " let s:text_pattern = '^\(\(^\s*[#\[]\)\@!.\)*$'
 syntax match todoComment            '^\s*#.*$'
