@@ -2,7 +2,7 @@
 " File:        todo.vim
 " Description: indent rule for file with todo extension
 " Author:      Near Huscarl <near.huscarl@gmail.com>
-" Last Change: Sat Jan 06 12:18:09 +07 2018
+" Last Change: Sat Jan 13 20:23:07 +07 2018
 " Licence:     BSD 3-Clause license
 " Note:        N/A
 " ============================================================================
@@ -52,29 +52,29 @@ function! s:GetCategoryNum(line) " {{{
 	return 0
 endfunction
 " }}}
-function! s:SearchBackward(line, ...) " {{{
-	let line = a:line
+function! s:SearchBackward(lnum, ...) " {{{
+	let lnum = a:lnum
 	let patterns = a:000
 
-	while line > 0
-		let line = prevnonblank(line - 1)
+	while lnum > 0
+		let lnum = prevnonblank(lnum - 1)
 		for pattern in patterns
-			if getline(line) =~# pattern
-				let s:info[pattern].line = line
+			if getline(lnum) =~# pattern
+				let s:info[pattern].lnum = lnum
 				return s:info[pattern]
 			endif
 		endfor
 	endwhile
 	return s:info[s:empty]
 endfunction " }}}
-function! s:SearchBackwardCheckbox(line) " {{{
-	let match = s:SearchBackward(a:line, s:parent_checkbox_pattern, s:child_checkbox_pattern, s:category_pattern, s:checkbox_end_pattern)
-	return { 'type': match.type, 'indent': indent(match.line) }
+function! s:SearchBackwardCheckbox(lnum) " {{{
+	let match = s:SearchBackward(a:lnum, s:parent_checkbox_pattern, s:child_checkbox_pattern, s:category_pattern, s:checkbox_end_pattern)
+	return { 'type': match.type, 'indent': indent(match.lnum) }
 endfunction
 " }}}
-function! s:SearchBackwardCategory(line) " {{{
-	let match = s:SearchBackward(a:line, s:category_pattern)
-	return { 'type': match.type, 'indent': indent(match.line), 'indent_level': s:GetCategoryNum(getline(match.line)) }
+function! s:SearchBackwardCategory(lnum) " {{{
+	let match = s:SearchBackward(a:lnum, s:category_pattern)
+	return { 'type': match.type, 'indent': indent(match.lnum), 'indent_level': s:GetCategoryNum(getline(match.lnum)) }
 endfunction
 " }}}
 function! GetTodoIndent() " {{{
