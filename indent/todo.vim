@@ -40,9 +40,7 @@ let s:info = {
 			\ }
 
 function! s:TrimWhitespace(line) " {{{
-	let line = substitute(a:line, '\s\+$', '', '')
-	let line = substitute(line, '^\s\+', '', '')
-	return line
+   return substitute(a:line, '\(^\s\+\|\s\+$\)', '', 'g')
 endfunction " }}}
 function! s:GetCategoryNum(line) " {{{
 	if a:line =~# s:category_pattern
