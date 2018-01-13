@@ -2,7 +2,7 @@
 " File:        todo.vim
 " Description: functions for local mappings in todo files
 " Author:      Near Huscarl <near.huscarl@gmail.com>
-" Last Change: Sat Jan 13 21:11:04 +07 2018
+" Last Change: Sun Jan 14 00:56:34 +07 2018
 " Licence:     BSD 3-Clause license
 " Note:        N/A
 " ============================================================================
@@ -202,8 +202,8 @@ function! s:SearchParentCheckboxEnd(...) " {{{
 	return -1
 endfunction
 " }}}
-function! todo#SelectChildTasks()
-	let start_line = s:SearchParentCheckbox() " {{{
+function! todo#SelectChildTasks() " {{{
+	let start_line = s:SearchParentCheckbox()
 	let end_line = s:SearchParentCheckboxEnd(start_line)
 	execute 'normal! ' . start_line . 'GjV' . end_line . 'Gk'
 endfunction
