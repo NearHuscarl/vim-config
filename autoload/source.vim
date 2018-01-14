@@ -2,7 +2,7 @@
 " File:        source.vim
 " Description: Source vimrc + current file if it's in autoload/
 " Author:      Near Huscarl <near.huscarl@gmail.com>
-" Last Change: Sun Jan 07 01:30:19 +07 2018
+" Last Change: Sun Jan 14 18:06:23 +07 2018
 " Licence:     BSD 3-Clause license
 " Note:        Note
 " ============================================================================
@@ -34,7 +34,7 @@ function! source#vimfile() " {{{
 			" /home/near/.vim/autoload/a/b/f.vim => autoload/a/b/f.vim
 			let file_path = matchlist(expand('%:p'), '.*\(' . dirname . '.*$\)')[1]
 
-			execute 'runtime %'
+			execute 'runtime ' . file_path
 			redraw
 			call s:echo_hl(file_path . ' has been sourced!', 'String')
 			return
