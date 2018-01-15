@@ -1,4 +1,12 @@
-" Custom filetype detect
+" ============================================================================
+" File:        filetype.vim
+" Description: custom filetype detect
+" Author:      Near Huscarl <near.huscarl@gmail.com>
+" Last Change: Wed Dec 27 15:28:16 +07 2017
+" Licence:     BSD 3-Clause license
+" Note:        N/A
+" ============================================================================
+
 autocmd BufRead,BufNewFile *.todo *.Todo set ft=todo
 
 autocmd BufWritePost *after/*.vim,*autoload/*.vim,*ftdetect/*.vim,*ftplugin/*.vim,*indent/*.vim,*plugin/*.vim
