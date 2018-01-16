@@ -569,6 +569,13 @@ Plug 'xolox/vim-misc', {'on': []}
 Plug 'xolox/vim-shell', {'on': []}
 Plug 'xolox/vim-session', {'on': []}
 
+Plug 'NearHuscarl/vim-color-config', {'on': [
+			\ 'ColorConfigGenerate',
+			\ 'ColorConfigGenerateVerbose',
+			\ 'ColorConfigInfo',
+			\ 'ColorConfigResetDefault',
+			\ ]}
+
 " Other
 Plug 'justinmk/vim-sneak', {'on': [
 			\ '<Plug>Sneak_f',
