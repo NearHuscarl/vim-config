@@ -2,7 +2,7 @@
 " File:        todo.vim
 " Description: functions for local mappings in todo files
 " Author:      Near Huscarl <near.huscarl@gmail.com>
-" Last Change: Sun Jan 14 03:26:59 +07 2018
+" Last Change: Thu Jan 18 02:47:13 +07 2018
 " Licence:     BSD 3-Clause license
 " Note:        N/A
 " ============================================================================
@@ -19,9 +19,9 @@ let s:unhighlight_checkbox_pattern = '^\s*\[.\].*\(\*\*\)\@<!$'
 let s:category_pattern = '^\s*\[\([xsXS _]\]\)\@![^\]]*\]'
 let s:checkbox_end_pattern = '^\s*# END'
 
-try
-	call plug#load('vim-easy-align')
-endtry
+" try
+" 	call plug#load('vim-easy-align')
+" endtry
 " {{{ Wrapper Functions
 function! todo#ToggleDoneVisual(type)
 	call s:ModifyCheckbox('toggle', 'x', '<', '>')
@@ -84,9 +84,7 @@ endfunction
 " }}}
 function! s:UntickCheckbox(char) " {{{
 	let line = getline('.')
-
-	" Untick all
-	if a:char ==# 'a'
+	if a:char ==# 'a' " Untick all
 		call s:Untick()
 	else
 		if line =~? s:CheckboxPattern(a:char, 1)
@@ -96,7 +94,6 @@ function! s:UntickCheckbox(char) " {{{
 endfunction " }}}
 function! s:TickCheckbox(char) " {{{
 	let line = getline('.')
-
 	if line =~? s:CheckboxPattern(a:char, 0)
 		call s:Tick(a:char)
 	endif
@@ -112,29 +109,14 @@ function! s:ToggleCheckbox(char) " {{{
 		endif
 	endif
 endfunction " }}}
-function! todo#InsertNewTask(char) " {{{
-	let old_autoindent = &autoindent
-	set autoindent
-	if a:char ==# 'c'
-		let checkbox = '[ ] '
-	elseif a:char ==# 'p'
-		let checkbox = '[_] '
-		let end = '# END'
-		execute "normal! o\<Tab>" . end . "\<Esc>k"
+function! todo#InsertNewTask(is_parent_checkbox) " {{{
+	let checkbox = a:is_parent_checkbox ? '[_] ' : '[ ] '
+	let insert_cmd = getline('.') =~# '^\s*$' ? 'cc' : 'o'
+	execute 'normal! ' . insert_cmd . ' ' . checkbox . "\<Esc>=="
+	if a:is_parent_checkbox
+		call s:InsertEnd()
 	endif
-
-	" match empty line
-	if match(getline('.'), '^\s*$') >= 0
-		execute 'normal! cc' . checkbox
-		" not empty line, open newline and insert task
-	else
-		execute 'normal! o' . checkbox
-	endif
-
-	normal! ==
-	" go to insert mode
-	call feedkeys('A', 'n')
-	let &autoindent = old_autoindent
+	call feedkeys('A', 'n') " go to insert mode
 endfunction " }}}
 function! todo#JumpUpCategory() " {{{
 	let line = search(s:category_pattern, 'nb')
@@ -198,6 +180,37 @@ function! todo#SelectParentAndChildTasks() " {{{
 	let start_line = s:SearchParentCheckbox()
 	let end_line = s:SearchParentCheckboxEnd(start_line)
 	execute 'normal! ' . start_line . 'GV' . end_line . 'G'
+endfunction
+" }}}
+function! s:Parent(char) " {{{
+	return a:char ==# ' ' ? '_' : toupper(a:char)
+endfunction
+" }}}
+function! s:Child(char) " {{{
+	return a:char ==# '_' ? ' ' : tolower(a:char)
+endfunction
+" }}}
+function! s:InsertEnd() " {{{
+	let end = '# END'
+	execute "normal! o\<Tab>" . end . "\<Esc>==k"
+endfunction
+" }}}
+function! s:RemoveEnd() " {{{
+	echo 'wip'
+endfunction
+" }}}
+function! todo#ToggleTaskType() " {{{
+	let view_info  = winsaveview()
+	let line = getline('.')
+	let checkbox_char = matchlist(getline('.'), '^\t*\[\(.\)\].*$')[1]
+	if line =~# s:checkbox_pattern
+		execute 'normal! ^lr' . s:Parent(checkbox_char)
+		call s:InsertEnd()
+	elseif line =~# s:parent_checkbox_pattern
+		execute 'normal! ^lr' . s:Child(checkbox_char)
+		call s:RemoveEnd()
+	endif
+	call winrestview(view_info)
 endfunction
 " }}}
 function! s:TrimWhitespace(line) " {{{
