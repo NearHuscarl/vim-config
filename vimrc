@@ -551,13 +551,16 @@ Plug '/usr/share/vim/vimfiles'
 Plug 'junegunn/fzf.vim'
 Plug 'tpope/vim-repeat'
 Plug 'wellle/targets.vim'
-Plug 'haya14busa/is.vim', {'on': [
-			\ '<Plug>(is-n)',
-			\ '<Plug>(is-N)',
-			\ '<Plug>(is-*)',
-			\ '<Plug>(is-#)',
-			\ '<Plug>(is-scroll-f)',
-			\ '<Plug>(is-scroll-b)'
+Plug 'haya14busa/incsearch.vim', {'on': [
+			\ '<Plug>(incsearch-forward)',
+			\ '<Plug>(incsearch-backward)',
+			\ '<Plug>(incsearch-stay)',
+			\ '<Plug>(incsearch-nohl-n)',
+			\ '<Plug>(incsearch-nohl-N)',
+			\ '<Plug>(incsearch-nohl-*)',
+			\ '<Plug>(incsearch-nohl-#)',
+			\ '<Plug>(incsearch-nohl-g*)',
+			\ '<Plug>(incsearch-nohl-g#)',
 			\ ]}
 Plug 'vim-utils/vim-man', {'on': []}
 Plug 'tpope/vim-rhubarb'
@@ -777,11 +780,18 @@ nnoremap <silent> <Leader>l  :BLines<CR>
 nnoremap <silent> <Leader>L  :Lines<CR>
 nnoremap <silent> <Leader>b  :Buffers<CR>
 "}}}
-"{{{ is.vim
-nmap n <Plug>(is-n)zozz
-nmap N <Plug>(is-N)zozz
-nmap * <Plug>(is-*)zozz
-nmap # <Plug>(is-#)zozz
+"{{{ Incsearch
+let g:incsearch#auto_nohlsearch = 1
+map /  <Plug>(incsearch-forward)
+map ?  <Plug>(incsearch-backward)
+map g/ <Plug>(incsearch-stay)
+
+map n  <Plug>(incsearch-nohl-n)zzzo
+map N  <Plug>(incsearch-nohl-N)zzzo
+map *  <Plug>(incsearch-nohl-*)zzzo
+map #  <Plug>(incsearch-nohl-#)zzzo
+map g* <Plug>(incsearch-nohl-g*)zzzo
+map g# <Plug>(incsearch-nohl-g#)zzzo
 "}}}
 "{{{ Gundo
 if has('python3') && !has('python')
