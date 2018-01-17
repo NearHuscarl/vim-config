@@ -705,16 +705,30 @@ nnoremap <silent> <Leader>ggc :Glog! --grep= -- %<C-Left><C-Left><Left>| "Search
 nnoremap <silent> <Leader>ggd :Glog! -S -- %<C-Left><C-Left><Left>|      "Search content in diffs history
 "}}}
 "{{{ Fzf
+let g:fzf_colors = {
+			\ 'fg':      ['fg', 'Fzf_Foreground'],
+			\ 'bg':      ['bg', 'Fzf_Background'],
+			\ 'hl':      ['fg', 'Fzf_Highlight'],
+			\ 'fg+':     ['fg', 'Fzf_ForegroundPlus'],
+			\ 'bg+':     ['bg', 'Fzf_BackgroundPlus'],
+			\ 'hl+':     ['fg', 'Fzf_HighlightPlus'],
+			\ 'info':    ['fg', 'Fzf_Info'],
+			\ 'border':  ['fg', 'Fzf_Border'],
+			\ 'prompt':  ['fg', 'Fzf_Prompt'],
+			\ 'pointer': ['fg', 'Fzf_Pointer'],
+			\ 'marker':  ['fg', 'Fzf_Marker'],
+			\ 'spinner': ['fg', 'Fzf_Spinnner'],
+			\ 'header':  ['fg', 'Fzf_Header'],
+			\ }
+
 let g:fzf_option='
 			\ --bind=alt-k:up,alt-j:down
 			\ --bind=alt-h:backward-char,alt-l:forward-char
 			\ --bind=alt-n:backward-word,alt-m:forward-word
 			\ --bind=alt-i:abort,alt-d:kill-line,alt-e:jump,alt-t:toggle
-			\ --color=hl:$THEME_HL2,hl+:$THEME_HL,bg+:$THEME_BG_ALT
-			\ --color=info:$THEME_MAIN,pointer:$THEME_MAIN,marker:$THEME_MAIN2
-			\ --color=spinner:$THEME_MAIN,border:$THEME_MAIN
 			\ --prompt=\>\ 
 			\ --multi'
+
 let g:grep_cmd = 'rg
 			\ --column --line-number --no-heading
 			\ --hidden --ignore-case --follow --color "always" '
