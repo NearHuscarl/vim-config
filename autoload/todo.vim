@@ -15,7 +15,6 @@ let s:all_checkbox_pattern = '^\s*\[[sxSX _]\]\C'
 let s:checkbox_pattern = '^\s*\[[sx ]\]\C'
 let s:parent_checkbox_pattern = '^\s*\[[SX_]\]\C'
 let s:highlight_checkbox_pattern = '^\s*\[.\]\.'
-let s:unhighlight_checkbox_pattern = '^\s*\[.\].*\(\*\*\)\@<!$'
 let s:category_pattern = '^\s*\[\([xsXS _]\]\)\@![^\]]*\]'
 let s:checkbox_end_pattern = '^\s*# END'
 
@@ -128,14 +127,10 @@ function! todo#JumpDownCategory() " {{{
 	execute 'normal! ' . line . 'G0'
 endfunction " }}}
 function! todo#ToggleHighlightTask() " {{{
-	let cursorInfo = [line('.'), col('.')]
-
-	if match(getline('.'), s:highlight_checkbox_pattern) >= 0
-		execute 'normal! ^3lr '
-	elseif match(getline('.'), s:unhighlight_checkbox_pattern) >= 0
-		execute 'normal! ^3lr.'
-	endif
-	call cursor(cursorInfo[0], cursorInfo[1])
+	let cursor_pos = [line('.'), col('.')]
+	let highlight = getline('.') =~# s:highlight_checkbox_pattern ? ' ' : '.'
+	execute 'normal! ^3lr' . highlight
+	call cursor(cursor_pos[0], cursor_pos[1])
 endfunction " }}}
 function! s:SearchParentCheckbox(...) " {{{
 	" return line of parent checkbox that content the checkbox of current line
