@@ -218,8 +218,29 @@ if has('folding')
 	" set foldopen=all
 endif
 
-if has('GUI_running') && has('windows')
-	set guitablabel=\[%N\]\ %t\ %M                  "Tabs only display file name rather than path+filename
+if has('GUI_running')
+	set guitablabel=\[%N\]\ %t\ %M                  "Tabs name: [Tab number] tabname [modified?]
+else
+	function! MyTabLine()
+		let s = ''
+		for i in range(tabpagenr('$'))
+			let tabnr = i + 1 " range() starts at 0
+			let winnr = tabpagewinnr(tabnr)
+			let buflist = tabpagebuflist(tabnr)
+			let bufnr = buflist[winnr - 1]
+			let bufname = fnamemodify(bufname(bufnr), ':t')
+
+			let s .= '%' . tabnr . 'T'  " set the tab page number (for mouse clicks)
+			let s .= (tabnr == tabpagenr() ? '%#TabLineSel#' : '%#TabLine#') " set highlight
+			let s .= ' ' . tabnr
+
+			let s .= empty(bufname) ? ' [No Name] ' : ' ' . bufname . ' '
+			if &modified | let s .= '+ ' | endif
+		endfor
+		let s .= '%#TabLineFill#'
+		return s
+	endfunction
+	set tabline=%!MyTabLine()
 endif
 
 let @n = "0f>a\<CR>\<Esc>$F<i\<CR>\<Esc>j"         "Newline per tag if not
