@@ -180,7 +180,7 @@ if has('linebreak')
 endif
 
 set synmaxcol=228                                  "Maximum column for syntax highlighting
-set lazyredraw                                     "An attempt to make scrolling smoother
+set lazyredraw                                     "Dont redraw when executing macro
 
 set list                                           "Enable listchars option
 set listchars=tab:\│\ ,extends:»,precedes:«,trail:·,nbsp:·
@@ -271,7 +271,8 @@ nnoremap <silent><A-'> :silent bnext<CR>|          "Go to the next buffer
 nnoremap <silent><A-;> :silent bprevious<CR>|      "Go to the previous buffer
 nnoremap <silent><A-e> :enew<CR>|                  "Edit new buffer
 nnoremap <silent><A-b> :buffer#<CR>|               "Switch between last buffers
-nnoremap <silent><Leader>q :bprevious <Bar>:bdelete #<CR>| "Delete current buffer
+nnoremap <silent><Leader>q :bprevious<Bar>
+			\ :bdelete #<CR>|                         "Delete current buffer
 nnoremap <silent><Leader>x :e#<CR>|                "Open last closed buffer (not really)
 " }}}
 " {{{ Pane
@@ -520,10 +521,10 @@ nnoremap <A-Space> a<Space><Left><esc>|            "Insert a whitespace
 nnoremap <Enter> o<Esc>|                           "Make new line
 nnoremap Y y$|                                     "Make Y yank to endline (same behaviours as D or R)
 nnoremap <C-w> :ToggleWrap<CR>|                    "Toggle wrap option
-nnoremap <silent>-
+nnoremap <silent><Leader>-
 			\ :call license#save_and_update_timestamp()<CR>
                                                    "Write changes + update timestamp if buffer is modified
-nnoremap <silent><Leader>- :update<CR>|            "Write without updating timestamp
+nnoremap <silent>- :update<CR>|                    "Write without updating timestamp
 nnoremap <silent><Leader><Leader>- :SudoWrite<CR>| "Write changes with sudo
 nnoremap <silent><Leader>tV :ToggleVerbose<CR>
 nnoremap <silent><Leader>o :call ide#Open('code')<CR>| "Open vscode of current file to debug
