@@ -72,15 +72,15 @@ snip.rv = match.group(3) if match.group(2) is not None else 'arr'
 endsnippet
 
 snippet "f(unc)?( (\S+))?" "function declaration" br
-${1:`!p snip.rv = match.group(3) if match.group(2) is not None else ''`}() {
-	$2
-}
+${1:`!p snip.rv = match.group(3) if match.group(2) is not None else ''`}() { # {{{
+	${2:echo $1}
+} # }}}
 endsnippet
 
 snippet "F(unc)?( (\S+))?" "function declaration" br
-function ${1:`!p snip.rv = match.group(3) if match.group(2) is not None else ''`}() {
-	$2
-}
+function ${1:`!p snip.rv = match.group(3) if match.group(2) is not None else ''`}() { # {{{
+	${2:echo $1}
+} # }}}
 endsnippet
 
 snippet "case( ([\S ]+))?" "switch statement" br
