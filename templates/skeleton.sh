@@ -5,9 +5,10 @@
 
 # Dependencies:
 
-USAGE="Usage: skeleton.sh [help]"
+SCRIPT_NAME=$(basename "$0")
+USAGE="Usage: "$SCRIPT_NAME" [help]"
 HELP="\
-skeleton.sh <command>
+"$SCRIPT_NAME" <command>
 Commands:
   h, help      print this help message
   c, command   <command description>"
@@ -37,7 +38,7 @@ function main() {
 		0)
 			usage ;;
 		*)
-			case "$volume_action" in
+			case "$cmd" in
 				h|help)
 					help ;;
 				*)
