@@ -776,7 +776,7 @@ command! -nargs=1 FilesAbsolute
 command! Commands call fzf#vim#commands({'options': g:fzf_option}, 0)
 command! Colors   call fzf#vim#colors({'options': g:fzf_option}, 0)
 command! MRU      call fzf#vim#history({'options': g:fzf_option}, 0)
-command! Helptags call fzf#vim#helptags({'options': g:fzf_option}, 0)
+command! Help     call fzf#help({'options': g:fzf_option}, 0) " open help in tab
 command! Tags     call fzf#vim#tags(<q-args>, {'options': g:fzf_option}, 0)
 command! Maps     call fzf#vim#maps(<q-args>, {'options': g:fzf_option}, 0)
 command! Lines    call fzf#vim#lines({'options': g:fzf_option}, 0)
@@ -795,7 +795,7 @@ nnoremap <silent> <Leader>ef :Files<CR>|       "Fzf files from cwd
 nnoremap <silent> <Leader>eh :Files $HOME<CR>
 nnoremap <silent> <Leader>ev :Files $HOME/.vim/<CR>
 nnoremap <silent> <Leader>em :MRU<CR>
-nnoremap <silent> <Leader>h  :Helptags<CR>
+nnoremap <silent> <Leader>h  :Help<CR>
 nnoremap <silent> <Leader>j  :Tags<CR>
 nnoremap <silent> <Leader>m  :Maps<CR>
 nnoremap <silent> <Leader>l  :BLines<CR>
