@@ -127,7 +127,7 @@ function! s:helptag_sink(line)
   if stridx(&rtp, rtp) < 0
     execute 'set rtp+='.s:escape(rtp)
   endif
-  execute 'tab help' tag
+  silent execute 'help' tag '| only'
 endfunction
 
 function! fzf#help(...)
