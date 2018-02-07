@@ -857,7 +857,6 @@ let python_highlight_all = 1
 let g:session_directory    = s:session
 let g:session_autoload     = 'no'
 let g:session_autosave     = 'yes'
-let g:session_autosave_to  = 'AutoSave'
 let g:session_default_name = 'Default'
 
 "OpenSession -> SessionOpen 
@@ -1031,8 +1030,16 @@ augroup AutoPairHTML
 	autocmd BufLeave *.html unlet g:AutoPairs["<"]
 augroup END
 
-autocmd BufEnter * if (&diff || &ft == 'gundo') | set timeout timeoutlen=0 | endif
-autocmd BufLeave * if (&diff || &ft == 'gundo') | set timeout& timeoutlen& | endif
+" always save to AutoSave session on exit if current instance not belong to
+" any session before
+augroup SessionAutoSave
+	autocmd!
+	autocmd VimLeavePre *
+				\ if v:this_session == '' | mksession! ~/.vim/session/AutoSave.vim | endif
+augroup END
+
+" autocmd BufEnter * if (&diff || &ft == 'gundo') | set timeout timeoutlen=0 | endif
+" autocmd BufLeave * if (&diff || &ft == 'gundo') | set timeout& timeoutlen& | endif
 
 autocmd QuickFixCmdPost * cwindow
 autocmd CursorHold * nohlsearch
