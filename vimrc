@@ -342,10 +342,10 @@ nnoremap [z [zzz|                                  "jump at the start and zz
 nnoremap <Leader>z zMzv|                           "Open current fold and close all other fold outside
 " }}}
 " {{{ Diff
-nnoremap <silent> L  :call diff#jump_forward('L')<CR>|  "Go to next change in diff
-nnoremap <silent> H  :call diff#jump_backward('H')<CR>| "Go to previous change in diff
-nnoremap <silent> du :call diff#update('k')<CR>|        "Force update diff
-nnoremap <silent> q  :call diff#quit('q')<CR>|          "Quit diff
+nnoremap <silent><expr> L  diff#jump_forward('L')|  "Go to next change in diff
+nnoremap <silent><expr> H  diff#jump_backward('H')| "Go to previous change in diff
+nnoremap <silent><expr> du diff#update('')|         "Force update diff
+nnoremap <silent><expr> q  diff#quit('q')|          "Quit diff
 " }}}
 " {{{ Help
 nnoremap Kc K|                                     "Help for word under cursor
@@ -1037,9 +1037,6 @@ augroup SessionAutoSave
 	autocmd VimLeavePre *
 				\ if v:this_session == '' | mksession! ~/.vim/session/AutoSave.vim | endif
 augroup END
-
-" autocmd BufEnter * if (&diff || &ft == 'gundo') | set timeout timeoutlen=0 | endif
-" autocmd BufLeave * if (&diff || &ft == 'gundo') | set timeout& timeoutlen& | endif
 
 autocmd QuickFixCmdPost * cwindow
 autocmd CursorHold * nohlsearch
