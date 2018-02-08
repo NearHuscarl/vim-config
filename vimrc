@@ -2,7 +2,7 @@
 " File:        .vimrc
 " Description: Vim settings
 " Author:      Near Huscarl <near.huscarl@gmail.com>
-" Last Change: Wed Dec 27 21:03:10 +07 2017
+" Last Change: Thu Feb 08 11:17:47 +07 2018
 " Licence:     BSD 3-Clause license
 " Note:        This is a personal vim config. therefore most likely not work 
 "              on your machine
@@ -571,6 +571,7 @@ call plug#begin(s:plugged)
 Plug 'bling/vim-bufferline'
 Plug '/usr/share/vim/vimfiles'
 Plug 'junegunn/fzf.vim'
+
 Plug 'tpope/vim-repeat'
 Plug 'wellle/targets.vim'
 Plug 'haya14busa/incsearch.vim', {'on': [
@@ -679,8 +680,9 @@ let g:ale_fixers.javascript = ['eslint']
 let g:ale_fixers.python     = ['pylint']
 let g:ale_fixers.scss       = ['scsslint']
 let g:ale_fixers.vim        = ['vint']
-let g:ale_sign_error           = ''
-let g:ale_sign_warning         = ''
+let g:ale_sign_error        = ''
+let g:ale_sign_warning      = ''
+let g:ale_sign_info         = ''
 let g:ale_lint_on_text_changed = 0
 
 nmap [a <Plug>(ale_previous_wrap)zz
@@ -702,6 +704,13 @@ command! -bang -nargs=* -complete=file Make AsyncRun -program=make @ <args>
 let g:bufferline_rotate              = 2
 let g:bufferline_solo_highlight      = 1
 "}}}
+" {{{ Color Config
+let g:color_config_output_path = '$HOME/.vim/colors/'
+augroup ColorConfig
+	autocmd!
+	autocmd BufWritePost *colors/config/*.yaml ColorConfigGenerate
+augroup END
+" }}}
 "{{{ Commentary
 map  gc  <Plug>Commentary
 nmap gcc <Plug>CommentaryLine
@@ -747,6 +756,7 @@ let g:fzf_colors = {
 			\ }
 
 let g:fzf_option='
+			\ --no-reverse
 			\ --bind=alt-k:up,alt-j:down
 			\ --bind=alt-h:backward-char,alt-l:forward-char
 			\ --bind=alt-n:backward-word,alt-m:forward-word
@@ -787,9 +797,9 @@ command! BCommit  call fzf#vim#buffer_commits({'options': g:fzf_option}, 0)
 
 nnoremap gr :Grep<Space>
 " Respect .gitignore. Full path and can open multiple file
-nnoremap <silent> <Leader>ep :FilesAbsolute git#GetRootDir()<CR>
+nnoremap <silent> <Leader>eP :FilesAbsolute git#GetRootDir()<CR>
 " Respect .gitignore. Shorter path but cant open multiple files in subdirectory
-nnoremap <silent> <Leader>eP :execute 'Files ' . git#GetRootDir()<CR>
+nnoremap <silent> <Leader>ep :execute 'Files ' . git#GetRootDir()<CR>
 nnoremap <silent> <Leader>ec :Commands<CR>
 nnoremap <silent> <Leader>ef :Files<CR>|       "Fzf files from cwd
 nnoremap <silent> <Leader>eh :Files $HOME<CR>
@@ -1035,7 +1045,9 @@ augroup END
 augroup SessionAutoSave
 	autocmd!
 	autocmd VimLeavePre *
-				\ if v:this_session == '' | mksession! ~/.vim/session/AutoSave.vim | endif
+				\ if v:this_session == ''
+				\|  execute 'mksession!' . g:session_directory . 'AutoSave.vim'
+				\|endif
 augroup END
 
 autocmd QuickFixCmdPost * cwindow
@@ -1062,10 +1074,6 @@ endif
 "{{{ Highlight Group
 call statusline#SetHighlight()
 if !exists(g:colors_name)
-	highlight link ALEErrorSign PreProc
-	highlight link ALEWarningSign Statement
-	highlight link ALEInfoSign Type
-
 	highlight link Sneak None
 endif
 "}}}
