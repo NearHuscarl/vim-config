@@ -22,16 +22,17 @@ nnoremap <silent><buffer> gs      :set opfunc=todo#ToggleSuspend<CR>g@
 xnoremap <silent><buffer> gd      :<C-u>call todo#ToggleDoneVisual('block')<CR>
 xnoremap <silent><buffer> gs      :<C-u>call todo#ToggleSuspendVisual('block')<CR>
 
-" nnoremap <silent><buffer> gtd     :set opfunc=todo#TickDone<CR>g@
-" nnoremap <silent><buffer> gts     :set opfunc=todo#TickSuspend<CR>g@
-" nnoremap <silent><buffer> gud     :set opfunc=todo#UntickDone<CR>g@
-" nnoremap <silent><buffer> gus     :set opfunc=todo#UntickSuspend<CR>g@
-" nnoremap <silent><buffer> gua     :set opfunc=todo#UntickAll<CR>g@
+nnoremap <silent><buffer> gtd     :set opfunc=todo#TickDone<CR>g@
+nnoremap <silent><buffer> gts     :set opfunc=todo#TickSuspend<CR>g@
+nnoremap <silent><buffer> gud     :set opfunc=todo#UntickDone<CR>g@
+nnoremap <silent><buffer> gus     :set opfunc=todo#UntickSuspend<CR>g@
+nnoremap <silent><buffer> gua     :set opfunc=todo#UntickAll<CR>g@
 
 nnoremap <silent><buffer> gH    :call todo#ToggleHighlightTask()<CR>
 
-nnoremap <silent><buffer> gi    :call todo#InsertNewTask('c')<CR>|  " Make new child task
-nnoremap <silent><buffer> gI    :call todo#InsertNewTask('p')<CR>|  " Make new parent task
+nnoremap <silent><buffer> gi    :call todo#InsertNewTask(0)<CR>|  " Make new child task
+nnoremap <silent><buffer> gI    :call todo#InsertNewTask(1)<CR>|  " Make new parent task
+nnoremap <silent><buffer> gct   :call todo#ToggleTaskType()<CR>
 
 nnoremap <silent><buffer> <A-p> :call todo#JumpUpCategory()<CR>zz
 nnoremap <silent><buffer> <A-n> :call todo#JumpDownCategory()<CR>zz
