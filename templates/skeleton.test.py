@@ -1,8 +1,7 @@
 #!/bin/env python
 
-""" Unit test output of colorvim command """
+""" Unittest python code """
 
-import os
 import unittest
 
 class TestCode(unittest.TestCase):
@@ -27,9 +26,20 @@ class TestCode(unittest.TestCase):
 		pass
 
 	def test_cmd(self):
-		""" Test command exit status """
+		""" test methods must start with 'test_' """
 
-		self.assertEqual(os.system('echo "Test run!"'), 0)
+		self.assertEqual(1 + 1, 2)
+		self.assertNotEqual(2, '2')
+		self.assertTrue('The earth is round' is not True)
+		self.assertFalse('The earth is round' is True)
+		self.assertIs(object, object)
+		self.assertIsNot(int, float)
+		self.assertIsNone(None)
+		self.assertIsNotNone(not None)
+		self.assertIn('a', ['a', 'b', 'c'])
+		self.assertNotIn('A', ['a', 'b', 'c'])
+		self.assertIsInstance(1, int)
+		self.assertNotIsInstance(1.0, int)
 
 
 if __name__ == '__main__':
