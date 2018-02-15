@@ -515,7 +515,7 @@ endif
 
 nnoremap gD gD:nohlsearch<CR>
 nnoremap gd gd:nohlsearch<CR>
-nnoremap <A-p> ciw<C-r>*<esc>|                     "Paste over a word
+nnoremap <A-p> "_ciw<C-r>*<esc>|                   "Paste over a word
 nnoremap <silent><A-F1> :ToggleMenuBar<CR>|        "Toggle menu bar
 nnoremap <A-Space> a<Space><Left><esc>|            "Insert a whitespace
 nnoremap <Enter> o<Esc>|                           "Make new line
