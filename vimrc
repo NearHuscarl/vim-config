@@ -70,6 +70,12 @@ function! s:CloseEmptyBuffer() " {{{
 	endwhile
 endfunction
 " }}}
+function! EchoHL(msg, hl_group) " {{{
+	execute 'echohl ' . a:hl_group
+	echo a:msg
+	echohl None
+endfunction
+" }}}
 "}}}
 "{{{ Basic Setup
 
@@ -543,6 +549,7 @@ cabbrev vbom verbose<Space>omap
 cabbrev vbcm verbose<Space>cmap
 " }}}
 " {{{ Command difinition
+command! -complete=shellcmd -nargs=+ Shell call shell#exe(<q-args>)
 command! -nargs=* GetHelp silent! call help#GetHelp(<f-args>)
 command! ToggleMenuBar call toggle#menubar()
 command! ToggleVerbose call toggle#verbose()
@@ -569,7 +576,6 @@ call plug#begin(s:plugged)
 
 " Essential
 Plug 'bling/vim-bufferline'
-Plug '/usr/share/vim/vimfiles'
 Plug 'junegunn/fzf.vim'
 
 Plug 'tpope/vim-repeat'
@@ -611,6 +617,7 @@ Plug 'justinmk/vim-sneak', {'on': [
 			\ ]}
 
 Plug 'suan/vim-instant-markdown'
+Plug 'Rykka/InstantRst'
 Plug 'terryma/vim-smooth-scroll'
 
 " Filetype
@@ -650,10 +657,23 @@ Plug 'tpope/vim-surround', {'on': [
 			\ '<Plug>VgSurround'
 			\ ]}
 
-Plug 'Valloric/YouCompleteMe'
-Plug 'gioele/vim-autoswap'
-Plug 'Konfekt/FastFold'
+if has('nvim')
+	Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
+	if g:os ==# 'win'
+		" window path
+	else
+		Plug '/usr/share/vim/vimfiles' " Need for fzf.vim to work
+	endif
+else
+	" not working now, see https://github.com/python-greenlet/greenlet/issues/122
+	" which is part of neovim python module :(
+	Plug 'Shougo/deoplete.nvim'
+	Plug 'roxma/nvim-yarp'
+	Plug 'roxma/vim-hug-neovim-rpc'
+endif
 
+Plug 'gioele/vim-autoswap'
+" Plug 'Konfekt/FastFold'
 Plug 'NearHuscarl/gundo.vim', {'on': 'GundoToggle'}
 
 Plug 'drmikehenry/vim-fontsize', {'on': [
@@ -825,6 +845,9 @@ map #  <Plug>(incsearch-nohl-#)zzzo
 map g* <Plug>(incsearch-nohl-g*)zzzo
 map g# <Plug>(incsearch-nohl-g#)zzzo
 "}}}
+" {{{ InstantRst
+let g:instant_rst_forever = 1 " keep opening rst in browser
+" }}}
 "{{{ Gundo
 if has('python3') && !has('python')
 	let g:gundo_prefer_python3 = 1
@@ -848,7 +871,7 @@ let g:easy_align_ignore_groups = []       " Vim Align ignore comment by default
 "{{{ Emmet
 let g:user_emmet_install_global = 0
 
-autocmd CursorHold,CursorHoldI *.html EmmetInstall
+autocmd BufWrite,CursorHold,CursorHoldI *.html EmmetInstall
 let g:user_emmet_mode='i'
 let g:user_emmet_leader_key    = '<A-o>'
 let g:user_emmet_next_key      = '<A-o>n'
@@ -862,6 +885,11 @@ nmap <silent><A-Down> <Plug>FontsizeDec
 "}}}
 " {{{ Python Syntax
 let python_highlight_all = 1
+" }}}
+" {{{ Repeat
+" stop vim-repeat map u to <Plug>(RepeatUndo)
+silent! nmap <Junk> <Plug>(RepeatUndo)
+silent! call repeat#set("\<Plug>(ale_previous_wrap)zz", v:count)
 " }}}
 "{{{ Session
 let g:session_directory    = s:session
@@ -1048,6 +1076,11 @@ augroup SessionAutoSave
 				\ if v:this_session == ''
 				\|  execute 'mksession!' . g:session_directory . 'AutoSave.vim'
 				\|endif
+augroup END
+
+augroup InstantRstAutoOpen
+	autocmd!
+	autocmd BufRead *.rst InstantRst
 augroup END
 
 autocmd QuickFixCmdPost * cwindow
