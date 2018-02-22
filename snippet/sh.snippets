@@ -95,3 +95,8 @@ case ${1:`!p snip.rv = match.group(2) if match.group(2) is not None else ''`} in
 		$6;;
 esac
 endsnippet
+
+# sc2001<tab> -> # shellcheck disable=SC2001
+snippet "sc([0-9]{4})" "disable shellcheck" br
+# shellcheck disable=SC`!p snip.rv = match.group(1)`
+endsnippet
