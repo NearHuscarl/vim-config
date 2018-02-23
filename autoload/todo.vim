@@ -18,9 +18,6 @@ let s:highlight_checkbox_pattern = '^\s*\[.\]\.'
 let s:category_pattern = '^\s*\[\([xsXS _]\]\)\@![^\]]*\]'
 let s:checkbox_end_pattern = '^\s*# END'
 
-" try
-" 	call plug#load('vim-easy-align')
-" endtry
 " {{{ Wrapper Functions
 function! todo#ToggleDoneVisual(type)
 	call s:ModifyCheckbox('toggle', 'x', '<', '>')
@@ -253,6 +250,15 @@ function! todo#GetTodoFoldLevel(lnum) " {{{
 		return 's1'
 	else
 		return '='
+	endif
+endfunction
+" }}}
+
+function! todo#BeginOfLine() " {{{
+	if getline('.') =~? s:all_checkbox_pattern
+		normal! ^4l
+	else
+		normal! ^
 	endif
 endfunction
 " }}}

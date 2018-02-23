@@ -13,7 +13,7 @@ setlocal foldmethod=expr
 " let todoIndentLevel = 3
 
 nnoremap <silent><buffer> q :q<CR>
-nnoremap <silent><buffer>0 ^4l
+nnoremap <silent><buffer>0 :call todo#BeginOfLine()<CR>
 
 nnoremap <silent><buffer> <Tab>   :set opfunc=todo#ToggleDone<CR>g@l
 nnoremap <silent><buffer> <S-Tab> :set opfunc=todo#ToggleSuspend<CR>g@l
