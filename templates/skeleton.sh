@@ -6,18 +6,18 @@
 # Dependencies:
 
 SCRIPT_NAME=$(basename "$0")
-USAGE="Usage: $SCRIPT_NAME [help]"
+USAGE="Usage: $SCRIPT_NAME [-h]"
 HELP="\
 $SCRIPT_NAME <command>
 Commands:
-  h, help      print this help message"
+  -h, --help      print this help message"
 
 set -o errexit
 set -o pipefail
 set -o nounset
 # set -o xtrace
 
-function die () { # {{{
+function die() { # {{{
 	echo "$*" >&2
 	exit 1
 }
@@ -31,14 +31,14 @@ function help() { # {{{
 }
 # }}}
 function main() { # {{{
-	local cmd="${1:-default_cmd}"
+	local cmd="${1:-}"
 
 	case "$#" in
 		0)
 			usage ;;
 		*)
 			case "$cmd" in
-				h|help)
+				-h|--help)
 					help ;;
 				*)
 					usage ;;
