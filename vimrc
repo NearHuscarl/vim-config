@@ -674,11 +674,6 @@ endif
 Plug 'gioele/vim-autoswap'
 " Plug 'Konfekt/FastFold'
 Plug 'NearHuscarl/gundo.vim', {'on': 'GundoToggle'}
-
-Plug 'drmikehenry/vim-fontsize', {'on': [
-			\ '<Plug>FontsizeInc',
-			\ '<Plug>FontsizeDec'
-			\ ]}
 " Plug 'powerline/fonts'
 call plug#end()
 
@@ -876,11 +871,6 @@ let g:user_emmet_leader_key    = '<A-o>'
 let g:user_emmet_next_key      = '<A-o>n'
 let g:user_emmet_prev_key      = '<A-o>p'
 let g:user_emmet_removetag_key = '<A-o>r'
-"}}}
-"{{{ Fontsize
-let g:fontsize#defaultSize = 8
-nmap <silent><A-Up>   <Plug>FontsizeInc
-nmap <silent><A-Down> <Plug>FontsizeDec
 "}}}
 " {{{ Python Syntax
 let python_highlight_all = 1
