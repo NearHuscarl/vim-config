@@ -814,8 +814,10 @@ nnoremap gr :Grep<Space>
 nnoremap <silent> <Leader>eP :FilesAbsolute git#GetRootDir()<CR>
 " Respect .gitignore. Shorter path but cant open multiple files in subdirectory
 nnoremap <silent> <Leader>ep :execute 'Files ' . git#GetRootDir()<CR>
-nnoremap <silent> <Leader>ec :Commands<CR>
-nnoremap <silent> <Leader>ef :Files<CR>|       "Fzf files from cwd
+nnoremap <silent> <Leader>ew :Grep <C-r>=expand('<cword>')<CR><CR>
+nnoremap <silent> <Leader>eW :Grep <C-r>=expand('<cWORD>')<CR><CR>
+nnoremap <silent> <Leader>fc :Commands<CR>
+nnoremap <silent> <Leader>ec :Files<CR>|       "Fzf files from cwd ([WIP] set autochdir?)
 nnoremap <silent> <Leader>eh :Files $HOME<CR>
 nnoremap <silent> <Leader>ev :Files $HOME/.vim/<CR>
 nnoremap <silent> <Leader>em :MRU<CR>
