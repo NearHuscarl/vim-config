@@ -623,11 +623,10 @@ Plug 'terryma/vim-smooth-scroll'
 " Filetype
 Plug 'pangloss/vim-javascript', {'for': 'javascript'}
 Plug 'maksimr/vim-jsbeautify'
-Plug 'hdima/python-syntax'
-Plug 'hail2u/vim-css3-syntax'
+Plug 'hdima/python-syntax', {'for': 'python'}
+Plug 'hail2u/vim-css3-syntax', {'for': 'css'}
 Plug 'tmhedberg/SimpylFold'
 
-Plug 'altercation/vim-colors-solarized'
 Plug 'ap/vim-css-color'
 
 Plug 'junegunn/vim-easy-align', {'on': '<Plug>(EasyAlign)'}
