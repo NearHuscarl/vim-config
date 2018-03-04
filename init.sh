@@ -27,6 +27,28 @@ done
 
 # Download plug.vim if not exists
 if [[ ! -s "$vimplug_path" ]]; then
-	echo 'Downloading plug.vim'
-	curl -o "$vimplug_path" "https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim"
+	echo '>>> Downloading plug.vim'
+	curl -o "$vimplug_path" 'https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim'
+fi
+
+# -- Setup for neovim --
+# what does -s mean??
+nvim_path='C:/Users/Near/AppData/Local/nvim'
+if [[ ! -s "$nvim_path/init.vim" ]]; then
+	mkdir -p "$nvim_path"
+	echo '>>> Downloading init.vim for neovim'
+	curl -o "$nvim_path/init.vim" 'https://raw.githubusercontent.com/NearHuscarl/dotfiles/master/.config/nvim/init.vim'
+fi
+
+# Install neovim for python and javascript if unavailable
+if ! python -c 'import neovim' 2> /dev/null; then
+	echo
+	echo '>>> Install neovim for python'
+	pip install neovim 2> /dev/null
+fi
+
+if ! npm list --depth 0 --global neovim &> /dev/null; then
+	echo
+	echo '>>> Install neovim for javascript'
+	npm install --global neovim 2> /dev/null
 fi
