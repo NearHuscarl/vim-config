@@ -1,39 +1,32 @@
-#!/bin/bash
-
-function join_path {
-	local os=$(uname -s)
-
-	if [[ "$os" =~ 'CYGWIN' ]]; then
-		local first_path=$(echo "$1" | sed 's/\//\\/g')
-		local second_path=$(echo "$2" | sed 's/\//\\/g')
-		echo ""$first_path"\\"$second_path""
-	else
-		local first_path=$(echo "$1" | sed 's/\\/\//g')
-		local second_path=$(echo "$2" | sed 's/\\/\//g')
-		echo ""$first_path"/"$second_path""
-	fi
-}
-
+#!/bin/env bash
 
 os=$(uname -s)
-
-if [[ "$os" =~ 'CYGWIN' ]]; then
-	vim_path=$(join_path "$USERPROFILE" 'vimfiles')
+if [[ "$os" =~ 'CYGWIN' ]] || [[ "$os" =~ 'MINGW' ]]; then
+	vim_path="$HOME/vimfiles"
 elif [[ "$os" == 'Linux' ]]; then
-	vim_path=$(join_path "$HOME" '.vim')
+	vim_path="$HOME/.vim"
 fi
-vim_plug_path=$(join_path "$vim_path" 'autoload/plug.vim')
-dir_list="plugged session swapfiles undo"
+
+cwd="$PWD"
+vimplug_path="$vim_path/autoload/plug.vim"
+dirs="plugged session swapfiles undo"
+
+# If not in $vim_path now, copy content to that destination
+if [[ "$cwd" != "$vim_path" ]]; then
+	echo "copy $cwd to $vim_path"
+	cp -r "$cwd" "$vim_path"
+fi
 
 # Make necessary directories if not exists
-for dir in $dir_list; do
+for dir in $dirs; do
 	if [[ ! -d "$vim_path"/"$dir" ]]; then
+		echo "creating $vim_path/$dir"
 		mkdir -p "$vim_path"/"$dir"
 	fi
 done
 
 # Download plug.vim if not exists
-if [[ ! -s "$vim_plug_path" ]]; then
-	echo 'Downloading plug.vim..'
-	curl -o "$vim_plug_path" "https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim"
+if [[ ! -s "$vimplug_path" ]]; then
+	echo 'Downloading plug.vim'
+	curl -o "$vimplug_path" "https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim"
 fi
