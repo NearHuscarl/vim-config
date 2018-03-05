@@ -1,5 +1,14 @@
 #!/bin/env bash
 
+# This script is part of vim-config
+# Run to setup vim-config for vim and neovim on windows
+
+# Requirement:
+# MinGW
+
+# Note: if you have git installed. It already included
+# MinGW. Right click and select 'Git bash'
+
 os=$(uname -s)
 if [[ "$os" =~ 'CYGWIN' ]] || [[ "$os" =~ 'MINGW' ]]; then
 	vim_path="$HOME/vimfiles"
