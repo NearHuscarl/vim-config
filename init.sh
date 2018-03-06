@@ -65,3 +65,12 @@ if ! npm list --depth 0 --global neovim &> /dev/null; then
 	echo '>>> Install neovim for javascript'
 	npm install --global neovim 2> /dev/null
 fi
+
+
+# fzf setup
+if [[ ! -s "$vim_path/plugged/fzf/plugin/fzf.vim" ]]; then
+	echo
+	echo '>>> Download fzf.vim from https://github.com/junegunn/fzf/blob/master/plugin/fzf.vim'
+	mkdir -p "$vim_path/plugged/fzf/plugin"
+	curl -o "$vim_path/plugged/fzf/plugin/fzf.vim" 'https://raw.githubusercontent.com/junegunn/fzf/master/plugin/fzf.vim'
+fi
