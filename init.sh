@@ -1,4 +1,4 @@
-#!/bin/env bash
+#!/bin/bash
 
 # This script is part of vim-config
 # Run to setup vim-config for vim and neovim on windows
@@ -41,8 +41,12 @@ if [[ ! -s "$vimplug_path" ]]; then
 fi
 
 # -- Setup for neovim --
-# what does -s mean??
-nvim_path='C:/Users/Near/AppData/Local/nvim'
+if [[ "$os" =~ 'CYGWIN' ]] || [[ "$os" =~ 'MINGW' ]]; then
+	nvim_path='C:/Users/Near/AppData/Local/nvim'
+elif [[ "$os" == 'Linux' ]]; then
+	nvim_path="$HOME/.config/nvim"
+fi
+
 if [[ ! -s "$nvim_path/init.vim" ]]; then
 	mkdir -p "$nvim_path"
 	echo '>>> Downloading init.vim for neovim'
