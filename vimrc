@@ -511,14 +511,7 @@ nnoremap Q @q|                                     "Execute macro
 xnoremap > >gv|                                    "Make indent easier
 xnoremap < <gv|                                    "Make indent easier
 nnoremap yp :call yank#Path()<CR>|                 "Yank and show current path
-
-if ExistsFile(s:autoload . 'license.vim')
-	nnoremap <silent>u     :call license#skip_license_date('undo')<CR>
-	nnoremap <silent><A-u> :call license#skip_license_date('redo')<CR>
-else
-	nnoremap <silent><A-u> <C-r>
-endif
-
+nnoremap <silent><A-u> <C-r>
 nnoremap gD gD:nohlsearch<CR>
 nnoremap gd gd:nohlsearch<CR>
 nnoremap <A-p> "_ciw<C-r>*<esc>|                   "Paste over a word
@@ -527,11 +520,8 @@ nnoremap <A-Space> a<Space><Left><esc>|            "Insert a whitespace
 nnoremap <Enter> o<Esc>|                           "Make new line
 nnoremap Y y$|                                     "Make Y yank to endline (same behaviours as D or R)
 nnoremap <C-w> :ToggleWrap<CR>|                    "Toggle wrap option
-nnoremap <silent><Leader>-
-			\ :call license#save_and_update_timestamp()<CR>
-                                                   "Write changes + update timestamp if buffer is modified
-nnoremap <silent>- :update<CR>|                    "Write without updating timestamp
-nnoremap <silent><Leader><Leader>- :SudoWrite<CR>| "Write changes with sudo
+nnoremap <silent>- :update<CR>|                    "Write if file content changed
+nnoremap <silent><Leader>- :SudoWrite<CR>|         "Write changes with sudo
 nnoremap <silent><Leader>tV :ToggleVerbose<CR>
 nnoremap <silent><Leader>o :call ide#Open('code')<CR>| "Open vscode of current file to debug
 nnoremap <silent><Leader><CR> :ExecuteFile<CR>|    "Run executable file (python, ruby, bash..)
