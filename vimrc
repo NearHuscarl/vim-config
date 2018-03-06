@@ -649,16 +649,13 @@ Plug 'tpope/vim-surround', {'on': [
 if has('nvim')
 	Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
 	if g:os ==# 'win'
-		" window path
+		Plug '~\vimfiles\plugged\fzf'
 	else
-		Plug '/usr/share/vim/vimfiles' " Need for fzf.vim to work
+		Plug '~/.vim/plugged/fzf'
 	endif
+	Plug 'zchee/deoplete-jedi', {'for': 'python'}
 else
-	" not working now, see https://github.com/python-greenlet/greenlet/issues/122
-	" which is part of neovim python module :(
-	Plug 'Shougo/deoplete.nvim'
-	Plug 'roxma/nvim-yarp'
-	Plug 'roxma/vim-hug-neovim-rpc'
+	" Dont have plan to work with vim for long...
 endif
 
 Plug 'gioele/vim-autoswap'
