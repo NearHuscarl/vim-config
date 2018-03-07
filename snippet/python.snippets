@@ -1,3 +1,16 @@
+snippet license "LICENSE" b
+"""
+============================================================================
+File:        `!v expand("%:t")`
+Description: ${1:Description}
+Author:      Near Huscarl <near.huscarl@gmail.com>
+Last Change: `!v strftime("%a %b %d %H:%M:%S %Z %Y")`
+Licence:     ${2:BSD 3-Clause license}
+Note:        ${3:N/A}
+============================================================================
+"""
+endsnippet
+
 snippet "p( ([\S ]+))?" "print statement" br
 print(`!p snip.rv = match.group(2) if match.group(2) is not None else 'True'`)
 endsnippet
