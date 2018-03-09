@@ -34,42 +34,42 @@ function! s:SetupSessionPlugin(map_list) " {{{
 	silent! execute 'nnoremap <silent> ' . a:map_list[7] . ' :SessionDelete<CR>'
 endfunction
 " }}}
-function! session#LazyOpen(map_list) " {{{
+function! lazyload#session#Open(map_list) " {{{
    call s:SetupSessionPlugin(a:map_list)
    execute 'SessionOpen'
 endfunction
 " }}}
-function! session#LazyOPEN(map_list) " {{{
+function! lazyload#session#OPEN(map_list) " {{{
    call s:SetupSessionPlugin(a:map_list)
    execute 'SessionOpen!'
 endfunction
 " }}}
-function! session#LazySave(map_list) " {{{
+function! lazyload#session#Save(map_list) " {{{
    call s:SetupSessionPlugin(a:map_list)
    execute 'SessionSave'
 endfunction
 " }}}
-function! session#LazySAVE(map_list) " {{{
+function! lazyload#session#SAVE(map_list) " {{{
    call s:SetupSessionPlugin(a:map_list)
    execute "normal! :SessionSave \<C-d>"
 endfunction
 " }}}
-function! session#LazyClose(map_list) " {{{
+function! lazyload#session#Close(map_list) " {{{
    call s:SetupSessionPlugin(a:map_list)
    execute 'SessionClose'
 endfunction
 " }}}
-function! session#LazyDelete(map_list) " {{{
+function! lazyload#session#Delete(map_list) " {{{
    call s:SetupSessionPlugin(a:map_list)
    execute 'SessionDelete'
 endfunction
 " }}}
-function! session#LazyView(map_list) " {{{
+function! lazyload#session#View(map_list) " {{{
    call s:SetupSessionPlugin(a:map_list)
    execute 'SessionView'
 endfunction
 " }}}
-function! session#LazyVIEW(map_list) " {{{
+function! lazyload#session#VIEW(map_list) " {{{
    call s:SetupSessionPlugin(a:map_list)
    execute "normal! :SessionView \<C-d>"
 endfunction

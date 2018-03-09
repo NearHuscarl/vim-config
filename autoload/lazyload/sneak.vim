@@ -9,22 +9,22 @@ function! s:SetupSneakPlugin(map_list) " {{{
 	silent! execute 'xnoremap <silent>' . a:map_list[3] . ' :<C-U>call sneak#wrap(visualmode(), 3, 1, 2, 1)<CR>'
 endfunction
 " }}}
-function! sneak#LazyloadForwardNormal(map_list) " {{{
+function! lazyload#sneak#ForwardNormal(map_list) " {{{
 	call s:SetupSneakPlugin(a:map_list)
 	call sneak#wrap('', 3, 0, 2, 1)
 endfunction
 " }}}
-function! sneak#LazyloadBackwardNormal(map_list) " {{{
+function! lazyload#sneak#BackwardNormal(map_list) " {{{
 	call s:SetupSneakPlugin(a:map_list)
 	call sneak#wrap('', 3, 1, 2, 1)
 endfunction
 " }}}
-function! sneak#LazyloadForwardVisual(map_list) " {{{
+function! lazyload#sneak#ForwardVisual(map_list) " {{{
 	call s:SetupSneakPlugin(a:map_list)
 	call sneak#wrap(visualmode(), 3, 0, 2, 1)
 endfunction
 " }}}
-function! sneak#LazyloadBackwardVisual(map_list) " {{{
+function! lazyload#sneak#BackwardVisual(map_list) " {{{
 	call s:SetupSneakPlugin(a:map_list)
 	call sneak#wrap(visualmode(), 3, 1, 2, 1)
 endfunction

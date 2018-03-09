@@ -11,7 +11,7 @@
 " Try to expand snippet from ultisnips
 " If not work, try to expand popup
 " If not work, insert a literal tab
-function! ultisnips#Expand() " {{{
+function! lazyload#ultisnips#Expand() " {{{
 	call UltiSnips#ExpandSnippet()
 	if g:ulti_expand_res == 0
 		if pumvisible()
@@ -67,13 +67,13 @@ function! s:InsertSpace() " {{{
 	return space
 endfunction
 " }}}
-function! ultisnips#Lazyload() " {{{
+function! lazyload#ultisnips#Load() " {{{
 	" lazyload ultisnips make cursor move -> restore cursor pos
 	let viewInfo  = winsaveview()
 	call plug#load('ultisnips')
 	call winrestview(viewInfo)
 
-	inoremap <silent><Tab> <C-R>=ultisnips#Expand()<CR>
-	return ultisnips#Expand()
+	inoremap <silent><Tab> <C-R>=lazyload#ultisnips#Expand()<CR>
+	return lazyload#ultisnips#Expand()
 endfunction
 " }}}

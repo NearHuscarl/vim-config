@@ -2,7 +2,7 @@
 " File:        .vimrc
 " Description: Vim settings
 " Author:      Near Huscarl <near.huscarl@gmail.com>
-" Last Change: Thu Feb 08 11:17:47 +07 2018
+" Last Change: Fri Mar 09 14:43:00 +07 2018
 " Licence:     BSD 3-Clause license
 " Note:        This is a personal vim config. therefore most likely not work 
 "              on your machine
@@ -889,14 +889,14 @@ let g:session_map_list = [
 			\ '<Leader>sd',
 			\ ]
 
-nnoremap <silent><Leader>so :call session#LazyOpen(session_map_list)<CR>
-nnoremap <silent><Leader>sO :call session#LazyOPEN(session_map_list)<CR>
-nnoremap <silent><Leader>ss :call session#LazySave(session_map_list)<CR>
-nnoremap <silent><Leader>sS :call session#LazySAVE(session_map_list)<CR>
-nnoremap <silent><Leader>sv :call session#LazyView(session_map_list)<CR>
-nnoremap <silent><Leader>sV :call session#LazyVIEW(session_map_list)<CR>
-nnoremap <silent><Leader>sc :call session#LazyClose(session_map_list)<CR>
-nnoremap <silent><Leader>sd :call session#LazyDelete(session_map_list)<CR>
+nnoremap <silent><Leader>so :call lazyload#session#Open(session_map_list)<CR>
+nnoremap <silent><Leader>sO :call lazyload#session#OPEN(session_map_list)<CR>
+nnoremap <silent><Leader>ss :call lazyload#session#Save(session_map_list)<CR>
+nnoremap <silent><Leader>sS :call lazyload#session#SAVE(session_map_list)<CR>
+nnoremap <silent><Leader>sv :call lazyload#session#View(session_map_list)<CR>
+nnoremap <silent><Leader>sV :call lazyload#session#VIEW(session_map_list)<CR>
+nnoremap <silent><Leader>sc :call lazyload#session#Close(session_map_list)<CR>
+nnoremap <silent><Leader>sd :call lazyload#session#Delete(session_map_list)<CR>
 "}}}
 "{{{ SimpylFold
 let g:SimpylFold_fold_docstring = 0
@@ -945,8 +945,8 @@ vmap T <Plug>Sneak_T
 
 " 3 characters search instead
 let g:sneak_map_list = ['s', 'S']
-nnoremap <silent>s :call sneak#LazyloadForwardNormal(sneak_map_list)<CR>
-nnoremap <silent>S :call sneak#LazyloadBackwardNormal(sneak_map_list)<CR>
+nnoremap <silent>s :call lazyload#sneak#ForwardNormal(sneak_map_list)<CR>
+nnoremap <silent>S :call lazyload#sneak#BackwardNormal(sneak_map_list)<CR>
 "}}}
 "{{{ Surround
 nmap ds  <Plug>Dsurround
@@ -980,7 +980,7 @@ let g:ycm_key_list_select_completion = []
 "{{{ Ultisnips
 nnoremap <Leader>U :UltiSnipsEdit<CR>|                            " Open new file to define snippets
 nnoremap <Leader><Leader>U :UltiSnipsEdit!<CR>|                   " Open all available files to select
-inoremap <silent><Tab> <C-r>=ultisnips#Lazyload()<CR>
+inoremap <silent><Tab> <C-r>=lazyload#ultisnips#Load()<CR>
 
 let g:UltiSnipsSnippetsDir = s:snippet                             " Custom snippets stored here
 let g:UltiSnipsSnippetDirectories  = ['UltiSnips', 'snippet']        " Directories list for ultisnips to search
