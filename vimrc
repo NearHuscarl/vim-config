@@ -614,6 +614,7 @@ Plug 'terryma/vim-smooth-scroll'
 Plug 'pangloss/vim-javascript', {'for': 'javascript'}
 Plug 'maksimr/vim-jsbeautify'
 Plug 'hdima/python-syntax', {'for': 'python'}
+Plug 'neovimhaskell/haskell-vim', {'for': 'haskell'}
 Plug 'hail2u/vim-css3-syntax', {'for': 'css'}
 Plug 'tmhedberg/SimpylFold'
 
@@ -814,7 +815,16 @@ nnoremap <silent> <Leader>m  :Maps<CR>
 nnoremap <silent> <Leader>l  :BLines<CR>
 nnoremap <silent> <Leader>L  :Lines<CR>
 nnoremap <silent> <Leader>b  :Buffers<CR>
-"}}}
+" }}}
+" {{{ Haskell
+let g:haskell_enable_quantification = 1   " to enable highlighting of `forall`
+let g:haskell_enable_recursivedo = 1      " to enable highlighting of `mdo` and `rec`
+let g:haskell_enable_arrowsyntax = 1      " to enable highlighting of `proc`
+let g:haskell_enable_pattern_synonyms = 1 " to enable highlighting of `pattern`
+let g:haskell_enable_typeroles = 1        " to enable highlighting of type roles
+let g:haskell_enable_static_pointers = 1  " to enable highlighting of `static`
+let g:haskell_backpack = 1                " to enable highlighting of backpack keywords
+" }}}
 "{{{ Incsearch
 let g:incsearch#auto_nohlsearch = 1
 map /  <Plug>(incsearch-forward)
@@ -1017,6 +1027,14 @@ augroup Statusline
 	autocmd VimEnter * call statusline#SetStatusline()
 	autocmd BufEnter * silent! call statusline#UpdateStatuslineInfo()
 	autocmd CursorHold * let g:statuslineFileSize = statusline#SetFileSize()
+augroup END
+
+augroup VimPlugLazyloadSyntax
+	autocmd!
+	autocmd User python-syntax syntax on
+	autocmd User haskell-vim syntax on
+	autocmd User vim-javascript syntax on
+	autocmd User vim-css3-syntax syntax on
 augroup END
 
 augroup SaveView
