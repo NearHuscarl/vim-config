@@ -60,7 +60,7 @@ text: %text%
 F1::run cmd.exe
 
 ; Open nvim
-F2::run nvim-qt.exe
+F2::run nvim-qt.exe --maximized
 ; Open vim
 RCtrl & F2::run gvim.exe
 
