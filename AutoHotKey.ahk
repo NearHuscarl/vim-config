@@ -1,14 +1,8 @@
-﻿; #h::DoStuff           -> win   + h to DoStuff
-; !h::DoStuff           -> alt   + h to DoStuff
-; ^h::DoStuff           -> ctrl  + h to DoStuff
-; +h::DoStuff           -> shift + h to DoStuff
-; Capslock & h::DoStuff -> Caps  + h to DoStuff
-
-
-#Persistent
+﻿#Persistent
 #InstallKeybdHook
 #InstallMouseHook
 #KeyHistory 100
+
 
 ; 1: A window's title must start with the specified WinTitle to be a match
 ; 2: A window's title can contain WinTitle anywhere inside it to be a match
@@ -39,7 +33,81 @@ return
 RAlt::Capslock
 return
 
-InspectWindow() {
+IsModifierKey(key) {
+	modifierKeys = Ctrl,LCtrl,RCtrl
+		,Alt,LAlt,RAlt
+		,Shift,LShift,RShift
+		,Win,LWin,RWin
+
+	if key in %modifierKeys%
+		return True
+
+	return False
+}
+IsSpecialKey(key) { ; {{{
+	specialKeys = F1,F2,F3,F4,F5,F6,F7,F8,F9,F10,F11,F12,F13,F14,F15,F16,F17,F18,F19,F20,F21,F22,F23,F24
+		,!,#,+,^,{,}
+		,Enter,Esc,Space,Tab,BS,Del,Ins,Up,Down,Left,Right,Home,End,PgUp,PgDn
+		,Capslock,ScrollLock,NumLock,AppsKey,Sleep
+		,Numpad0,Numpad1,Numpad2,Numpad3,Numpad4,Numpad5,Numpad6,Numpad7,Numpad8,Numpad9
+		,NumpadDot,NumpadEnter,NumpadMult,NumpadDiv,NumpadAdd,NumpadSub
+		,NumpadDel,NumpadIns,NumpadClear,NumpadUp,NumpadDown,NumpadLeft,NumpadRight,NumpadHome,NumpadEnd,NumpadPgUp,NumpadPgDn
+		,Browser_Back,Browser_Forward,Browser_Refresh,Browser_Stop,Browser_Search,Browser_Favorites,Browser_Home
+		,Volume_Mute,Volume_Down,Volume_Up
+		,Media_Next,Media_Prev,Media_Stop,Media_Play_Pause
+		,Launch_Mail,Launch_Media,Launch_App1,Launch_App2
+		,PrintScreen,CtrlBreak,Pause
+		,WheelDown,WheelUp
+		,WheelLeft,WheelRight
+		,LButton,RButton,MButton,XButton1,XButton2
+
+	if key in %specialKeys%
+		return True
+
+	if IsModifierKey(key)
+		return True
+
+	return False
+}
+; }}}
+GetModifiedKeySymbol(key) { ; {{{
+	if (key == "Ctrl")
+		return "^"
+	else if (key == "Alt")
+		return "!"
+	else if (key == "Shift")
+		return "+"
+	else if (key == "Win")
+		return "#"
+}
+; }}}
+Press(keys*) { ; {{{
+	; Wrapper function to make a neat interface for sending keys
+	; Usage:
+	;  Press("Ctrl", "c")
+	;  Press("Ctrl", "Shift", "Left")
+	;  Press("Win", "F1")
+	;  Press("Home")
+	keystrokes := ""
+	for i, key in keys {
+		if IsModifierKey(key) {
+			keystrokes := keystrokes . GetModifiedKeySymbol(key)
+		}
+		else {
+			if IsSpecialKey(key)
+				keystrokes := keystrokes . "{" . key . "}"
+			else
+				keystrokes := keystrokes . key
+		}
+	}
+	Send %keystrokes%
+}
+; }}}
+ToggleUnikey() {
+	Press("Alt", "z")
+}
+InspectWindow() { ; {{{
+	; Print info of current focused window
 	WinGetTitle, title, A
 	WinGetClass, class, A
 	WinGetText,  text,  A
@@ -50,6 +118,33 @@ class: %class%
 text: %text%
 		)
 }
+; }}}
+Copy() { ; {{{
+	; Copy something
+	Press("Ctrl", "c")
+}
+; }}}
+YankPath() { ; {{{
+	; Yank current path address
+	; NOTE: this will work only when select "Display full path in title bar
+	Clipboard =
+	Copy()
+	ClipWait
+	Clipboard = %Clipboard%
+}
+; }}}
+nvim_exe := "E:\Program Files\Neovim\bin\nvim-qt.exe"
+OpenWith(executable) { ; {{{
+	exe := "E:\Program Files\Neovim\bin\nvim-qt.exe"
+	YankPath()
+	; msgBox, nvim_exe %nvim_exe%
+	IfExist, %exe%
+		run, %exe% `"%Clipboard%`"
+	Return
+}
+; }}}
+
+^o::OpenWith(nvim_exe)
 
 ; Ctrl+Shift+s to Suspend ahk
 ^+s::Suspend
@@ -87,7 +182,7 @@ $F6::
    return
 
 ; Unikey Toggle
-Capslock & F9::sendinput {Alt Down}z{Alt Up}
+Capslock & F9::ToggleUnikey()
 
 ; Open Firefox
 ; RCtrl & 1::run firefox.exe
@@ -390,21 +485,13 @@ Capslock & c::
 ; Up to parent directory
 capslock & u::sendinput {Alt down}{Up}{Alt up}
 
-^o::send {Enter}
-
 ; Close window
 Capslock & /::sendinput {Alt down}{F4}{Alt up}
 
 ; Yank selected file/folder
 Capslock & y::sendinput {Ctrl down}c{Ctrl up}
 
-; Yank current path address
-; NOTE: this will work only when select "Display full path in title bar
-^+y::
-   Clipboard =
-   send, ^c
-   Clipboard = %Clipboard%
-return
+^+y::YankPath()
 
 ; Paste
 ^p::send {Ctrl down}v{Ctrl up}
