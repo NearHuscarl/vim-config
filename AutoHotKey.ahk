@@ -139,7 +139,7 @@ OpenWith(executable) { ; {{{
 	YankPath()
 	; msgBox, nvim_exe %nvim_exe%
 	IfExist, %exe%
-		run, %exe% `"%Clipboard%`"
+		run, %exe% `"%Clipboard%`" --maximized
 	Return
 }
 ; }}}
