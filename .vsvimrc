@@ -1,0 +1,112 @@
+" set vimrc="C:\Users\Near\_vsvimrc"
+
+set incsearch
+set ignorecase
+set smartcase
+
+let mapleader = "\<Space>"
+
+nnoremap ,v :source C:\Users\Near\.vsvimrc<CR>:echo ".vsvimrc has been sourced"<CR>
+
+nnoremap ; :
+nnoremap l 12<C-e>12j
+nnoremap h 12<C-y>12k
+nnoremap j 1<C-e>1j
+nnoremap k 1<C-y>1k
+vnoremap <A-k> 3<C-y>3k
+vnoremap <A-j> 3<C-e>3j
+vnoremap <A-l> 12<C-e>12j
+vnoremap <A-h> 12<C-y>12k
+
+nnoremap <Leader>h <C-w>h
+nnoremap <Leader>l <C-w>l
+nnoremap <Leader>j <C-w>j
+nnoremap <Leader>k <C-w>k
+
+nnoremap zo zozz
+nnoremap zc zczz
+nnoremap za zazz
+
+nnoremap J :cnext<CR>
+nnoremap K :cprev<CR>
+
+inoremap <A-[> <Esc>
+vnoremap <A-[> <Esc>
+snoremap <A-[> <Esc>
+cnoremap <A-[> <C-c>
+
+"Add more control in insert mode
+inoremap <A-9> <C-w>
+inoremap <A-0> <Esc>lmaed`axi
+inoremap <A-Space> <BS>
+inoremap <A-/> <Esc>0Di
+inoremap <A-;> <C-Left>
+inoremap <A-'> <C-Right>
+inoremap <A-j> <Down>
+inoremap <A-k> <Up>
+inoremap <A-h> <Left>
+inoremap <A-l> <Right>
+inoremap <A-,> <Home>
+inoremap <A-.> <End>
+inoremap <A-p> <Esc>pi<Right>
+
+"Redo
+nnoremap <A-u> <C-r>
+
+"Command history
+cnoremap <A-n> <Down>
+cnoremap <A-p> <Up>
+
+"Debug
+nnoremap dd    :vsc Debug.Start<CR>
+nnoremap ds    :vsc Debug.StopDebugging<CR>
+nnoremap dn    :vsc Debug.StartWithoutDebugging<CR>
+
+nnoremap o     :vsc Debug.StepOver<CR>
+nnoremap ]     :vsc Debug.StepInto<CR>
+nnoremap [     :vsc Debug.StepOut<CR>
+
+nnoremap pw    :vsc Debug.Breakpoints<CR>
+nnoremap pp    :vsc Debug.ToggleBreakpoint<CR>
+nnoremap pe    :vsc Debug.EnableBreakpoint<CR>
+nnoremap pd    :vsc Debug.DeleteAllBreakpoints<CR>
+
+nnoremap cw    :vsc Debug.CallStack<CR>
+nnoremap cl    :vsc Debug.ListCallStack<CR>
+
+nnoremap aw    :vsc Debug.Autos<CR>
+nnoremap vw    :vsc Debug.Watch1<CR>
+nnoremap va    :vsc Debug.AddWatch<CR>
+nnoremap vd    :vsc Debug.ContextMenus.AutosWindow.DeleteWatch<CR>
+"<A-v>d :vsc Debug.ContextMenus.AutosWindow.DeleteWatch<CR>
+
+nnoremap ew    :vsc View.ErrorList<CR>
+nnoremap en    :vsc View.NextError<CR>
+nnoremap ep    :vsc View.PreviousError<CR>
+
+"Navigation
+nnoremap sw     :vsc View.SolutionExplorer<CR>
+"<A-s>h :vsc SolutionExplorer.Home<CR>
+"<A-s>r :vsc SolutionExplorer.Refresh<CR>
+"<A-s>f :vsc SolutionExplorer.Forward<CR>
+"<A-s>b :vsc SolutionExplorer.Back<CR>
+"<A-s>s :vsc ProjectandSolutionContextMenu.Project.SolutionExplorer.ScopeToThis<CR>
+
+" nnoremap o      :vsc Edit.GoToDeclaration<CR>
+nnoremap <A-;>  :vsc Window.PreviousTab<CR>
+nnoremap <A-'>  :vsc Window.NextTab<CR>
+nnoremap <A-]>  :vsc EditorContextMenus.CodeWindow.ToggleHeaderCodeFile<CR>
+nnoremap do     :vsc Debug.Output<CR>
+nnoremap x      :vsc Window.CloseDocumentWindow<CR>
+nnoremap <A-o>  :vsc View.NavigateBackward<CR>
+nnoremap <S-o>  :vsc View.NavigateForward<CR>
+"<A-t>k :vsc Tools.CustomizeKeyboard<CR>
+"<A-t>x :vsc Window.CloseToolWindow<CR>
+
+"Tool
+"<A-t>k :vsc Tool.CustomizeKeyboard<CR>
+
+"Require: Relative Number Extension
+
+"TODO:
+"Change window size
