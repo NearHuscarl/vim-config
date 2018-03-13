@@ -33,7 +33,7 @@ return
 RAlt::Capslock
 return
 
-IsModifierKey(key) {
+IsModifierKey(key) { ; {{{
 	modifierKeys = Ctrl,LCtrl,RCtrl
 		,Alt,LAlt,RAlt
 		,Shift,LShift,RShift
@@ -44,6 +44,7 @@ IsModifierKey(key) {
 
 	return False
 }
+; }}}
 IsSpecialKey(key) { ; {{{
 	specialKeys = F1,F2,F3,F4,F5,F6,F7,F8,F9,F10,F11,F12,F13,F14,F15,F16,F17,F18,F19,F20,F21,F22,F23,F24
 		,!,#,+,^,{,}
@@ -103,9 +104,10 @@ Press(keys*) { ; {{{
 	Send %keystrokes%
 }
 ; }}}
-ToggleUnikey() {
+ToggleUnikey() { ; {{{
 	Press("Alt", "z")
 }
+; }}}
 InspectWindow() { ; {{{
 	; Print info of current focused window
 	WinGetTitle, title, A
@@ -117,6 +119,10 @@ title: %title%
 class: %class%
 text: %text%
 		)
+}
+; }}}
+WindowBackwardForward() { ; {{{
+	Press("Alt", "Tab")
 }
 ; }}}
 Copy() { ; {{{
@@ -196,10 +202,12 @@ RCtrl & 4::run FoxitReader.exe
 Ctrl & /::sendinput {LWin Down}d{LWin Up}
 
 
-; Window manager. Winactive [, title]
+; Mimic my i3wm shortcuts setup on linux
+; Winactive [, title]
 RCtrl & 1::WinActivate, MINGW
 RCtrl & 2::WinActivate, Neovim
 RCtrl & 3::WinActivate, Google Chrome
+LCtrl & n::WindowBackwardForward()
 
 #If Winactive("ahk_exe nvim-qt.exe")
 
