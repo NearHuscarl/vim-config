@@ -824,6 +824,18 @@ let g:haskell_enable_pattern_synonyms = 1 " to enable highlighting of `pattern`
 let g:haskell_enable_typeroles = 1        " to enable highlighting of type roles
 let g:haskell_enable_static_pointers = 1  " to enable highlighting of `static`
 let g:haskell_backpack = 1                " to enable highlighting of backpack keywords
+
+let g:haskell_indent_if = &tabstop
+let g:haskell_indent_case = &tabstop
+let g:haskell_indent_let = &tabstop
+let g:haskell_indent_where = &tabstop
+let g:haskell_indent_before_where = &tabstop
+let g:haskell_indent_after_bare_where = &tabstop
+let g:haskell_indent_do = &tabstop
+let g:haskell_indent_in = &tabstop
+let g:haskell_indent_guard = &tabstop
+let g:haskell_indent_case_alternative = &tabstop
+let g:cabal_indent_section = &tabstop
 " }}}
 "{{{ Incsearch
 let g:incsearch#auto_nohlsearch = 1
