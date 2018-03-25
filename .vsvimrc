@@ -13,6 +13,7 @@ nnoremap l 12<C-e>12j
 nnoremap h 12<C-y>12k
 nnoremap j 1<C-e>1j
 nnoremap k 1<C-y>1k
+
 vnoremap <A-k> 3<C-y>3k
 vnoremap <A-j> 3<C-e>3j
 vnoremap <A-l> 12<C-e>12j
