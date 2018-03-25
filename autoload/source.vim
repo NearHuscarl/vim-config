@@ -7,6 +7,12 @@
 " Note:        Note
 " ============================================================================
 
+if has('win32') || has('win64')
+	let s:sep = '\\'
+else
+	let s:sep = '\/'
+endif
+
 function! source#vimrc() " {{{
 	source $MYVIMRC
 	if exists(':YcmRestartServer')
@@ -24,13 +30,13 @@ endfunction
 function! source#vimfile() " {{{
 	" Note: This function cannot source the file contain itself (autoload/source.vim)
 	" Because it cannot be redefined while still executing.
-	if expand('%:p') =~# 'autoload\/source\.vim'
+	if expand('%:p') =~# 'autoload' . s:sep . 'source\.vim'
 		return
 	endif
 
 	for dirname in ['after', 'autoload', 'ftdetect', 'ftplugin', 'indent', 'plugin']
 		" dirname = 'autoload' => match ../autoload/.. or ../autoload
-		if expand('%:p:h') =~# '\(\/' . dirname . '\/\|\/' . dirname . '$\)'
+		if expand('%:p:h') =~# s:sep . dirname . '\(' . s:sep . '\|$\)'
 			" /home/near/.vim/autoload/a/b/f.vim => autoload/a/b/f.vim
 			let file_path = matchlist(expand('%:p'), '.*\(' . dirname . '.*$\)')[1]
 
