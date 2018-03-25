@@ -567,6 +567,11 @@ call plug#begin(s:plugged)
 " Essential
 Plug 'bling/vim-bufferline'
 Plug 'junegunn/fzf.vim'
+if g:os ==# 'win'
+	Plug '~\vimfiles\plugged\fzf'
+else
+	Plug '~/.vim/plugged/fzf'
+endif
 
 Plug 'tpope/vim-repeat'
 Plug 'wellle/targets.vim'
@@ -616,6 +621,7 @@ Plug 'maksimr/vim-jsbeautify'
 Plug 'hdima/python-syntax', {'for': 'python'}
 Plug 'neovimhaskell/haskell-vim', {'for': 'haskell'}
 Plug 'hail2u/vim-css3-syntax', {'for': 'css'}
+
 Plug 'tmhedberg/SimpylFold'
 
 Plug 'ap/vim-css-color'
@@ -647,13 +653,9 @@ Plug 'tpope/vim-surround', {'on': [
 			\ '<Plug>VgSurround'
 			\ ]}
 
+" Plug 'Valloric/YouCompleteMe'
 if has('nvim')
 	Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
-	if g:os ==# 'win'
-		Plug '~\vimfiles\plugged\fzf'
-	else
-		Plug '~/.vim/plugged/fzf'
-	endif
 	Plug 'zchee/deoplete-jedi', {'for': 'python'}
 else
 	" Dont have plan to work with vim for long...
