@@ -1017,9 +1017,9 @@ let g:UltiSnipsJumpBackwardTrigger = '<A-k>'
 function! InitPyTemplate()
 	if line('$') == 1 && getline(1) ==# ''
 		if match(expand('%'), 'test_') != -1
-			execute '0read' . s:templates . 'skeleton.test.py'
+			execute '0read ' . s:templates . 'skeleton.test.py'
 		else
-			execute '0read' . s:templates . 'skeleton.py'
+			execute '0read ' . s:templates . 'skeleton.py'
 		endif
 	endif
 endfunction
@@ -1027,9 +1027,9 @@ endfunction
 augroup TemplateFile
 	autocmd!
 	for ft in ['css', 'html', 'js', 'scss', 'sh']
-		execute 'autocmd BufNewFile *.' . ft . ' 0read' . s:templates . 'skeleton.' . ft
+		execute 'autocmd BufNewFile *.' . ft . ' 0read ' . s:templates . 'skeleton.' . ft
 		execute 'autocmd BufRead *.' . ft .
-					\ ' if line("$") == 1 && getline(1) ==# "" | 0read' . s:templates . '/skeleton.' . ft . '| endif'
+					\ ' if line("$") == 1 && getline(1) ==# "" | 0read ' . s:templates . '/skeleton.' . ft . '| endif'
 		autocmd BufNewFile,BufRead *.py call InitPyTemplate()
 	endfor
 augroup END
