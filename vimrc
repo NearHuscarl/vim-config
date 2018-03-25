@@ -773,7 +773,7 @@ let g:grep_cmd = 'rg
 			\ --hidden --ignore-case --follow --color "always" '
 
 command! -nargs=+ Grep
-			\ call fzf#vim#grep(g:grep_cmd . shellescape(<q-args>) . ' '. git#GetRootDir()
+			\ call fzf#vim#grep(g:grep_cmd . shellescape(<q-args>) . ' '. project#GetRoot()
 			\ , 0, {'options': g:fzf_option}, 0)
 command! -nargs=? -complete=dir Files
 			\ call fzf#vim#files(<q-args>, {
@@ -801,9 +801,9 @@ command! BCommit  call fzf#vim#buffer_commits({'options': g:fzf_option}, 0)
 
 nnoremap gr :Grep<Space>
 " Respect .gitignore. Full path and can open multiple file
-nnoremap <silent> <Leader>eP :FilesAbsolute git#GetRootDir()<CR>
+nnoremap <silent> <Leader>eP :FilesAbsolute project#GetRoot()<CR>
 " Respect .gitignore. Shorter path but cant open multiple files in subdirectory
-nnoremap <silent> <Leader>ep :execute 'Files ' . git#GetRootDir()<CR>
+nnoremap <silent> <Leader>ep :execute 'Files ' . project#GetRoot()<CR>
 nnoremap <silent> <Leader>ew :Grep <C-r>=expand('<cword>')<CR><CR>
 nnoremap <silent> <Leader>eW :Grep <C-r>=expand('<cWORD>')<CR><CR>
 nnoremap <silent> <Leader>fc :Commands<CR>
