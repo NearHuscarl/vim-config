@@ -209,6 +209,24 @@ RCtrl & 2::WinActivate, Neovim
 RCtrl & 3::WinActivate, Google Chrome
 LCtrl & n::WindowBackwardForward()
 
+; Japanese Emoijs
+:::angry::(＃`Д´)
+:::awesome::°˖✧◝(⁰▿⁰)◜✧˖°
+:::cry::(μ_μ)
+:::fear::〣( ºΔº )〣
+:::dcare::┐(￣ヘ￣)┌
+:::confuse::(￣ω￣;)
+:::surprise::Σ(O_O)
+:::greet::(°▽°)/
+:::hug::(づ￣ ³￣)づ
+:::apologize::(シ_ _)シ
+:::run::ヽ(￣д￣;)ノ=3=3=3
+:::sleep::(－ω－) zzZ
+:::cat::(=`ω´=)
+:::bear::ʕ •̀ ω •́ ʔ
+:::highfive::(*＾ω＾)人(＾ω＾*)
+
+
 #If Winactive("ahk_exe nvim-qt.exe")
 
 settimer, active, 500
