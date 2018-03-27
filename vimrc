@@ -1103,6 +1103,8 @@ autocmd BufWritePost *.py,*.js,*.vim,*vimrc call ctags#update()
 
 " Auto resize panes when window is resized
 autocmd VimResized * wincmd =
+" Auto update buffer changes outside of vim in real time
+autocmd FocusGained * checktime
 
 if has('gui_running')
 	if g:os ==# 'Linux'
