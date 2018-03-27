@@ -621,6 +621,7 @@ Plug 'maksimr/vim-jsbeautify'
 Plug 'hdima/python-syntax', {'for': 'python'}
 Plug 'neovimhaskell/haskell-vim', {'for': 'haskell'}
 Plug 'hail2u/vim-css3-syntax', {'for': 'css'}
+Plug 'OrangeT/vim-csharp', {'for': 'cs'}
 
 Plug 'tmhedberg/SimpylFold'
 
