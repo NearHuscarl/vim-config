@@ -890,8 +890,6 @@ let g:user_emmet_removetag_key = '<A-o>r'
 let python_highlight_all = 1
 " }}}
 " {{{ Repeat
-" stop vim-repeat map u to <Plug>(RepeatUndo)
-silent! nmap <Junk> <Plug>(RepeatUndo)
 silent! call repeat#set("\<Plug>(ale_previous_wrap)zz", v:count)
 " }}}
 "{{{ Session
