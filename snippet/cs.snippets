@@ -101,3 +101,13 @@ snippet "wr( ([\S ]+))" "Console.WriteLine()" br
 Console.WriteLine(`!p snip.rv = match.group(2)`);
 
 endsnippet
+
+snippet doc "docstring for c#" b
+/// <summary>
+/// $1
+/// </summary>
+endsnippet
+
+snippet nl "insert newline in c# docstring" i
+<para/>
+endsnippet
