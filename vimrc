@@ -611,7 +611,7 @@ Plug 'justinmk/vim-sneak', {'on': [
 			\ '<Plug>Sneak_T'
 			\ ]}
 
-Plug 'suan/vim-instant-markdown'
+" Plug 'suan/vim-instant-markdown'
 Plug 'Rykka/InstantRst'
 Plug 'terryma/vim-smooth-scroll'
 
@@ -1095,7 +1095,7 @@ augroup END
 autocmd QuickFixCmdPost * cwindow
 autocmd CursorHold * nohlsearch
 
-autocmd FocusLost * if &modified && filereadable(expand("%:p")) | update | endif
+" autocmd FocusLost * if &modified && filereadable(expand("%:p")) | update | endif
 
 autocmd BufWritePost *.py,*.js,*.vim,*vimrc call ctags#update()
 
