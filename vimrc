@@ -2,7 +2,7 @@
 " File:        .vimrc
 " Description: Vim settings
 " Author:      Near Huscarl <near.huscarl@gmail.com>
-" Last Change: Fri Mar 09 14:43:00 +07 2018
+" Last Change: Fri Apr 06 01:07:07 +07 2018
 " Licence:     BSD 3-Clause license
 " Note:        This is a personal vim config. therefore most likely not work 
 "              on your machine
@@ -348,10 +348,13 @@ nnoremap [z [zzz|                                  "jump at the start and zz
 nnoremap <Leader>z zMzv|                           "Open current fold and close all other fold outside
 " }}}
 " {{{ Diff
-nnoremap <silent><expr> L  diff#jump_forward('L')|  "Go to next change in diff
-nnoremap <silent><expr> H  diff#jump_backward('H')| "Go to previous change in diff
-nnoremap <silent><expr> du diff#update('')|         "Force update diff
-nnoremap <silent><expr> q  diff#quit('q')|          "Quit diff
+nnoremap <silent><expr> L  &diff ? "]czz"             : "L" | "Go to next change in diff
+nnoremap <silent><expr> H  &diff ? "[czz"             : "H" | "Go to previous change in diff
+nnoremap <silent><expr> du &diff ? ":diffupdate<CR>"  : ""  | "Update out-of-sync diff
+nnoremap <silent><expr> dh &diff ? ":diffget //2<CR>" : ""  | "Merge change from master branch
+nnoremap <silent><expr> dl &diff ? ":diffget //3<CR>" : ""  | "Merge change from merge branch
+nnoremap <silent><expr> q  &diff ? ":quit<CR>"        : "q" | "Quit diff
+nnoremap <silent><expr> o  &diff ? ":only<CR>"        : "o" | "Quit all except this buffer
 " }}}
 " {{{ Help
 nnoremap Kc K|                                     "Help for word under cursor
