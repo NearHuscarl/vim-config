@@ -29,3 +29,7 @@ function! echo#status(msg) " {{{
 	call s:echo_hl(a:msg, 'DiffText')
 endfunction
 " }}}
+function! echo#success(msg) " {{{
+	call s:echo_hl(a:msg, 'String')
+endfunction
+" }}}
