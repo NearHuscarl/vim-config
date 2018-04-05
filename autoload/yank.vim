@@ -2,10 +2,7 @@ function! yank#Path() " {{{
 	let full_path = expand('%:p')
 	let @* = full_path
 	let @+ = full_path
-
-	echohl String
-	echomsg full_path . ' has been yanked!'
-	echohl None
+	call echo#success(full_path . ' has been yanked!')
 endfunction
 " }}}
 

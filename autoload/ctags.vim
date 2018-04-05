@@ -7,12 +7,6 @@
 " Note:        None
 " ============================================================================
 
-function! s:echo_hl(msg, hl_group) " {{{
-	execute 'echohl ' . a:hl_group
-	echomsg a:msg
-	echohl None
-endfunction
-" }}}
 function! s:has_asyncrun() " {{{
 	let is_win = has('win32') || has('win64')
 	let s:plugged = is_win ? $HOME.'\vimfiles\plugged\' : $HOME.'/.vim/plugged/'
@@ -50,7 +44,7 @@ function! ctags#update() " {{{
 		endif
 		call ctags#create(s:tag_path)
 		redraw
-		call s:echo_hl(s:tag_path . '/tags has been updated!', 'String')
+		call echo#success(s:tag_path . '/tags has been updated!')
 	endif
 endfunction
 " }}}

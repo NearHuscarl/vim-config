@@ -1,13 +1,7 @@
-function! s:EchoHL(msg, hl_group) " {{{
-	execute 'echohl ' . a:hl_group
-	echomsg a:msg
-	echohl None
-endfunction
-" }}}
 function! syntax#GetGroup() " {{{
 	" Get highlight group of word under the cursor
 	let synID = synID(line('.'), col('.'), 1)
-	call s:EchoHL(synIDattr(synID, 'name') . ' => ' . synIDattr(synIDtrans(synID), 'name'), 'String')
+	call echo#success(synIDattr(synID, 'name') . ' => ' . synIDattr(synIDtrans(synID), 'name'))
 endfunction
 " }}}
 function! syntax#YankFgColor() " {{{
@@ -24,14 +18,14 @@ function! s:YankColor(layer) " {{{
 	let color_hex = synIDattr(synIDtrans(synID(line('.'), col('.'), 1)), a:layer)
 
 	if empty(color_hex)
-		call s:EchoHL('No color detected' ,'PreProc')
+		call echo#error('No color detected')
 		return
 	endif
 
 	let @* = color_hex
 	let @+ = color_hex
 
-	call s:EchoHL('fg color ' . color_hex . ' has been copied to clipboard' ,'String')
+	call echo#success('fg color ' . color_hex . ' has been copied to clipboard')
 endfunction
 " }}}
 

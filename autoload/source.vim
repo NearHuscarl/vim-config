@@ -21,12 +21,6 @@ function! source#vimrc() " {{{
 	nohlsearch
 endfunction
 " }}}
-function! s:echo_hl(msg, hl_group) " {{{
-	execute 'echohl ' . a:hl_group
-	echomsg a:msg
-	echohl None
-endfunction
-" }}}
 function! source#vimfile() " {{{
 	" Note: This function cannot source the file contain itself (autoload/source.vim)
 	" Because it cannot be redefined while still executing.
@@ -42,13 +36,13 @@ function! source#vimfile() " {{{
 
 			execute 'runtime ' . file_path
 			redraw
-			call s:echo_hl(file_path . ' has been sourced!', 'String')
+			call echo#success(file_path . ' has been sourced!')
 			return
 		endif
 	endfor
 
 	redraw
-	call s:echo_hl('current file cannot be sourced!', 'PreProc')
+	call echo#error('current file cannot be sourced!')
 endfunction
 " }}}
 function! source#Xresources() " {{{
@@ -68,7 +62,7 @@ function! source#Xresources() " {{{
 		endif
 
 		redraw
-		call s:echo_hl('~/.Xresources has been sourced!', 'String')
+		call echo#success('~/.Xresources has been sourced!')
 	endif
 endfunction
 " }}}

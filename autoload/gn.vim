@@ -1,9 +1,3 @@
-function! s:echo_hl(msg, hl_group) " {{{
-	execute 'echohl ' . a:hl_group
-	echo a:msg
-	echohl None
-endfunction
-" }}}
 function! s:get_visual_selection()
 	" https://stackoverflow.com/questions/1533565/how-to-get-visually-selected-text-in-vimscript
 	let [line_start, column_start] = getpos("'<")[1:2]
@@ -20,7 +14,7 @@ function! gn#search_selected_word() " {{{
 	" Search for current selected words in visual mode, but dont move cursor, use with gn
 	let @/ = s:get_visual_selection()
 	nohlsearch
-	call s:echo_hl(s:get_visual_selection(), 'String')
+	call echo#success(s:get_visual_selection())
 endfunction
 " }}}
 function! gn#search_current_word() " {{{
@@ -28,6 +22,6 @@ function! gn#search_current_word() " {{{
 	let word_boundary_pattern = '\(\\<\|\\>\)'
 	let @/ = expand('<cword>')
 	nohlsearch
-	call s:echo_hl(substitute(@/, word_boundary_pattern, '', 'g'), 'String')
+	call echo#success(substitute(@/, word_boundary_pattern, '', 'g'))
 endfunction
 " }}}

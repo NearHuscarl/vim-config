@@ -16,7 +16,7 @@ autocmd BufWritePost *after/*.vim,*autoload/*.vim,*ftdetect/*.vim,*ftplugin/*.vi
 autocmd BufWritePost *autoload/source.vim
 			\ runtime autoload/source.vim
 			\|redraw
-			\|echohl String | echo 'autoload/source.vim has been source!' | echohl None
+			\|call echo#success('autoload/source.vim has been source!')
 
 autocmd BufWritePost *.Xresources call source#Xresources()
 

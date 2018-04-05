@@ -44,7 +44,7 @@ endif
 let mapleader = "\<Space>"
 
 " }}}
-"{{{ Function
+" {{{ Function
 function! ExistsFile(path) " {{{
 	return !empty(glob(a:path))
 endfunction
@@ -70,13 +70,7 @@ function! s:CloseEmptyBuffer() " {{{
 	endwhile
 endfunction
 " }}}
-function! EchoHL(msg, hl_group) " {{{
-	execute 'echohl ' . a:hl_group
-	echo a:msg
-	echohl None
-endfunction
 " }}}
-"}}}
 "{{{ Basic Setup
 
 autocmd!
