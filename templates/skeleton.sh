@@ -14,8 +14,8 @@ SCRIPT_NAME=$(basename "${BASH_SOURCE[0]}")
 USAGE="Usage: $SCRIPT_NAME [-h]"
 HELP="\
 $SCRIPT_NAME <command>
-Commands:
-  -h, --help      print this help message"
+COMMANDS
+  -h  --help      print this help message"
 
 function die() { # {{{
 	echo "$*" >&2
