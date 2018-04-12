@@ -2,7 +2,7 @@
 " File:        .vimrc
 " Description: Vim settings
 " Author:      Near Huscarl <near.huscarl@gmail.com>
-" Last Change: Fri Apr 06 01:07:07 +07 2018
+" Last Change: Fri Apr 13 00:42:41 +07 2018
 " Licence:     BSD 3-Clause license
 " Note:        This is a personal vim config. therefore most likely not work 
 "              on your machine
@@ -482,13 +482,12 @@ nnoremap <silent> <A-/>    q/:execute "nnoremap <buffer> q :q\r"<CR>
 cnoremap <silent> <A-q> <C-f>:execute "nnoremap <buffer> q :q\r"<CR>
 " }}}
 " {{{ Replace
-xnoremap <Leader>rf y:Replace %s/\<<C-r>"\>/|           "Replace selected word in this file
-xnoremap <Leader>rb y:Replace bufdo %s/\<<C-r>"\>/|     "Replace selected word across buffers
-nnoremap <Leader>rk  :Replace %s/\<<C-r><C-w>\>/|       "Replace current word in this file
-nnoremap <Leader>rK  :Replace bufdo %s/\<<C-r><C-w>\>/| "Replace current word across buffers
-nnoremap <Leader>rf  :Replace %s/|                      "Replace in this file
-nnoremap <Leader>rb  :Replace bufdo %s/|                "Replace across buffers
-nnoremap <Leader>rr  :Replace |                         "Replace with custom range
+xnoremap <Leader>rf y:%s/\<<C-r>"\>/|           "Replace selected word in this file
+xnoremap <Leader>rb y:bufdo %s/\<<C-r>"\>/|     "Replace selected word across buffers
+nnoremap <Leader>rk  :%s/\<<C-r><C-w>\>/|       "Replace current word in this file
+nnoremap <Leader>rK  :bufdo %s/\<<C-r><C-w>\>/| "Replace current word across buffers
+nnoremap <Leader>rf  :%s/|                      "Replace in this file
+nnoremap <Leader>rb  :bufdo %s/|                "Replace across buffers
 nnoremap R gR| "Replace mode that play nice with tab
 nnoremap gR R| "Old one
 nnoremap r gr| "One character version
@@ -511,18 +510,18 @@ nnoremap yp :call yank#Path()<CR>|                 "Yank and show current path
 nnoremap <silent><A-u> <C-r>
 nnoremap gD gD:nohlsearch<CR>
 nnoremap gd gd:nohlsearch<CR>
-nnoremap <A-p> "_ciw<C-r>*<esc>|                   "Paste over a word
-nnoremap <silent><A-F1> :ToggleMenuBar<CR>|        "Toggle menu bar
-nnoremap <A-Space> a<Space><Left><esc>|            "Insert a whitespace
-nnoremap <Enter> o<Esc>|                           "Make new line
-nnoremap Y y$|                                     "Make Y yank to endline (same behaviours as D or R)
-nnoremap <C-w> :ToggleWrap<CR>|                    "Toggle wrap option
-nnoremap <silent>- :update<CR>|                    "Write if file content changed
-nnoremap <silent><Leader>- :SudoWrite<CR>|         "Write changes with sudo
+nnoremap <A-p> "_ciw<C-r>*<esc>|                          "Paste over a word
+nnoremap <silent><A-F1> :ToggleMenuBar<CR>|               "Toggle menu bar
+nnoremap <A-Space> a<Space><Left><esc>|                   "Insert a whitespace
+nnoremap <Enter> o<Esc>|                                  "Make new line
+nnoremap Y y$|                                            "Make Y yank to endline (same behaviours as D or R)
+nnoremap <C-w> :ToggleWrap<CR>|                           "Toggle wrap option
+nnoremap <silent>- :update<CR>|                           "Write if file content changed
+nnoremap <silent><Leader>- :call timestamp#update()<CR>|  "Write changes with sudo
+nnoremap <silent><Leader><Leader>- :SudoWrite<CR>|        "Write changes with sudo
 nnoremap <silent><Leader>tV :ToggleVerbose<CR>
-nnoremap <silent><Leader>o :call ide#Open('code')<CR>| "Open vscode of current file to debug
-nnoremap <silent><Leader><CR> :ExecuteFile<CR>|    "Run executable file (python, ruby, bash..)
-nnoremap <Leader><Leader><CR> :ExecuteFile<Space>| "Same with argument
+nnoremap <silent><Leader><CR> :ExecuteFile<CR>|           "Run executable file (python, ruby, bash..)
+nnoremap <Leader><Leader><CR> :ExecuteFile<Space>|        "Same with argument
 nnoremap <silent><Leader>R :redraw!<CR>
 nnoremap <silent><Leader>cg :call syntax#GetGroup()<CR>
 nnoremap <silent><Leader>cf :call syntax#YankFgColor()<CR>
@@ -554,7 +553,7 @@ command! -range=% Space2TabAll   <line1>,<line2>call retab#Space2TabAll()
 command! -range=% Tab2SpaceAll   <line1>,<line2>call retab#Tab2SpaceAll()
 command! SudoWrite                              w !sudo tee > /dev/null %
 command! -nargs=* -bar ExecuteFile              call execute#File(<q-args>)
-command! -nargs=1 -bar Replace                  call substitute#Exe(<q-args>)
+command! -nargs=0 ClearUndo                     call undo#forget()
 " }}}
 
 " }}}
@@ -609,6 +608,7 @@ Plug 'justinmk/vim-sneak', {'on': [
 			\ ]}
 
 " Plug 'suan/vim-instant-markdown'
+Plug 'euclio/vim-markdown-composer'
 Plug 'Rykka/InstantRst'
 Plug 'terryma/vim-smooth-scroll'
 
@@ -1123,8 +1123,5 @@ if !exists('is_sourced')
 	let g:is_sourced = 1
 endif
 
-" let g:html_indent_script1 = 'inc'
-" let g:html_indent_style1  = 'inc'
-" let g:html_indent_inctags = 'html,body,head,tbody,p,li,dd,dt,h1,h2,h3,h4,h5,h6,blockquote,section'
 " flink eh --hide-pointer --geometry 1000x600 --zoom fill
 " feh --hide-pointer --thumbnails --thumb-height 60 --thumb-width 100 --index-info "" --geometry 1000x600 --image-bg black
