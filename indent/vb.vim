@@ -9,7 +9,6 @@ endif
 let b:did_indent = 1
 
 setlocal autoindent
-setlocal noexpandtab
 
 setlocal indentexpr=VbNetGetIndent(v:lnum)
 setlocal indentkeys=!^F,o,O,0=~?catch,0=~?else,0=~?elseif,0=~?end,0=~?next,0=~?end,<:>
@@ -22,53 +21,40 @@ let s:keepcpo = &cpo
 set cpo&vim
 
 function VbNetGetIndent(lnum)
-	let previous_line = prevnonblank(v:lnum)
-	let indent = indent(previous_line)
+	let previous_linenum = prevnonblank(v:lnum - 1)
+	let indent = indent(previous_linenum)
+
+	let previous_line = getline(previous_linenum)
+	let current_line = getline(v:lnum)
 
 	let access_modifier = '\<\(Public\|Protected\|Private\|Friend\)\>'
+	let end_keywords = 'End \(If\|Case\|Try\|Sub\|Function\|Class\|Operator\)$'
 
-	if previous_line =~ '\s_$' || previous_line =~ ',$' || previous_line =~ '^\s*\.'
-		return indent
-	elseif previous_line =~ '{$' || previous_line =~ '($' || previous_line =~ '=$'
-		return indent + &shiftwidth
+	if previous_line =~ '{$' || previous_line =~ '($' || previous_line =~ '=$'
+		let indent += &shiftwidth
 	elseif previous_line =~? '^'.access_modifier || previous_line =~? '^Namespace'
-		return indent + &shiftwidth
-	elseif previous_line =~? '^\s*'.access_modifier.'\s\(\Class\|Module\|Enum\|Interface\|Operator\)'
-		return indent + &shiftwidth
+		let indent += &shiftwidth
+	elseif previous_line =~? '^\s*'.access_modifier.'\s\(\Class\|Sub\|Module\|Enum\|Interface\|Operator\)'
+		let indent += &shiftwidth
 	elseif previous_line =~? '\<\(Overrides\|Overridable\|Overloads\|NotOverridable\|MustOverride\|Shadows\|Shared\|ReadOnly\|WriteOnly\)\>'
-		return indent + &shiftwidth
-	endif
-
-	if previous_line =~? 'Then$'
-		return indent + &shiftwidth
+		let indent += &shiftwidth
+	elseif previous_line =~? 'Then$'
+		let indent += &shiftwidth
 	elseif previous_line =~? '^\s*\<\(Select Case\|Else\|ElseIf\|For\|While\|Using\|Try\|Catch\|Finally\)\>'
-		return indent + &shiftwidth
+		let indent += &shiftwidth
 	elseif previous_line =~? '^\s\+}$'
-		return &shiftwidth + &shiftwidth
+		let indent += &shiftwidth
 	endif
 
-	if previous_line =~? 'End \(If\|Case\|Try\|Sub\|Function\|Class\|Operator\)$'
-		return indent
+	if current_line =~? end_keywords
+		let indent -= &shiftwidth
 	endif
 
 	" labels and preprocessor get zero indent immediately
-	let this_line = getline(a:lnum)
 	let LABELS_OR_PREPROC = '^\s*\(\<\k\+\>:\s*$\|#.*\)'
-	if this_line =~? LABELS_OR_PREPROC
+	if current_line =~? LABELS_OR_PREPROC
 		return 0
 	endif
-
-	" Find a non-blank line above the current line.
-	" Skip over labels and preprocessor directives.
-	let lnum = a:lnum
-	while lnum > 0
-		let lnum = prevnonblank(lnum - 1)
-		let previous_line = getline(lnum)
-		if previous_line !~? LABELS_OR_PREPROC
-			let pp_line = getline(lnum - 1)
-			break
-		endif
-	endwhile
 
 	return indent
 endfunction
