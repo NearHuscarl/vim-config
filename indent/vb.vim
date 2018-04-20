@@ -28,7 +28,6 @@ function VbNetGetIndent(lnum)
 	let current_line = getline(v:lnum)
 
 	let access_modifier = '\<\(Public\|Protected\|Private\|Friend\)\>'
-	let end_keywords = 'End \(If\|Case\|Try\|Sub\|Function\|Class\|Operator\)$'
 
 	if previous_line =~ '{$' || previous_line =~ '($' || previous_line =~ '=$'
 		let indent += &shiftwidth
@@ -40,13 +39,13 @@ function VbNetGetIndent(lnum)
 		let indent += &shiftwidth
 	elseif previous_line =~? 'Then$'
 		let indent += &shiftwidth
-	elseif previous_line =~? '^\s*\<\(Select Case\|Else\|ElseIf\|For\|While\|Using\|Try\|Catch\|Finally\)\>'
+	elseif previous_line =~? '^\s*\<\(Select Case\|Else\|ElseIf\|For\|While\|Property\|Using\|Try\|Catch\|Finally\)\>'
 		let indent += &shiftwidth
 	elseif previous_line =~? '^\s\+}$'
 		let indent += &shiftwidth
 	endif
 
-	if current_line =~? end_keywords
+	if current_line =~? 'End \(If\|Case\|Try\|Sub\|Function\|Class\|Property\|Operator\)$'
 		let indent -= &shiftwidth
 	endif
 
