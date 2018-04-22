@@ -33,19 +33,21 @@ function VbNetGetIndent(lnum)
 		let indent += &shiftwidth
 	elseif previous_line =~? '^'.access_modifier || previous_line =~? '^Namespace'
 		let indent += &shiftwidth
-	elseif previous_line =~? '^\s*'.access_modifier.'\s\(\Class\|Sub\|Module\|Enum\|Interface\|Operator\)'
+	elseif previous_line =~? '^\s*'.access_modifier.'\s\(\Class\|Sub\|Function\|Module\|Enum\|Interface\|Operator\)'
 		let indent += &shiftwidth
 	elseif previous_line =~? '\<\(Overrides\|Overridable\|Overloads\|NotOverridable\|MustOverride\|Shadows\|Shared\|ReadOnly\|WriteOnly\)\>'
 		let indent += &shiftwidth
 	elseif previous_line =~? 'Then$'
 		let indent += &shiftwidth
-	elseif previous_line =~? '^\s*\<\(Select Case\|Else\|ElseIf\|For\|While\|Property\|Using\|Try\|Catch\|Finally\)\>'
+	elseif previous_line =~? '^\s*\<\(Select Case\|Else\|ElseIf\|For\|While\|Property\|Get\|Set\|Using\|With\|Try\|Catch\|Finally\)\>'
 		let indent += &shiftwidth
 	elseif previous_line =~? '^\s\+}$'
 		let indent += &shiftwidth
 	endif
 
-	if current_line =~? 'End \(If\|Case\|Try\|Sub\|Function\|Class\|Property\|Operator\)$'
+	if current_line =~? '^\s*\(Else\|Else If\|Catch\)'
+		let indent -= &shiftwidth
+	elseif current_line =~? 'End \(If\|While\|Case\|Using\|With\|Try\|Sub\|Function\|Class\|Property\|Get\|Set\|Operator\)$'
 		let indent -= &shiftwidth
 	endif
 
