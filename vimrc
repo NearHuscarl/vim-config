@@ -1091,7 +1091,7 @@ augroup END
 
 autocmd QuickFixCmdPost * cwindow
 autocmd CursorHold * nohlsearch
-
+autocmd BufNewFile,BufRead *.xaml set filetype=xml
 " autocmd FocusLost * if &modified && filereadable(expand("%:p")) | update | endif
 
 autocmd BufWritePost *.py,*.js,*.vim,*vimrc call ctags#update()
