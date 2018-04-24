@@ -28,7 +28,9 @@ function! source#vimfile() " {{{
 		return
 	endif
 
-	for dirname in ['after', 'autoload', 'ftdetect', 'ftplugin', 'indent', 'plugin']
+	" Do not re-source ftplugin or the local settings of another programming
+	" language will be applied to that (vim) file
+	for dirname in ['after', 'autoload', 'ftdetect', 'indent', 'plugin']
 		" dirname = 'autoload' => match ../autoload/.. or ../autoload
 		if expand('%:p:h') =~# s:sep . dirname . '\(' . s:sep . '\|$\)'
 			" /home/near/.vim/autoload/a/b/f.vim => autoload/a/b/f.vim
