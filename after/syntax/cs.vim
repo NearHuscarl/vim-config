@@ -16,16 +16,16 @@ syn match   csUsed   display /[A-Z].*;/ contained
 syn match   csUsing  display /^\s*using/ skipwhite nextgroup=csUsed
 
 syn keyword csNewDecleration       new skipwhite nextgroup=csConstructor
-syn match   csConstructor          /[A-Z]\w\+(/he=e-1 contained
+syn match   csConstructor          /\h\w*(/he=e-1 contained
 
 syn keyword csMonogameType         ContentManager GameTime GraphicsDeviceManager SpriteBatch SpriteFont Texture2D Vector2
 syn keyword csType                 Random
-syn match   csGenericType          /\h\+\(<\h\+>\s\)\@=/
+syn match   csGenericType          /\h\w*\(<\h\w*>\s\)\@=/
 syn keyword csDelegate             Func Action
 
-syn match   csMethod               /\h\+(/he=e-1
-syn match   csGenericMethod        /\h\+\(<\h\+>(\)\@=/
-syn match   csGenericTypeParameter /<\w\+>/hs=s+1,he=e-1
+syn match   csMethod               /\h\w*(/he=e-1
+syn match   csGenericMethod        /\h\w*\(<\h\w*>(\)\@=/
+syn match   csGenericTypeParameter /<\h\w*>/hs=s+1,he=e-1
 
 hi  def link csUsing                     PreProc
 hi  def link csUsed                      String
