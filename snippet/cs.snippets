@@ -89,17 +89,14 @@ endsnippet
 
 snippet gs "get set function" i
 { get; set; }
-
 endsnippet
 
 snippet "msg( ([\S ]+))" "MessageBox.Show()" br
 MessageBox.Show(`!p snip.rv = match.group(2)`);
-
 endsnippet
 
 snippet "wr( ([\S ]+))" "Console.WriteLine()" br
 Console.WriteLine(`!p snip.rv = match.group(2)`);
-
 endsnippet
 
 snippet doc "docstring for c#" b
