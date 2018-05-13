@@ -19,7 +19,7 @@ syn keyword csNewDecleration       new skipwhite nextgroup=csConstructor
 syn match   csConstructor          /\h\w*(/he=e-1 contained
 
 syn keyword csMonogameType         ContentManager GameTime GraphicsDeviceManager SpriteBatch SpriteFont Texture2D Vector2
-syn keyword csType                 Random
+syn keyword csType                 Random StringBuilder
 syn match   csGenericType          /\h\w*\(<\h\w*>\s\)\@=/
 syn keyword csDelegate             Func Action
 
