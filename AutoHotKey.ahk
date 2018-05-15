@@ -193,7 +193,7 @@ Capslock & F9::ToggleUnikey()
 ; Open Firefox
 ; RCtrl & 1::run firefox.exe
 
-F12::InspectWindow()
+; F12::InspectWindow()
 
 ; Open Foxit Reader
 RCtrl & 4::run FoxitReader.exe
