@@ -5,10 +5,21 @@
 
 # Requirement:
 # MinGW
+# pip
+# npm
 
 # Note: if you have git installed. It already included
 # MinGW. Right click and select 'Git bash'
 
+GREEN="$(tput setaf 2)"
+RESET="$(tput sgr0)"
+
+print_progress() { #{{{
+	# Console width number
+	T_COLS="$(tput cols)"
+	echo -e " ${GREEN}> $1${RESET}\n" | fold -sw $(($T_COLS - 2))
+}
+# }}}
 function get_os() { # {{{
 	os=$(uname -s)
 	if [[ "$os" =~ 'CYGWIN' ]] || [[ "$os" =~ 'MINGW' ]]; then
@@ -39,86 +50,88 @@ function get_nvimpath() { # {{{
 }
 # }}}
 
-
+OS="$(get_os)"
 VIM_PATH="$(get_vimpath)"
 NVIM_PATH="$(get_nvimpath)"
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" >/dev/null && pwd)"
 
-function move_repo() { # {{{
-	# If not in $vim_path now, copy content to that destination
-	local cwd="$PWD"
-	if [[ "$cwd" != "$VIM_PATH" ]]; then
-		echo "copy $cwd to $VIM_PATH"
-		cp -r "$cwd" "$VIM_PATH"
+move_repo() { # {{{
+	# copy content to $VIM_PATH
+	if [[ "$SCRIPT_DIR" != "$VIM_PATH" ]]; then
+		print_progress "copy $SCRIPT_DIR to $VIM_PATH"
+		cp -r "$SCRIPT_DIR" "$VIM_PATH"
 	fi
 }
 # }}}
-function create_required_dirs() { # {{{
+create_required_dirs() { # {{{
 	local dirs='plugged session swapfiles undo'
 	# Make necessary directories if not exists
 	for dir in $dirs; do
 		if [[ ! -d "$VIM_PATH/$dir" ]]; then
-			echo "creating $VIM_PATH/$dir"
+			print_progress "creating $VIM_PATH/$dir"
 			mkdir -p "$VIM_PATH/$dir"
 		fi
 	done
 }
 # }}}
-function download_plug() { # {{{
+download_plug() { # {{{
 	# Download plug.vim if not exists
 	if [[ ! -s "$VIM_PATH/autoload/plug.vim" ]]; then
-		echo '>>> Downloading plug.vim'
+		print_progress 'Downloading plug.vim'
 		curl -o "$VIM_PATH/autoload/plug.vim" 'https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim'
 	fi
 }
 # }}}
-function setup_fzf() { # {{{
+setup_fzf() { # {{{
 	# fzf setup
 	if [[ ! -s "$VIM_PATH/plugged/fzf/plugin/fzf.vim" ]]; then
-		echo
-		echo '>>> Download fzf.vim from https://github.com/junegunn/fzf/blob/master/plugin/fzf.vim'
+		print_progress 'Download fzf.vim from https://github.com/junegunn/fzf/blob/master/plugin/fzf.vim'
 		mkdir -p "$VIM_PATH/plugged/fzf/plugin"
 		curl -o "$VIM_PATH/plugged/fzf/plugin/fzf.vim" 'https://raw.githubusercontent.com/junegunn/fzf/master/plugin/fzf.vim'
 	fi
 }
 # }}}
-function download_neovim_init() { # {{{
+download_neovim_init() { # {{{
 	if [[ ! -s "$NVIM_PATH/init.vim" ]]; then
 		mkdir -p "$NVIM_PATH"
-		echo '>>> Downloading init.vim for neovim'
+		print_progress 'Downloading init.vim for neovim'
 		curl -o "$NVIM_PATH/init.vim" 'https://raw.githubusercontent.com/NearHuscarl/dotfiles/master/.config/nvim/init.vim'
 	fi
 }
 # }}}
-function neovim_python() { # {{{
+install_neovim_module_for_python() { # {{{
 	# Install neovim for python and javascript if unavailable
 	if ! python -c 'import neovim' 2> /dev/null; then
-		echo
-		echo '>>> Install neovim for python'
-		pip install neovim 2> /dev/null
+		print_progress 'Install neovim for python'
+		pip install --user neovim
 	fi
 }
 # }}}
-function neovim_javascript() { # {{{
+install_neovim_module_for_javascript() { # {{{
 	if ! npm list --depth 0 --global neovim &> /dev/null; then
-		echo
-		echo '>>> Install neovim for javascript'
-		npm install --global neovim 2> /dev/null
+		print_progress 'Install neovim for javascript'
+		npm install --global neovim
 	fi
 }
 # }}}
-function setup_neovim() { # {{{
+setup_neovim() { # {{{
 	download_neovim_init
-	neovim_python
-	neovim_javascript
+	install_neovim_module_for_python
+	install_neovim_module_for_javascript
 }
 # }}}
-function main() { # {{{
+download_plugins() { # {{{
+	print_progress "Install plugins..."
+	nvim +PlugInstall +qa
+} # }}}
+setup_vim() { # {{{
 	move_repo
 	create_required_dirs
 	download_plug
 	setup_fzf
 	setup_neovim
+	download_plugins
 }
 # }}}
 
-main
+setup_vim
