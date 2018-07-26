@@ -11,15 +11,23 @@
 # Note: if you have git installed. It already included
 # MinGW. Right click and select 'Git bash'
 
+# COLORS {{{
 GREEN="$(tput setaf 2)"
+YELLOW="$(tput setaf 3)"
 RESET="$(tput sgr0)"
-
+# }}}
 print_progress() { #{{{
 	# Console width number
 	T_COLS="$(tput cols)"
 	echo -e " ${GREEN}> $1${RESET}\n" | fold -sw $(($T_COLS - 2))
 }
 # }}}
+print_warning() { #{{{
+	T_COLS="$(tput cols)"
+	echo -e "  ${YELLOW}$1${RESET}\n" | fold -sw $(($T_COLS - 2))
+}
+# }}}
+
 function get_os() { # {{{
 	os=$(uname -s)
 	if [[ "$os" =~ 'CYGWIN' ]] || [[ "$os" =~ 'MINGW' ]]; then
@@ -56,10 +64,10 @@ NVIM_PATH="$(get_nvimpath)"
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" >/dev/null && pwd)"
 
 move_repo() { # {{{
-	# copy content to $VIM_PATH
+	print_progress "move vim-config to $VIM_PATH"
 	if [[ "$SCRIPT_DIR" != "$VIM_PATH" ]]; then
 		print_progress "copy $SCRIPT_DIR to $VIM_PATH"
-		cp -r "$SCRIPT_DIR" "$VIM_PATH"
+		mv -r "$SCRIPT_DIR" "$VIM_PATH"
 	fi
 }
 # }}}
@@ -104,6 +112,8 @@ install_neovim_module_for_python() { # {{{
 	if ! python -c 'import neovim' 2> /dev/null; then
 		print_progress 'Install neovim for python'
 		pip install --user neovim
+	else
+		print_warning 'pip not installed. Skipping install neovim module for python'
 	fi
 }
 # }}}
@@ -111,6 +121,8 @@ install_neovim_module_for_javascript() { # {{{
 	if ! npm list --depth 0 --global neovim &> /dev/null; then
 		print_progress 'Install neovim for javascript'
 		npm install --global neovim
+	else
+		print_warning 'npm not installed. Skipping install neovim module for javascript'
 	fi
 }
 # }}}
