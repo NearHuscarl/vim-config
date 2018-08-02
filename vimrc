@@ -614,6 +614,9 @@ Plug 'terryma/vim-smooth-scroll'
 
 " Filetype
 Plug 'pangloss/vim-javascript', {'for': 'javascript'}
+Plug 'https://github.com/mxw/vim-jsx' " {'for': 'javascript.jsx'} will not work. Use g:jsx_ext_required instead
+let g:jsx_ext_required = 1
+
 Plug 'maksimr/vim-jsbeautify'
 Plug 'hdima/python-syntax', {'for': 'python'}
 Plug 'neovimhaskell/haskell-vim', {'for': 'haskell'}
@@ -875,8 +878,16 @@ let g:easy_align_ignore_groups = []       " Vim Align ignore comment by default
 "}}}
 "{{{ Emmet
 let g:user_emmet_install_global = 0
+let g:user_emmet_settings = {
+			\   'html' : {
+			\      'indentation' : '	',
+			\   },
+			\   'javascript.jsx' : {
+			\      'extends' : 'jsx',
+			\   },
+			\}
 
-autocmd BufWrite,CursorHold,CursorHoldI *.html EmmetInstall
+autocmd BufWrite,CursorHold,CursorHoldI *.html,*.jsx EmmetInstall
 let g:user_emmet_mode='i'
 let g:user_emmet_leader_key    = '<A-o>'
 let g:user_emmet_next_key      = '<A-o>n'
