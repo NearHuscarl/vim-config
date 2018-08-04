@@ -9,7 +9,7 @@
 " ============================================================================
 " default values
 if !exists('g:rootfiles')
-	let g:rootfiles = ['.git', '*.sln', '.projectroot', '.hg', '.svn', '.bzr', '_darcs', 'build.xml']
+	let g:rootfiles = ['.git', '*.sln', 'node_modules']
 endif
 
 function! s:IsRoot(path) " {{{
@@ -21,27 +21,26 @@ function! s:IsRoot(path) " {{{
 endfunction
 " }}}
 function! s:GetFullName(file) " {{{
-  let file = a:file
-  let file = len(file) ? file : expand('%')
+  let file = len(a:file) ? a:file : expand('%')
   return fnamemodify(file, ':p')
 endfunction
 " }}}
 function! project#GetRoot(...) " {{{
 	" get project root
-	for rootfile in g:rootfiles
-		let path = s:GetFullName(a:0 ? a:1 : '')
-		while 1
-			let prev = path
-			let path = fnamemodify(path, ':h')
+	let path = s:GetFullName(a:0 ? a:1 : '')
+	while 1
+		let prev = path
+		let path = fnamemodify(path, ':h')
+		for rootfile in g:rootfiles
 			let fn = path.(s:IsRoot(path) ? '' : '/').rootfile
 			if !empty(glob(fn))
 				return path
 			endif
-			if path == prev
-				break
-			endif
-		endwhile
-	endfor
+		endfor
+		if path == prev
+			break
+		endif
+	endwhile
 	return ''
 endfunction
 " }}}
