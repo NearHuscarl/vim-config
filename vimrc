@@ -561,7 +561,13 @@ command! -nargs=0 ClearUndo                     call undo#forget()
 call plug#begin(s:plugged)
 
 " Essential
+"{{{ Bufferline
 Plug 'bling/vim-bufferline'
+
+let g:bufferline_rotate              = 2
+let g:bufferline_solo_highlight      = 1
+"}}}
+"{{{ Fzf
 Plug 'junegunn/fzf.vim'
 if g:os ==# 'win'
 	Plug '~\vimfiles\plugged\fzf'
@@ -569,191 +575,6 @@ else
 	Plug '~/.vim/plugged/fzf'
 endif
 
-Plug 'tpope/vim-repeat'
-Plug 'wellle/targets.vim'
-Plug 'haya14busa/incsearch.vim', {'on': [
-			\ '<Plug>(incsearch-forward)',
-			\ '<Plug>(incsearch-backward)',
-			\ '<Plug>(incsearch-stay)',
-			\ '<Plug>(incsearch-nohl-n)',
-			\ '<Plug>(incsearch-nohl-N)',
-			\ '<Plug>(incsearch-nohl-*)',
-			\ '<Plug>(incsearch-nohl-#)',
-			\ '<Plug>(incsearch-nohl-g*)',
-			\ '<Plug>(incsearch-nohl-g#)',
-			\ ]}
-Plug 'vim-utils/vim-man', {'on': []}
-Plug 'tpope/vim-rhubarb'
-Plug 'tpope/vim-fugitive'
-Plug 'skywind3000/asyncrun.vim'
-Plug 'w0rp/ale'
-
-Plug 'xolox/vim-misc', {'on': []}
-Plug 'xolox/vim-shell', {'on': []}
-Plug 'xolox/vim-session', {'on': []}
-
-Plug 'NearHuscarl/vim-color-config', {'on': [
-			\ 'ColorConfigGenerate',
-			\ 'ColorConfigGenerateVerbose',
-			\ 'ColorConfigInfo',
-			\ 'ColorConfigResetDefault',
-			\ ]}
-
-" Other
-Plug 'justinmk/vim-sneak', {'on': [
-			\ '<Plug>Sneak_f',
-			\ '<Plug>Sneak_F',
-			\ '<Plug>Sneak_t',
-			\ '<Plug>Sneak_T'
-			\ ]}
-
-" Plug 'suan/vim-instant-markdown'
-Plug 'euclio/vim-markdown-composer'
-Plug 'Rykka/InstantRst'
-Plug 'terryma/vim-smooth-scroll'
-
-" Filetype
-Plug 'pangloss/vim-javascript', {'for': 'javascript'}
-Plug 'https://github.com/mxw/vim-jsx' " {'for': 'javascript.jsx'} will not work. Use g:jsx_ext_required instead
-let g:jsx_ext_required = 1
-
-Plug 'maksimr/vim-jsbeautify'
-Plug 'hdima/python-syntax', {'for': 'python'}
-Plug 'neovimhaskell/haskell-vim', {'for': 'haskell'}
-Plug 'hail2u/vim-css3-syntax', {'for': 'css'}
-Plug 'OrangeT/vim-csharp', {'for': 'cs'}
-
-Plug 'tmhedberg/SimpylFold'
-
-Plug 'ap/vim-css-color'
-
-Plug 'junegunn/vim-easy-align', {'on': '<Plug>(EasyAlign)'}
-
-Plug 'tpope/vim-commentary', {'on': [
-		 \ '<Plug>Commentary',
-		 \ '<Plug>CommentaryLine'
-		 \ ]}
-Plug 'honza/vim-snippets'
-Plug 'sirver/ultisnips', {'on': [
-			\ 'UltiSnipsEdit',
-			\ 'UltiSnipsEdit!'
-			\ ]}
-" vim-prettier {{{
-Plug 'prettier/vim-prettier', {
-			\ 'do': 'npm install',
-			\ 'for': ['javascript', 'jsx', 'typescript', 'css', 'less', 'scss', 'json', 'graphql', 'markdown', 'vue'] }
-
-let g:prettier#autoformat = 0
-let g:prettier#config#single_quote = 'true'
-autocmd BufWritePre *.js,*.jsx,*.mjs,*.ts,*.tsx,*.css,*.less,*.scss,*.json,*.graphql,*.md,*.vue PrettierAsync
-" }}}
-Plug 'mattn/emmet-vim', {'on': ['EmmetInstall']}
-Plug 'jiangmiao/auto-pairs' ", {'on': []}
-Plug 'tpope/vim-surround', {'on': [
-			\ '<Plug>Ysurround',
-			\ '<Plug>Dsurround',
-			\ '<Plug>Csurround',
-			\ '<Plug>CSurround',
-			\ '<Plug>Ysurround',
-			\ '<Plug>YSurround',
-			\ '<Plug>Yssurround',
-			\ '<Plug>YSsurround',
-			\ '<Plug>YSsurround',
-			\ '<Plug>VSurround',
-			\ '<Plug>VgSurround'
-			\ ]}
-
-" Plug 'Valloric/YouCompleteMe'
-if has('nvim')
-	Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
-	Plug 'zchee/deoplete-jedi', {'for': 'python'}
-	Plug 'carlitux/deoplete-ternjs', { 'do': 'npm install -g tern', 'for': ['javascript', 'jsx']}
-else
-	" Dont have plan to work with vim for long...
-endif
-
-Plug 'gioele/vim-autoswap'
-" Plug 'Konfekt/FastFold'
-Plug 'NearHuscarl/gundo.vim', {'on': 'GundoToggle'}
-" Plug 'powerline/fonts'
-call plug#end()
-
-let g:plug_window = 'vertical botright new'
-
-nnoremap <Leader>pc :PlugClean<CR>|                    "Clean directory
-nnoremap <Leader>pC :PlugClean!<CR>|                   "Clean directory
-nnoremap <Leader>ps :PlugStatus<CR>|                   "Check plugin status
-nnoremap <Leader>pd :PlugDiff<CR>|                     "Show changes between update
-nnoremap <Leader>pi :PlugInstall<Space><C-d>|          "Install new plugin
-nnoremap <Leader>pv :PlugUpgrade<CR>|                  "Update vim-plug
-nnoremap <Leader>pu :PlugUpdate<Space><C-d>|           "Update other plugins
-nnoremap <Leader>pU :PlugUpdate<CR>|                   "Update all plugins
-"}}}
-" {{{ Ale
-let g:ale_fixers            = {}
-let g:ale_fixers.javascript = ['eslint']
-let g:ale_fixers.python     = ['pylint']
-let g:ale_fixers.scss       = ['scsslint']
-let g:ale_fixers.vim        = ['vint']
-let g:ale_sign_error        = ''
-let g:ale_sign_warning      = ''
-let g:ale_sign_info         = ''
-let g:ale_lint_on_text_changed = 0
-
-nmap [a <Plug>(ale_previous_wrap)zz
-nmap ]a <Plug>(ale_next_wrap)zz
-" }}}
-"{{{ Auto Pairs
-autocmd CursorHold,CursorHoldI * :silent! all autopairs#AutoPairsTryInit()
-let g:AutoPairsMoveCharacter      = ''
-let g:AutoPairsShortcutJump       = ''
-let g:AutoPairsShortcutToggle     = ''
-let g:AutoPairsShortcutFastWrap   = ''
-let g:AutoPairsShortcutBackInsert = ''
-"}}}
-" {{{ AsyncRun
-" Async with Fugitive
-command! -bang -nargs=* -complete=file Make AsyncRun -program=make @ <args>
-" }}}
-"{{{ Bufferline
-let g:bufferline_rotate              = 2
-let g:bufferline_solo_highlight      = 1
-"}}}
-" {{{ Color Config
-let g:color_config_output_path = '$HOME/.vim/colors/'
-augroup ColorConfig
-	autocmd!
-	autocmd BufWritePost *colors/config/*.yaml ColorConfigGenerate
-augroup END
-" }}}
-"{{{ Commentary
-map  gc  <Plug>Commentary
-nmap gcc <Plug>CommentaryLine
-nmap gCC gggcG
-"}}}
-"{{{ FastFold
-let g:fastfold_fold_command_suffixes  = []
-let g:fastfold_fold_movement_commands = []
-let g:fastfold_skip_filetypes         = ['vim', 'py']
-"}}}
-"{{{ Fugitive
-nnoremap <silent> <Leader>gs  :Gstatus<CR>|                              "Git status in vim!
-nnoremap <silent> <Leader>ga  :silent Git add %:p <Bar> redraw!<CR>|     "Git add in vim!
-nnoremap <silent> <Leader>gbl :Gblame<CR>|                               "Git blame in vim!
-nnoremap <silent> <Leader>gw  :Gwrite<CR>|                               "Git write in vim!
-nnoremap <silent> <Leader>gr  :Gread<CR>|                                "Git read in vim!
-nnoremap <silent> <Leader>gd  :Gdiff<CR>|                                "Git diff in vim!
-nnoremap <silent> <Leader>gP  :Gpull<CR>|                                "Git pull in vim!
-nnoremap <silent> <Leader>gp  :Gpush<CR>|                                "Git push in vim!
-nnoremap <silent> <Leader>gm  :Gmove<CR>|                                "Git move in vim!
-nnoremap <silent> <Leader>gc  :Gcommit<CR>|                              "Git commmit in vim!
-nnoremap <silent> <Leader>gbr :Gbrowse<CR>|                              "Open current file on github
-nnoremap <silent> <Leader>gk  :Ggrep! <C-r><C-w><CR><CR>|                "Find word under (k)ursor in repo
-nnoremap <silent> <Leader>gl  :Glog!<CR><Bar>:bot copen<CR>|             "Load all version before
-nnoremap <silent> <Leader>ggc :Glog! --grep= -- %<C-Left><C-Left><Left>| "Search for commit message
-nnoremap <silent> <Leader>ggd :Glog! -S -- %<C-Left><C-Left><Left>|      "Search content in diffs history
-"}}}
-"{{{ Fzf
 let g:fzf_colors = {
 			\ 'fg':      ['fg', 'Fzf_Foreground'],
 			\ 'bg':      ['bg', 'Fzf_Background'],
@@ -829,28 +650,31 @@ nnoremap <silent> <Leader>l  :BLines<CR>
 nnoremap <silent> <Leader>L  :Lines<CR>
 nnoremap <silent> <Leader>b  :Buffers<CR>
 " }}}
-" {{{ Haskell
-let g:haskell_enable_quantification = 1   " to enable highlighting of `forall`
-let g:haskell_enable_recursivedo = 1      " to enable highlighting of `mdo` and `rec`
-let g:haskell_enable_arrowsyntax = 1      " to enable highlighting of `proc`
-let g:haskell_enable_pattern_synonyms = 1 " to enable highlighting of `pattern`
-let g:haskell_enable_typeroles = 1        " to enable highlighting of type roles
-let g:haskell_enable_static_pointers = 1  " to enable highlighting of `static`
-let g:haskell_backpack = 1                " to enable highlighting of backpack keywords
 
-let g:haskell_indent_if = &tabstop
-let g:haskell_indent_case = &tabstop
-let g:haskell_indent_let = &tabstop
-let g:haskell_indent_where = &tabstop
-let g:haskell_indent_before_where = &tabstop
-let g:haskell_indent_after_bare_where = &tabstop
-let g:haskell_indent_do = &tabstop
-let g:haskell_indent_in = &tabstop
-let g:haskell_indent_guard = &tabstop
-let g:haskell_indent_case_alternative = &tabstop
-let g:cabal_indent_section = &tabstop
+" {{{ Repeat
+Plug 'tpope/vim-repeat'
+silent! call repeat#set("\<Plug>(ale_previous_wrap)zz", v:count)
 " }}}
+"{{{ Target
+Plug 'wellle/targets.vim'
+
+let g:targets_pairs = '()b {}B [] <>e'
+let g:targets_quotes = '"q '' `'
+let g:targets_separators = ', . ; : + - = ~ _u * # / | \ & $'
+"}}}
 "{{{ Incsearch
+Plug 'haya14busa/incsearch.vim', {'on': [
+			\ '<Plug>(incsearch-forward)',
+			\ '<Plug>(incsearch-backward)',
+			\ '<Plug>(incsearch-stay)',
+			\ '<Plug>(incsearch-nohl-n)',
+			\ '<Plug>(incsearch-nohl-N)',
+			\ '<Plug>(incsearch-nohl-*)',
+			\ '<Plug>(incsearch-nohl-#)',
+			\ '<Plug>(incsearch-nohl-g*)',
+			\ '<Plug>(incsearch-nohl-g#)',
+			\ ]}
+
 let g:incsearch#auto_nohlsearch = 1
 map /  <Plug>(incsearch-forward)
 map ?  <Plug>(incsearch-backward)
@@ -863,54 +687,68 @@ map #  <Plug>(incsearch-nohl-#)zzzo
 map g* <Plug>(incsearch-nohl-g*)zzzo
 map g# <Plug>(incsearch-nohl-g#)zzzo
 "}}}
-" {{{ InstantRst
-let g:instant_rst_forever = 1 " keep opening rst in browser
-" }}}
-"{{{ Gundo
-if has('python3') && !has('python')
-	let g:gundo_prefer_python3 = 1
-endif
+"{{{ Vim-man
+Plug 'vim-utils/vim-man', {'on': []}
 
-nnoremap <Leader>u :GundoToggle<CR>
-let gundo_map_move_older = ''
-let gundo_map_move_newer = ''
-let g:gundo_preview_height   = 11
-let g:gundo_preview_bottom   = 1
-let g:gundo_right            = 0
-let g:gundo_help             = 0
-let g:gundo_return_on_revert = 0
-let g:gundo_auto_preview     = 1
+" ../vim-man/plugin/man.vim
+command! -nargs=* -bar -complete=customlist,man#completion#run Man
+			\ call plug#load('vim-man')
+			\|call man#get_page('horizontal', <f-args>)
 "}}}
-"{{{ Easy Align
-xnoremap ga <Esc>:'<,'>EasyAlign // dl<Left><Left><Left><Left>| " Align with delimiter aligned left
-nmap ga <Plug>(EasyAlign)
-let g:easy_align_ignore_groups = []       " Vim Align ignore comment by default
-"}}}
-"{{{ Emmet
-let g:user_emmet_install_global = 0
-let g:user_emmet_settings = {
-			\   'html' : {
-			\      'indentation' : '	',
-			\   },
-			\   'javascript.jsx' : {
-			\      'extends' : 'jsx',
-			\   },
-			\}
-
-autocmd BufWrite,CursorHold,CursorHoldI *.html,*.jsx EmmetInstall
-let g:user_emmet_mode='i'
-let g:user_emmet_leader_key    = '<A-o>'
-let g:user_emmet_next_key      = '<A-o>n'
-let g:user_emmet_prev_key      = '<A-o>p'
-let g:user_emmet_removetag_key = '<A-o>r'
-"}}}
-" {{{ Python Syntax
-let python_highlight_all = 1
+" vim-rhubarb {{{
+" :Gbrowse to view current file on github
+Plug 'tpope/vim-rhubarb'
 " }}}
-" {{{ Repeat
-silent! call repeat#set("\<Plug>(ale_previous_wrap)zz", v:count)
+"{{{ Fugitive
+Plug 'tpope/vim-fugitive'
+
+nnoremap <silent> <Leader>gs  :Gstatus<CR>|                              "Git status in vim!
+nnoremap <silent> <Leader>ga  :silent Git add %:p <Bar> redraw!<CR>|     "Git add in vim!
+nnoremap <silent> <Leader>gbl :Gblame<CR>|                               "Git blame in vim!
+nnoremap <silent> <Leader>gw  :Gwrite<CR>|                               "Git write in vim!
+nnoremap <silent> <Leader>gr  :Gread<CR>|                                "Git read in vim!
+nnoremap <silent> <Leader>gd  :Gdiff<CR>|                                "Git diff in vim!
+nnoremap <silent> <Leader>gP  :Gpull<CR>|                                "Git pull in vim!
+nnoremap <silent> <Leader>gp  :Gpush<CR>|                                "Git push in vim!
+nnoremap <silent> <Leader>gm  :Gmove<CR>|                                "Git move in vim!
+nnoremap <silent> <Leader>gc  :Gcommit<CR>|                              "Git commmit in vim!
+nnoremap <silent> <Leader>gbr :Gbrowse<CR>|                              "Open current file on github
+nnoremap <silent> <Leader>gk  :Ggrep! <C-r><C-w><CR><CR>|                "Find word under (k)ursor in repo
+nnoremap <silent> <Leader>gl  :Glog!<CR><Bar>:bot copen<CR>|             "Load all version before
+nnoremap <silent> <Leader>ggc :Glog! --grep= -- %<C-Left><C-Left><Left>| "Search for commit message
+nnoremap <silent> <Leader>ggd :Glog! -S -- %<C-Left><C-Left><Left>|      "Search content in diffs history
+"}}}
+" {{{ AsyncRun
+Plug 'skywind3000/asyncrun.vim'
+" Async with Fugitive
+command! -bang -nargs=* -complete=file Make AsyncRun -program=make @ <args>
+" }}}
+" {{{ Ale
+Plug 'w0rp/ale'
+
+let g:ale_fixers            = {}
+let g:ale_fixers.javascript = ['eslint']
+let g:ale_fixers.python     = ['pylint']
+let g:ale_fixers.scss       = ['scsslint']
+let g:ale_fixers.vim        = ['vint']
+let g:ale_sign_error        = ''
+let g:ale_sign_warning      = ''
+let g:ale_sign_info         = ''
+let g:ale_lint_on_text_changed = 0
+
+nmap [a <Plug>(ale_previous_wrap)zz
+nmap ]a <Plug>(ale_next_wrap)zz
+" }}}
+
+" vim-misc {{{
+Plug 'xolox/vim-misc', {'on': []}
+" }}}
+" vim-shell {{{
+Plug 'xolox/vim-shell', {'on': []}
 " }}}
 "{{{ Session
+Plug 'xolox/vim-session', {'on': []}
+
 let g:session_directory    = s:session
 let g:session_autoload     = 'no'
 let g:session_autosave     = 'yes'
@@ -938,29 +776,31 @@ nnoremap <silent><Leader>sv :call lazyload#session#View(session_map_list)<CR>
 nnoremap <silent><Leader>sV :call lazyload#session#VIEW(session_map_list)<CR>
 nnoremap <silent><Leader>sc :call lazyload#session#Close(session_map_list)<CR>
 nnoremap <silent><Leader>sd :call lazyload#session#Delete(session_map_list)<CR>
-"}}}
-"{{{ SimpylFold
-let g:SimpylFold_fold_docstring = 0
-let b:SimpylFold_fold_docstring = 0
-"}}}
-"{{{ Smooth Scroll
-nnoremap <silent> <A-j> :call smooth_scroll#down(6, 0, 2)<CR>
-nnoremap <silent> <A-k> :call smooth_scroll#up(6, 0, 2)<CR>
-nnoremap <silent> <A-l> :call smooth_scroll#down(15, 0, 3)<CR>
-nnoremap <silent> <A-h> :call smooth_scroll#up(15, 0, 3)<CR>
-" nnoremap <silent> H     :call smooth_scroll#up(40, 0, 10)<CR>
-" nnoremap <silent> L     :call smooth_scroll#down(40, 0, 10)<CR>
-if g:os ==# 'win'
-	let s:smoothScrollPath = '~\vimfiles\plugged\vim-smooth-scroll\autoload\smooth_scroll.vim'
-else
-	let s:smoothScrollPath = '~/.vim/plugged/vim-smooth-scroll/autoload/smooth_scroll.vim'
-endif
-if !ExistsFile(s:smoothScrollPath)
-	nnoremap <silent><A-l> 10<C-e>10j
-	nnoremap <silent><A-h> 10<C-y>10k
-endif
-"}}}
+" }}}
+
+" {{{ Color Config
+Plug 'NearHuscarl/vim-color-config', {'on': [
+			\ 'ColorConfigGenerate',
+			\ 'ColorConfigGenerateVerbose',
+			\ 'ColorConfigInfo',
+			\ 'ColorConfigResetDefault',
+			\ ]}
+
+let g:color_config_output_path = '$HOME/.vim/colors/'
+augroup ColorConfig
+	autocmd!
+	autocmd BufWritePost *colors/config/*.yaml ColorConfigGenerate
+augroup END
+" }}}
+
 "{{{ Sneak
+Plug 'justinmk/vim-sneak', {'on': [
+			\ '<Plug>Sneak_f',
+			\ '<Plug>Sneak_F',
+			\ '<Plug>Sneak_t',
+			\ '<Plug>Sneak_T'
+			\ ]}
+
 let g:sneak#use_ic_scs = 1          " Case determined by 'ignorecase' and 'smartcase'
 let g:sneak#absolute_dir = 1        " Movement in sneak not based on sneak search direction
 
@@ -989,36 +829,141 @@ let g:sneak_map_list = ['s', 'S']
 nnoremap <silent>s :call lazyload#sneak#ForwardNormal(sneak_map_list)<CR>
 nnoremap <silent>S :call lazyload#sneak#BackwardNormal(sneak_map_list)<CR>
 "}}}
-"{{{ Surround
-nmap ds  <Plug>Dsurround
-nmap cs  <Plug>Csurround
-nmap cS  <Plug>CSurround
-nmap ys  <Plug>Ysurround
-nmap yS  <Plug>YSurround
-nmap yss <Plug>Yssurround
-nmap ySs <Plug>YSsurround
-xmap s   <Plug>VSurround
-xmap gs  <Plug>VgSurround
-"}}}
-"{{{ Target
-let g:targets_pairs = '()b {}B [] <>e'
-let g:targets_quotes = '"q '' `'
-let g:targets_separators = ', . ; : + - = ~ _u * # / | \ & $'
-"}}}
-"{{{ Vim-man
-" ../vim-man/plugin/man.vim
-command! -nargs=* -bar -complete=customlist,man#completion#run Man
-			\ call plug#load('vim-man')
-			\|call man#get_page('horizontal', <f-args>)
-"}}}
-" {{{ Youcompleteme
-let g:ycm_semantic_triggers = {
-			\   'css':  [ 're!^\s{3,}', 're!^\t{1,}', 're!:\s'],
-			\   'scss': [ 're!^\s{3,}', 're!^\t{1,}', 're!:\s'],
-			\ }
-let g:ycm_key_list_select_completion = []
+" vim-instant-markdown {{{
+" Plug 'suan/vim-instant-markdown'
 " }}}
+" vim-markdown-composer {{{
+Plug 'euclio/vim-markdown-composer'
+" }}}
+" {{{ InstantRst
+Plug 'Rykka/InstantRst'
+let g:instant_rst_forever = 1 " keep opening rst in browser
+" }}}
+"{{{ Smooth Scroll
+Plug 'terryma/vim-smooth-scroll'
+
+nnoremap <silent> <A-j> :call smooth_scroll#down(6, 0, 2)<CR>
+nnoremap <silent> <A-k> :call smooth_scroll#up(6, 0, 2)<CR>
+nnoremap <silent> <A-l> :call smooth_scroll#down(15, 0, 3)<CR>
+nnoremap <silent> <A-h> :call smooth_scroll#up(15, 0, 3)<CR>
+" nnoremap <silent> H     :call smooth_scroll#up(40, 0, 10)<CR>
+" nnoremap <silent> L     :call smooth_scroll#down(40, 0, 10)<CR>
+if g:os ==# 'win'
+	let s:smoothScrollPath = '~\vimfiles\plugged\vim-smooth-scroll\autoload\smooth_scroll.vim'
+else
+	let s:smoothScrollPath = '~/.vim/plugged/vim-smooth-scroll/autoload/smooth_scroll.vim'
+endif
+if !ExistsFile(s:smoothScrollPath)
+	nnoremap <silent><A-l> 10<C-e>10j
+	nnoremap <silent><A-h> 10<C-y>10k
+endif
+"}}}
+
+" Filetype
+" vim-javascript {{{
+Plug 'pangloss/vim-javascript', {'for': 'javascript'}
+" }}}
+" vim-jsx {{{
+Plug 'https://github.com/mxw/vim-jsx' " {'for': 'javascript.jsx'} will not work. Use g:jsx_ext_required instead
+let g:jsx_ext_required = 1
+" }}}
+" {{{ Python Syntax
+Plug 'hdima/python-syntax', {'for': 'python'}
+let python_highlight_all = 1
+" }}}
+" {{{ Haskell
+Plug 'neovimhaskell/haskell-vim', {'for': 'haskell'}
+
+let g:haskell_enable_quantification = 1   " to enable highlighting of `forall`
+let g:haskell_enable_recursivedo = 1      " to enable highlighting of `mdo` and `rec`
+let g:haskell_enable_arrowsyntax = 1      " to enable highlighting of `proc`
+let g:haskell_enable_pattern_synonyms = 1 " to enable highlighting of `pattern`
+let g:haskell_enable_typeroles = 1        " to enable highlighting of type roles
+let g:haskell_enable_static_pointers = 1  " to enable highlighting of `static`
+let g:haskell_backpack = 1                " to enable highlighting of backpack keywords
+
+let g:haskell_indent_if = &tabstop
+let g:haskell_indent_case = &tabstop
+let g:haskell_indent_let = &tabstop
+let g:haskell_indent_where = &tabstop
+let g:haskell_indent_before_where = &tabstop
+let g:haskell_indent_after_bare_where = &tabstop
+let g:haskell_indent_do = &tabstop
+let g:haskell_indent_in = &tabstop
+let g:haskell_indent_guard = &tabstop
+let g:haskell_indent_case_alternative = &tabstop
+let g:cabal_indent_section = &tabstop
+" }}}
+" vim-css3-syntax {{{
+Plug 'hail2u/vim-css3-syntax', {'for': 'css'}
+" }}}
+" vim-csharp {{{
+Plug 'OrangeT/vim-csharp', {'for': 'cs'}
+" }}}
+" vim-prettier {{{
+Plug 'prettier/vim-prettier', {
+			\ 'do': 'npm install',
+			\ 'for': ['javascript', 'jsx', 'typescript', 'css', 'less', 'scss', 'json', 'graphql', 'markdown', 'vue'] }
+
+let g:prettier#autoformat = 0
+let g:prettier#config#single_quote = 'true'
+autocmd BufWritePre *.js,*.jsx,*.mjs,*.ts,*.tsx,*.css,*.less,*.scss,*.json,*.graphql,*.md,*.vue PrettierAsync
+" }}}
+"{{{ Emmet
+Plug 'mattn/emmet-vim', {'on': ['EmmetInstall']}
+
+let g:user_emmet_install_global = 0
+let g:user_emmet_settings = {
+			\   'html' : {
+			\      'indentation' : '	',
+			\   },
+			\   'javascript.jsx' : {
+			\      'extends' : 'jsx',
+			\   },
+			\}
+
+autocmd BufWrite,CursorHold,CursorHoldI *.html,*.jsx EmmetInstall
+let g:user_emmet_mode='i'
+let g:user_emmet_leader_key    = '<A-o>'
+let g:user_emmet_next_key      = '<A-o>n'
+let g:user_emmet_prev_key      = '<A-o>p'
+let g:user_emmet_removetag_key = '<A-o>r'
+"}}}
+
+"{{{ SimpylFold
+Plug 'tmhedberg/SimpylFold'
+
+let g:SimpylFold_fold_docstring = 0
+let b:SimpylFold_fold_docstring = 0
+"}}}
+" vim-css-color {{{
+Plug 'ap/vim-css-color'
+" }}}
+
+"{{{ Easy Align
+Plug 'junegunn/vim-easy-align', {'on': '<Plug>(EasyAlign)'}
+
+xnoremap ga <Esc>:'<,'>EasyAlign // dl<Left><Left><Left><Left>| " Align with delimiter aligned left
+nmap ga <Plug>(EasyAlign)
+let g:easy_align_ignore_groups = []       " Vim Align ignore comment by default
+"}}}
+
+"{{{ Commentary
+Plug 'tpope/vim-commentary', {'on': [
+		 \ '<Plug>Commentary',
+		 \ '<Plug>CommentaryLine'
+		 \ ]}
+
+map  gc  <Plug>Commentary
+nmap gcc <Plug>CommentaryLine
+nmap gCC gggcG
+"}}}
 "{{{ Ultisnips
+Plug 'sirver/ultisnips', {'on': [
+			\ 'UltiSnipsEdit',
+			\ 'UltiSnipsEdit!'
+			\ ]}
+
 nnoremap <Leader>U :UltiSnipsEdit<CR>|                            " Open new file to define snippets
 nnoremap <Leader><Leader>U :UltiSnipsEdit!<CR>|                   " Open all available files to select
 inoremap <silent><Tab> <C-r>=lazyload#ultisnips#Load()<CR>
@@ -1030,6 +975,100 @@ let g:UltiSnipsEditSplit           = 'normal'
 let g:UltiSnipsListSnippets        = '<C-e>'
 let g:UltiSnipsJumpForwardTrigger  = '<A-j>'
 let g:UltiSnipsJumpBackwardTrigger = '<A-k>'
+"}}}
+"{{{ Auto Pairs
+autocmd CursorHold,CursorHoldI * :silent! all autopairs#AutoPairsTryInit()
+Plug 'jiangmiao/auto-pairs' ", {'on': []}
+
+let g:AutoPairsMoveCharacter      = ''
+let g:AutoPairsShortcutJump       = ''
+let g:AutoPairsShortcutToggle     = ''
+let g:AutoPairsShortcutFastWrap   = ''
+let g:AutoPairsShortcutBackInsert = ''
+"}}}
+"{{{ Surround
+Plug 'tpope/vim-surround', {'on': [
+			\ '<Plug>Ysurround',
+			\ '<Plug>Dsurround',
+			\ '<Plug>Csurround',
+			\ '<Plug>CSurround',
+			\ '<Plug>Ysurround',
+			\ '<Plug>YSurround',
+			\ '<Plug>Yssurround',
+			\ '<Plug>YSsurround',
+			\ '<Plug>YSsurround',
+			\ '<Plug>VSurround',
+			\ '<Plug>VgSurround'
+			\ ]}
+
+nmap ds  <Plug>Dsurround
+nmap cs  <Plug>Csurround
+nmap cS  <Plug>CSurround
+nmap ys  <Plug>Ysurround
+nmap yS  <Plug>YSurround
+nmap yss <Plug>Yssurround
+nmap ySs <Plug>YSsurround
+xmap s   <Plug>VSurround
+xmap gs  <Plug>VgSurround
+"}}}
+
+" {{{ Youcompleteme
+" Plug 'Valloric/YouCompleteMe'
+"
+let g:ycm_semantic_triggers = {
+			\   'css':  [ 're!^\s{3,}', 're!^\t{1,}', 're!:\s'],
+			\   'scss': [ 're!^\s{3,}', 're!^\t{1,}', 're!:\s'],
+			\ }
+let g:ycm_key_list_select_completion = []
+" }}}
+" deoplete {{{
+if has('nvim')
+	Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
+	Plug 'zchee/deoplete-jedi', {'for': 'python'}
+	Plug 'carlitux/deoplete-ternjs', { 'do': 'npm install -g tern', 'for': ['javascript', 'jsx']}
+else
+	" Dont have plan to work with vim for long...
+endif
+" }}}
+
+" vim-autoswap {{{
+Plug 'gioele/vim-autoswap'
+" }}}
+"{{{ FastFold
+" Plug 'Konfekt/FastFold'
+let g:fastfold_fold_command_suffixes  = []
+let g:fastfold_fold_movement_commands = []
+let g:fastfold_skip_filetypes         = ['vim', 'py']
+"}}}
+"{{{ Gundo
+Plug 'NearHuscarl/gundo.vim', {'on': 'GundoToggle'}
+
+if has('python3') && !has('python')
+	let g:gundo_prefer_python3 = 1
+endif
+
+nnoremap <Leader>u :GundoToggle<CR>
+let gundo_map_move_older = ''
+let gundo_map_move_newer = ''
+let g:gundo_preview_height   = 11
+let g:gundo_preview_bottom   = 1
+let g:gundo_right            = 0
+let g:gundo_help             = 0
+let g:gundo_return_on_revert = 0
+let g:gundo_auto_preview     = 1
+"}}}
+call plug#end()
+
+let g:plug_window = 'vertical botright new'
+
+nnoremap <Leader>pc :PlugClean<CR>|                    "Clean directory
+nnoremap <Leader>pC :PlugClean!<CR>|                   "Clean directory
+nnoremap <Leader>ps :PlugStatus<CR>|                   "Check plugin status
+nnoremap <Leader>pd :PlugDiff<CR>|                     "Show changes between update
+nnoremap <Leader>pi :PlugInstall<Space><C-d>|          "Install new plugin
+nnoremap <Leader>pv :PlugUpgrade<CR>|                  "Update vim-plug
+nnoremap <Leader>pu :PlugUpdate<Space><C-d>|           "Update other plugins
+nnoremap <Leader>pU :PlugUpdate<CR>|                   "Update all plugins
 "}}}
 "{{{ Autocmd
 
