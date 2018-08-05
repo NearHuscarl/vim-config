@@ -861,10 +861,12 @@ endif
 
 " Filetype
 " vim-javascript {{{
-Plug 'pangloss/vim-javascript', {'for': 'javascript'}
+" vim-javascript will source its own ftdetect file so there is no need to
+" lazyload based on filetype
+Plug 'pangloss/vim-javascript'
 " }}}
 " vim-jsx {{{
-Plug 'https://github.com/mxw/vim-jsx' " {'for': 'javascript.jsx'} will not work. Use g:jsx_ext_required instead
+Plug 'mxw/vim-jsx' " {'for': 'javascript.jsx'} will not work. Use g:jsx_ext_required instead
 let g:jsx_ext_required = 1
 " }}}
 " {{{ Python Syntax
@@ -928,7 +930,7 @@ let g:user_emmet_leader_key    = '<A-o>'
 let g:user_emmet_next_key      = '<A-o>n'
 let g:user_emmet_prev_key      = '<A-o>p'
 let g:user_emmet_removetag_key = '<A-o>r'
-"}}}
+" }}}
 
 "{{{ SimpylFold
 Plug 'tmhedberg/SimpylFold'
