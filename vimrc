@@ -638,6 +638,15 @@ Plug 'sirver/ultisnips', {'on': [
 			\ 'UltiSnipsEdit',
 			\ 'UltiSnipsEdit!'
 			\ ]}
+" vim-prettier {{{
+Plug 'prettier/vim-prettier', {
+			\ 'do': 'npm install',
+			\ 'for': ['javascript', 'jsx', 'typescript', 'css', 'less', 'scss', 'json', 'graphql', 'markdown', 'vue'] }
+
+let g:prettier#autoformat = 0
+let g:prettier#config#single_quote = 'true'
+autocmd BufWritePre *.js,*.jsx,*.mjs,*.ts,*.tsx,*.css,*.less,*.scss,*.json,*.graphql,*.md,*.vue PrettierAsync
+" }}}
 Plug 'mattn/emmet-vim', {'on': ['EmmetInstall']}
 Plug 'jiangmiao/auto-pairs' ", {'on': []}
 Plug 'tpope/vim-surround', {'on': [
@@ -658,6 +667,7 @@ Plug 'tpope/vim-surround', {'on': [
 if has('nvim')
 	Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
 	Plug 'zchee/deoplete-jedi', {'for': 'python'}
+	Plug 'carlitux/deoplete-ternjs', { 'do': 'npm install -g tern', 'for': ['javascript', 'jsx']}
 else
 	" Dont have plan to work with vim for long...
 endif
