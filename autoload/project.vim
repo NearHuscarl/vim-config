@@ -9,7 +9,7 @@
 " ============================================================================
 " default values
 if !exists('g:rootfiles')
-	let g:rootfiles = ['.git', '*.sln', 'node_modules']
+	let g:rootfiles = ['.git', '*.sln', 'package.json']
 endif
 
 function! s:IsRoot(path) " {{{
