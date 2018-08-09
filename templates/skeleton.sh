@@ -1,10 +1,5 @@
 #!/bin/env bash
 
-# Usage:
-# $ ./skeleton.sh
-
-# Dependencies:
-
 set -o errexit
 set -o pipefail
 set -o nounset

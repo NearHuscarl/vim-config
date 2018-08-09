@@ -20,7 +20,7 @@ if !exists('os')
 	endif
 endif
 
-let is_nvim = has('nvim') ? 1 : 0
+let g:is_nvim = has('nvim') ? 1 : 0
 
 let $VIMHOME = expand('<sfile>:p:h')
 if g:os ==# 'win'
@@ -75,7 +75,7 @@ endfunction
 
 autocmd!
 
-if g:os ==# 'Linux' && !has('gui_running') && !is_nvim
+if g:os ==# 'Linux' && !has('gui_running') && !g:is_nvim
 	" Fix alt key not working in gnome-terminal
 	" if \e not work, replace with  (<C-v><C-[>)
 	let charList = [
@@ -173,7 +173,7 @@ set wrapmargin=0                                   "Number of chars outside the 
 set formatoptions-=t                               "Keep textwidth setting in existing files
 set formatoptions+=j                               "Remove a comment leader when joining lines 
 set wrap                                           "Turn off auto wrap
-set showbreak=⤷\                                  "Characters at the start of wrapped lines
+set showbreak=⤷\                                   "Characters at the start of wrapped lines
 if has('linebreak')
 	set linebreak                                   "Wrap long lines at last words instead of the last characters
 	set breakindent                                 "Keep the indent level after wrapping
@@ -242,8 +242,6 @@ else
 	endfunction
 	set tabline=%!MyTabLine()
 endif
-
-let @n = "0f>a\<CR>\<Esc>$F<i\<CR>\<Esc>j"         "Newline per tag if not
 "}}}
 " {{{ Mappings
 
@@ -354,7 +352,7 @@ nnoremap <silent><expr> o  &diff ? ":only<CR>"        : "o" | "Quit all except t
 nnoremap Kc K|                                     "Help for word under cursor
 nnoremap <silent> Ke :call help#GetHelpOxfordDictionary('cursor')<CR>
 nnoremap Kd :GetHelp<Space>|                       "Search for help on (d)evdoc
-nnoremap Kh :OpenHelpInTab<CR>|                    "Open help about the word under cursor
+nnoremap Kt :OpenHelpInTab<CR>|                    "Open help about the word under cursor
 nnoremap Ka
 			\ :grep! "<C-R><C-W>"<CR><Bar>
 			\ :copen 20<CR>|                          "Find word under cursor in current working directory
@@ -447,7 +445,7 @@ xnoremap <silent><A-j> 6<C-e>6j|                  "Scroll 6 lines below
 xnoremap <silent><A-l> 12<C-e>12j|                "Scroll 12 lines above
 xnoremap <silent><A-h> 12<C-y>12k|                "Scroll 12 lines below
 
-xnoremap Kh y:OpenHelpInTab <C-r>"<CR>|           "Open help about the word under cursor
+xnoremap Kt y:OpenHelpInTab <C-r>"<CR>|           "Open help about the word under cursor
 xnoremap Ka
 			\ y:grep! "<C-R>""<CR><Bar>
 			\ :copen 20<CR>|                          "Find word under cursor in current working directory
@@ -804,15 +802,10 @@ Plug 'justinmk/vim-sneak', {'on': [
 let g:sneak#use_ic_scs = 1          " Case determined by 'ignorecase' and 'smartcase'
 let g:sneak#absolute_dir = 1        " Movement in sneak not based on sneak search direction
 
-if ExistsFile(s:plugged . 'vim-sneak')
-	nmap <silent> l <Plug>Sneak_;
-	nmap <silent> h <Plug>Sneak_,
-	vmap <silent> l <Plug>Sneak_;
-	vmap <silent> h <Plug>Sneak_,
-else
-	nnoremap l ;| "Repeat latest f, F, t or T command (forward)
-	nnoremap h ,| "Repeat latest f, F, t or T command (backward)
-endif
+nmap <silent> l <Plug>Sneak_;
+nmap <silent> h <Plug>Sneak_,
+vmap <silent> l <Plug>Sneak_;
+vmap <silent> h <Plug>Sneak_,
 
 nmap f <Plug>Sneak_f
 nmap F <Plug>Sneak_F
@@ -846,17 +839,6 @@ nnoremap <silent> <A-j> :call smooth_scroll#down(6, 0, 2)<CR>
 nnoremap <silent> <A-k> :call smooth_scroll#up(6, 0, 2)<CR>
 nnoremap <silent> <A-l> :call smooth_scroll#down(15, 0, 3)<CR>
 nnoremap <silent> <A-h> :call smooth_scroll#up(15, 0, 3)<CR>
-" nnoremap <silent> H     :call smooth_scroll#up(40, 0, 10)<CR>
-" nnoremap <silent> L     :call smooth_scroll#down(40, 0, 10)<CR>
-if g:os ==# 'win'
-	let s:smoothScrollPath = '~\vimfiles\plugged\vim-smooth-scroll\autoload\smooth_scroll.vim'
-else
-	let s:smoothScrollPath = '~/.vim/plugged/vim-smooth-scroll/autoload/smooth_scroll.vim'
-endif
-if !ExistsFile(s:smoothScrollPath)
-	nnoremap <silent><A-l> 10<C-e>10j
-	nnoremap <silent><A-h> 10<C-y>10k
-endif
 "}}}
 
 " Filetype
@@ -866,8 +848,7 @@ endif
 Plug 'pangloss/vim-javascript'
 " }}}
 " vim-jsx {{{
-Plug 'mxw/vim-jsx' " {'for': 'javascript.jsx'} will not work. Use g:jsx_ext_required instead
-let g:jsx_ext_required = 1
+Plug 'mxw/vim-jsx'
 " }}}
 " {{{ Python Syntax
 Plug 'hdima/python-syntax', {'for': 'python'}
@@ -924,7 +905,7 @@ let g:user_emmet_settings = {
 			\   },
 			\}
 
-autocmd BufWrite,CursorHold,CursorHoldI *.html,*.jsx EmmetInstall
+autocmd BufWrite,CursorHold,CursorHoldI *.html,*.js,*.jsx EmmetInstall
 let g:user_emmet_mode='i'
 let g:user_emmet_leader_key    = '<A-o>'
 let g:user_emmet_next_key      = '<A-o>n'
@@ -970,8 +951,8 @@ nnoremap <Leader>U :UltiSnipsEdit<CR>|                            " Open new fil
 nnoremap <Leader><Leader>U :UltiSnipsEdit!<CR>|                   " Open all available files to select
 inoremap <silent><Tab> <C-r>=lazyload#ultisnips#Load()<CR>
 
-let g:UltiSnipsSnippetsDir = s:snippet                             " Custom snippets stored here
-let g:UltiSnipsSnippetDirectories  = ['UltiSnips', 'snippet']        " Directories list for ultisnips to search
+let g:UltiSnipsSnippetsDir = s:snippet                            " Custom snippets stored here
+let g:UltiSnipsSnippetDirectories  = ['UltiSnips', 'snippet']     " Directories list for ultisnips to search
 let g:UltiSnipsEditSplit           = 'normal'
 " let g:UltiSnipsExpandTrigger       = "<Tab>"
 let g:UltiSnipsListSnippets        = '<C-e>'
@@ -982,6 +963,7 @@ let g:UltiSnipsJumpBackwardTrigger = '<A-k>'
 autocmd CursorHold,CursorHoldI * :silent! all autopairs#AutoPairsTryInit()
 Plug 'jiangmiao/auto-pairs' ", {'on': []}
 
+" remove all default mappings
 let g:AutoPairsMoveCharacter      = ''
 let g:AutoPairsShortcutJump       = ''
 let g:AutoPairsShortcutToggle     = ''
@@ -1003,6 +985,7 @@ Plug 'tpope/vim-surround', {'on': [
 			\ '<Plug>VgSurround'
 			\ ]}
 
+" remap to trigger lazyloading because vim-surround is not loaded yet
 nmap ds  <Plug>Dsurround
 nmap cs  <Plug>Csurround
 nmap cS  <Plug>CSurround
@@ -1090,8 +1073,8 @@ augroup TemplateFile
 		execute 'autocmd BufNewFile *.' . ft . ' 0read ' . s:templates . 'skeleton.' . ft
 		execute 'autocmd BufRead *.' . ft .
 					\ ' if line("$") == 1 && getline(1) ==# "" | 0read ' . s:templates . '/skeleton.' . ft . '| endif'
-		autocmd BufNewFile,BufRead *.py call InitPyTemplate()
 	endfor
+	autocmd BufNewFile,BufRead *.py call InitPyTemplate()
 augroup END
 
 augroup Statusline

@@ -28,7 +28,7 @@ endfunction
 " }}}
 function! toggle#verbose() " {{{
    if !&verbose
-      set verbosefile=~/Desktop/verbose.log
+      set verbosefile=/tmp/vim-verbose.log
       set verbose=15
       call echo#status('set verbose=15')
    else
