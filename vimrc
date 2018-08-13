@@ -1140,6 +1140,7 @@ autocmd BufNewFile,BufRead *.xaml set filetype=xml
 " autocmd FocusLost * if &modified && filereadable(expand("%:p")) | update | endif
 
 autocmd BufWritePost *.py,*.js,*.vim,*vimrc call ctags#update()
+autocmd BufEnter * silent! lcd %:p:h
 
 " Auto resize panes when window is resized
 autocmd VimResized * wincmd =
