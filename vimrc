@@ -611,11 +611,11 @@ command! -nargs=? -complete=dir Files
 			\   'source': 'rg --files --hidden --follow --no-messages'
 			\ }, 0)
 command! -nargs=1 FilesAbsolute
-			\ call fzf#run({
+			\ call fzf#run(fzf#wrap({
 			\   'source': 'rg ' . <args> . ' --files --hidden --follow --no-messages',
 			\   'sink': 'edit',
 			\   'options': g:fzf_option
-			\ })
+			\ }))
 
 command! Commands call fzf#vim#commands({'options': g:fzf_option}, 0)
 command! Colors   call fzf#vim#colors({'options': g:fzf_option}, 0)
@@ -626,7 +626,7 @@ command! Maps     call fzf#vim#maps(<q-args>, {'options': g:fzf_option}, 0)
 command! Lines    call fzf#vim#lines({'options': g:fzf_option}, 0)
 command! BLines   call fzf#vim#buffer_lines({'options': g:fzf_option}, 0)
 command! Buffers  call fzf#vim#buffers({'options': g:fzf_option}, 0)
-command! Commit   call fzf#vim#commits({'options': g:fzf_option}, 0)
+command! Commits  call fzf#vim#commits({'options': g:fzf_option}, 0)
 command! BCommit  call fzf#vim#buffer_commits({'options': g:fzf_option}, 0)
 
 nnoremap gr :Grep<Space>
@@ -646,7 +646,7 @@ nnoremap <silent> <Leader>j  :Tags<CR>
 nnoremap <silent> <Leader>m  :Maps<CR>
 nnoremap <silent> <Leader>l  :BLines<CR>
 nnoremap <silent> <Leader>L  :Lines<CR>
-nnoremap <silent> <Leader>b  :Buffers<CR>
+nnoremap <silent> <A-CR>     :Buffers<CR>
 " }}}
 
 " {{{ Repeat
@@ -1132,6 +1132,12 @@ augroup END
 augroup InstantRstAutoOpen
 	autocmd!
 	autocmd BufRead *.rst InstantRst
+augroup END
+
+augroup HideFzfStatusline
+	autocmd! FileType fzf
+	autocmd  FileType fzf set laststatus=0 noshowmode noruler
+				\| autocmd BufLeave <buffer> set laststatus=2 showmode ruler
 augroup END
 
 autocmd QuickFixCmdPost * cwindow
