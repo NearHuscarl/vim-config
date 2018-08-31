@@ -268,7 +268,7 @@ xnoremap :: ==
 nnoremap <silent><A-'> :silent bnext<CR>|          "Go to the next buffer
 nnoremap <silent><A-;> :silent bprevious<CR>|      "Go to the previous buffer
 nnoremap <silent><A-e> :enew<CR>|                  "Edit new buffer
-nnoremap <silent><A-b> :buffer#<CR>|               "Switch between last buffers
+nnoremap <silent><Tab> :buffer#<CR>|               "Switch between last buffers
 nnoremap <silent><Leader>q :bprevious<Bar>
 			\ :bdelete #<CR>|                         "Delete current buffer
 nnoremap <silent><Leader>x :e#<CR>|                "Open last closed buffer (not really)
