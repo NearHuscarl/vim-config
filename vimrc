@@ -10,20 +10,13 @@
 
 " {{{ Variables
 
-" echo split(&rtp, ',')[0]
-" echo globpath(fnamemodify($MYVIMRC, ':p:h'), 'autoload/license.vim')
-if !exists('os')
-	if has('win32') || has('win64')
-		let g:os = 'win'
-	else
-		let g:os = substitute(system('uname'), '\n', '', '')
-	endif
-endif
+let s:is_window = has('win32') || has('win64')
+let s:is_linux = substitute(system('uname'), '\n', '', '') ==# 'Linux'
 
 let g:is_nvim = has('nvim') ? 1 : 0
 
 let $VIMHOME = expand('<sfile>:p:h')
-if g:os ==# 'win'
+if s:is_window
 	let s:autoload  = $VIMHOME.'\autoload\'
 	let s:plugged   = $VIMHOME.'\plugged\'
 	let s:session   = $VIMHOME.'\session\'
@@ -75,7 +68,7 @@ endfunction
 
 autocmd!
 
-if g:os ==# 'Linux' && !has('gui_running') && !g:is_nvim
+if s:is_linux && !has('gui_running') && !g:is_nvim
 	" Fix alt key not working in gnome-terminal
 	" if \e not work, replace with  (<C-v><C-[>)
 	let charList = [
@@ -130,7 +123,7 @@ set complete-=i                                    "An attempt to make YCM faste
 
 " :put =&guifont
 if has('GUI_running')
-	if g:os ==# 'win'
+	if s:is_window
 		set guifont=Consolas:h9:b:cANSI:qDRAFT
 	else
 		set guifont=DejaVu\ Sans\ Mono\ Bold\ 8
@@ -567,7 +560,7 @@ let g:bufferline_solo_highlight      = 1
 "}}}
 "{{{ Fzf
 Plug 'junegunn/fzf.vim'
-if g:os ==# 'win'
+if s:is_window
 	Plug '~\vimfiles\plugged\fzf'
 else
 	Plug '~/.vim/plugged/fzf'
@@ -1154,12 +1147,12 @@ autocmd VimResized * wincmd =
 autocmd FocusGained * checktime
 
 if has('gui_running')
-	if g:os ==# 'Linux'
+	if s:is_linux
 		autocmd VimEnter *
 					\ if executable('wmctrl')
 					\|   call system('wmctrl -i -b add,maximized_vert,maximized_horz -r '.v:windowid)
 					\|endif
-	elseif g:os ==# 'win'
+	elseif s:is_window
 		autocmd GUIEnter * simalt ~x            "Open vim in maximum winow size
 	endif
 endif
