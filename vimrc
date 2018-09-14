@@ -1004,8 +1004,6 @@ if has('nvim')
 	Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
 	Plug 'zchee/deoplete-jedi', {'for': 'python'}
 	Plug 'carlitux/deoplete-ternjs', { 'do': 'npm install -g tern', 'for': ['javascript', 'jsx']}
-else
-	" Dont have plan to work with vim for long...
 endif
 " }}}
 
@@ -1167,6 +1165,3 @@ endif
 if !exists('is_sourced')
 	let g:is_sourced = 1
 endif
-
-" flink eh --hide-pointer --geometry 1000x600 --zoom fill
-" feh --hide-pointer --thumbnails --thumb-height 60 --thumb-width 100 --index-info "" --geometry 1000x600 --image-bg black
