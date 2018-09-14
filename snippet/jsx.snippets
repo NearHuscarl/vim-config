@@ -1,0 +1,31 @@
+snippet "cc" "class component" br
+import React from 'react';
+
+class `!v expand("%:r")` extends React.Component {
+	state = {
+		error: '',
+	}
+
+	render() {
+		return (
+			<div>
+				<p>`!v expand("%:r")`</p>
+			</div>
+		);
+	}
+}
+
+export default `!v expand("%:r")`;
+endsnippet
+
+snippet "fc" "stateless functional component" br
+import React from 'react';
+
+const `!v expand("%:r")` = (props) => (
+	<div>
+		<p>`!v expand("%:r")`</p>
+	</div>
+);
+
+export default `!v expand("%:r")`;
+endsnippet
