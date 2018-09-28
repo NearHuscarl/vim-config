@@ -679,12 +679,14 @@ map g* <Plug>(incsearch-nohl-g*)zzzo
 map g# <Plug>(incsearch-nohl-g#)zzzo
 "}}}
 "{{{ Vim-man
-Plug 'vim-utils/vim-man', {'on': []}
+if s:is_linux
+	Plug 'vim-utils/vim-man', {'on': []}
 
-" ../vim-man/plugin/man.vim
-command! -nargs=* -bar -complete=customlist,man#completion#run Man
-			\ call plug#load('vim-man')
-			\|call man#get_page('horizontal', <f-args>)
+	" ../vim-man/plugin/man.vim
+	command! -nargs=* -bar -complete=customlist,man#completion#run Man
+				\ call plug#load('vim-man')
+				\|call man#get_page('horizontal', <f-args>)
+endif
 "}}}
 " vim-rhubarb {{{
 " :Gbrowse to view current file on github
@@ -990,15 +992,6 @@ xmap s   <Plug>VSurround
 xmap gs  <Plug>VgSurround
 "}}}
 
-" {{{ Youcompleteme
-" Plug 'Valloric/YouCompleteMe'
-"
-let g:ycm_semantic_triggers = {
-			\   'css':  [ 're!^\s{3,}', 're!^\t{1,}', 're!:\s'],
-			\   'scss': [ 're!^\s{3,}', 're!^\t{1,}', 're!:\s'],
-			\ }
-let g:ycm_key_list_select_completion = []
-" }}}
 " deoplete {{{
 if has('nvim')
 	Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
